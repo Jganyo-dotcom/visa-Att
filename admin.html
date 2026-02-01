@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Admin Dashboard</h1>
+    </header>
+
+    <main class="grid">
+      <!-- Pending Accounts -->
+      <section>
+        <h2>Pending Approvals</h2>
+        <ul id="pendingList"></ul>
+      </section>
+
+      <!-- Locked Accounts -->
+      <section>
+        <h2>Locked Accounts</h2>
+        <ul id="lockedList"></ul>
+      </section>
+
+      <!-- Attendance -->
+      <section>
+        <h2>Attendance</h2>
+        <input type="text" id="searchInput" placeholder="Search staff..." />
+        <button onclick="markAllPresent()">Mark All Present</button>
+        <ul id="attendanceList"></ul>
+      </section>
+    </main>
+
+    <script src="admin.js"></script>
+  </body>
+</html>
