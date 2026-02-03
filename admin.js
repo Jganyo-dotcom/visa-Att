@@ -3,7 +3,7 @@ const baseApi = "https://attandance-app-1.onrender.com/";
 console.log("loaded");
 let instruction = "stop!!";
 
-export function showLoader() {
+export function showLoade() {
   document.getElementById("loaderrOverlay").style.display = "flex";
 }
 
