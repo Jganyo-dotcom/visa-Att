@@ -28,7 +28,7 @@ let currentSearch = ""; // keep track of search term
 
 async function loadAttendance(page = 1, searchTerm = "") {
   try {
-    showLoader();
+  
     const res = await fetch(
       baseApi +
         `api/get-all?page=${page}&search=${encodeURIComponent(searchTerm)}`,

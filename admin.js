@@ -3,7 +3,7 @@ const baseApi = "https://attandance-app-1.onrender.com/";
 console.log("loaded");
 let instruction = "stop!!";
 
-export function showLoade() {
+export function showLoader() {
   document.getElementById("loaderrOverlay").style.display = "flex";
 }
 
@@ -13,7 +13,7 @@ export function hideLoader() {
 
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
-console.log(user);
+
 
 document.getElementById("welcome").innerHTML = `Welcome ${user.username}`;
 console.log("loaded");
@@ -41,7 +41,7 @@ async function loadPending() {
 
     if (result.message) {
       alert(result.message);
-      console.log("Backend message:", result.message);
+   
     }
 
     const list = document.getElementById("pendingList");
@@ -61,6 +61,7 @@ async function loadPending() {
       list.appendChild(li);
     });
   } catch (err) {
+    hideLoader();
     console.error("Error loading pending:", err);
     alert("Failed to load pending accounts");
   }
@@ -227,7 +228,7 @@ async function approveUser(id) {
 
     if (data.message) {
       alert(data.message); // show backend feedback
-      console.log("Backend response:", data.message);
+
     }
 
     // reload pending list
@@ -266,7 +267,7 @@ async function unblockUser(id) {
 
     if (data.message) {
       alert(data.message); // show backend feedback
-      console.log("Backend response:", data.message);
+
     }
 
     // reload locked accounts list
@@ -303,7 +304,7 @@ async function markPresent(id, btn) {
     });
 
     const data = await res.json();
-    console.log("Mark present response:", data);
+
 
     if (res.ok) {
       alert(data.message || "Marked present");
@@ -351,7 +352,7 @@ async function undoPresent(id, btn) {
     });
 
     const data = await res.json();
-    console.log("Undo present response:", data);
+
 
     if (res.ok) {
       alert(data.message || "Marked absent");
@@ -486,12 +487,12 @@ async function CreateSession() {
 
     if (data.message) {
       alert(data.message);
-      console.log("Backend message:", data.message);
+
     }
 
     if (data.newSession?._id) {
       localStorage.setItem("sessionId", data.newSession._id);
-      console.log("Session ID saved:", data.newSession._id);
+
 
       // ✅ toggle button text and style
       createSessionBtn.textContent = "Close Session";
@@ -535,7 +536,7 @@ async function CloseSession() {
 
     if (data.message) {
       alert(data.message);
-      console.log("Backend message:", data.message);
+  
     }
 
     // ✅ Clear localStorage and toggle button text
