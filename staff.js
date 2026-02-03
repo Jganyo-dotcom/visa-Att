@@ -1,42 +1,210 @@
 // Load staff attendance list
-async function loadStaffAttendance() {
-  const res = await fetch("/api/staff");
-  const staff = await res.json();
-  const list = document.getElementById("staffAttendanceList");
-  list.innerHTML = "";
-  staff.forEach((s) => {
-    const li = document.createElement("li");
-    li.innerHTML = `${s.name} 
-      <button class="present" onclick="markPresent('${s.id}', this)">Present</button>`;
-    list.appendChild(li);
-  });
+// const baseApi = "http://127.0.0.1:4444/";
+const baseApi = "https://attandance-app-1.onrender.com";
+
+const token = localStorage.getItem("token");
+const user = JSON.parse(localStorage.getItem("user"));
+
+document.getElementById("staffsignOutBtn").addEventListener("click", () => {
+  // Remove only the token
+  sessionStorage.removeItem("token");
+  localStorage.removeItem("token");
+  localStorage.removeItem(user);
+
+  alert("You have been signed out.");
+  window.location.href = "index.html"; // redirect to login page
+});
+
+function showLoader() {
+  document.getElementById("staffloaderOverlay").style.display = "flex";
+}
+function hideLoader() {
+  document.getElementById("staffloaderOverlay").style.display = "none";
+}
+document.getElementById("welcome").innerHTML = `Welcome ${user.username}`;
+console.log("loaded");
+let currentPage = 1;
+let currentSearch = ""; // keep track of search term
+
+async function loadAttendance(page = 1, searchTerm = "") {
+  try {
+    showLoader();
+    const res = await fetch(
+      baseApi +
+        `api/get-all?page=${page}&search=${encodeURIComponent(searchTerm)}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      },
+    );
+    const data = await res.json();
+
+    if (data.message) {
+      document.getElementById("attendanceMessage").textContent = data.message;
+    }
+
+    const list = document.getElementById("attendanceList");
+    hideLoader();
+    list.innerHTML = "";
+
+    const staff = data.staff || data;
+
+    staff.forEach((s) => {
+      const li = document.createElement("li");
+      li.textContent = s.name + " ";
+
+      const btn = document.createElement("button");
+
+      if (s.status === "P") {
+        btn.textContent = "Marked";
+        btn.className = "undo";
+        btn.addEventListener("click", () => undoPresent(s._id, btn));
+      } else {
+        btn.textContent = "Present";
+        btn.className = "present";
+        btn.addEventListener("click", () => markPresent(s._id, btn));
+      }
+
+      li.appendChild(btn);
+      list.appendChild(li);
+    });
+
+    if (data.totalPages) {
+      renderAttendancePagination(data.page, data.totalPages);
+    }
+
+    currentPage = data.page;
+  } catch (err) {
+    hideLoader();
+    console.error("Error loading attendance:", err);
+    alert("Failed to load attendance");
+  }
 }
 
-// Mark present
+function renderAttendancePagination(page, totalPages) {
+  const container = document.getElementById("attendancePagination");
+  container.innerHTML = "";
+
+  for (let p = 1; p <= totalPages; p++) {
+    const btn = document.createElement("button");
+    btn.textContent = p;
+    btn.className = p === page ? "active-page" : "";
+    btn.onclick = () => {
+      currentPage = p;
+      loadAttendance(p, currentSearch);
+    };
+    container.appendChild(btn);
+  }
+}
+
+// Real-time search: query backend instead of filtering DOM
+document.getElementById("searchInput").addEventListener("input", (e) => {
+  currentSearch = e.target.value.trim();
+  loadAttendance(1, currentSearch); // reset to page 1 when searching
+});
+
+// Initial load
+document.addEventListener("DOMContentLoaded", () => loadAttendance());
+
 async function markPresent(id, btn) {
-  await fetch(`/api/attendance/${id}`, { method: "POST" });
-  btn.textContent = "Marked";
-  btn.className = "undo";
-  btn.onclick = () => undoPresent(id, btn);
+  const session = localStorage.getItem("sessionId");
+  try {
+    const res = await fetch(baseApi + `api/mark-present/${id}/${session}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    const data = await res.json();
+    console.log("Mark present response:", data);
+
+    if (res.ok) {
+      alert(data.message || "Marked present");
+
+      if (data.presentPerson && data.presentPerson.status === "P") {
+        btn.textContent = "Marked";
+        btn.className = "undo";
+
+        // Remove any existing listeners
+        btn.replaceWith(btn.cloneNode(true));
+        const newBtn =
+          document.querySelector("#attendanceList button.undo:last-child") ||
+          btn;
+
+        // Attach undo handler
+
+        newBtn.addEventListener("click", () => undoPresent(id, newBtn));
+        loadAttendance();
+        // Save marked state
+        let marked = JSON.parse(localStorage.getItem("markedList") || "[]");
+        if (!marked.includes(id)) {
+          marked.push(id);
+          localStorage.setItem("markedList", JSON.stringify(marked));
+        }
+      }
+    } else {
+      alert(data.message || "Failed to mark attendance");
+    }
+  } catch (err) {
+    console.error("Network error marking present:", err);
+    alert("Failed to mark attendance");
+  }
 }
 
 // Undo present
 async function undoPresent(id, btn) {
-  await fetch(`/api/attendance/${id}/undo`, { method: "POST" });
-  btn.textContent = "Present";
-  btn.className = "present";
-  btn.onclick = () => markPresent(id, btn);
+  const session = localStorage.getItem("sessionId");
+  try {
+    const res = await fetch(baseApi + `api/mark-absent/${id}/${session}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    const data = await res.json();
+    console.log("Undo present response:", data);
+
+    if (res.ok) {
+      alert(data.message || "Marked absent");
+
+      // Reset button state
+      btn.textContent = "Present";
+      btn.className = "present";
+
+      // Clear old listeners
+      btn.replaceWith(btn.cloneNode(true));
+      const newBtn =
+        document.querySelector("#attendanceList button.present:last-child") ||
+        btn;
+
+      // Attach markPresent handler
+      newBtn.addEventListener("click", () => markPresent(id, newBtn));
+
+      // Remove from localStorage
+      let marked = JSON.parse(localStorage.getItem("markedList") || "[]");
+      marked = marked.filter((x) => x !== id);
+      localStorage.setItem("markedList", JSON.stringify(marked));
+    } else {
+      alert(data.message || "Failed to undo attendance");
+    }
+  } catch (err) {
+    console.error("Network error undoing attendance:", err);
+    alert("Failed to undo attendance");
+  }
 }
 
-// Search staff
-document.getElementById("staffSearch").addEventListener("input", (e) => {
-  const term = e.target.value.toLowerCase();
-  document.querySelectorAll("#staffAttendanceList li").forEach((li) => {
-    li.style.display = li.textContent.toLowerCase().includes(term)
-      ? ""
-      : "none";
-  });
-});
+// Mark all present
+async function markAllPresent() {
+  await fetch("/api/attendance/markAll", { method: "POST" });
+  loadAttendance();
+}
 
 // Initial load
-loadStaffAttendance();
+loadAttendance();

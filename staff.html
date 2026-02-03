@@ -8,13 +8,53 @@
   </head>
   <body>
     <header>
-      <h1>Staff Dashboard</h1>
+      <div class="header-left">
+        <img src="logo.png" alt="Company Logo" class="logo" />
+        <h1 id="welcome">Staff Dashboard</h1>
+      </div>
+      <div class="header-right">
+        <button id="staffsignOutBtn" class="btn-signout">Sign Out</button>
+      </div>
     </header>
 
     <main>
-      <h2>Attendance</h2>
-      <input type="text" id="staffSearch" placeholder="Search people..." />
-      <ul id="staffAttendanceList"></ul>
+      <section>
+        <h2>👥 Attendance</h2>
+        <input type="text" id="searchInput" placeholder="Search staff..." />
+        <button onclick="markkAllPresent()">Mark All Present</button>
+        <ul id="attendanceList"></ul>
+        <div id="attendancePagination"></div>
+        <p id="attendanceMessage"></p>
+      </section>
+
+      <!-- Create Person -->
+      <section>
+        <h2>➕ Create Person</h2>
+        <form id="createPersonForm" class="form-card">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="department">Department</label>
+            <input type="text" id="department" required />
+          </div>
+
+          <div class="form-group">
+            <label for="contact">Contact</label>
+            <input type="text" id="contact" required />
+          </div>
+
+          <button type="submit" class="btn-primary">Create Person</button>
+        </form>
+      </section>
+      <div class="loader-overlay" id="staffloaderOverlay">
+        <div class="loader">
+          <div class="spinner"></div>
+          <span class="loading-text">Loading...</span>
+        </div>
+      </div>
     </main>
 
     <script src="staff.js"></script>

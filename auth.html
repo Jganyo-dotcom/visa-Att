@@ -13,6 +13,7 @@
         <h2>Register</h2>
         <input type="text" id="regUsername" placeholder="Username" required />
         <input type="text" id="regName" placeholder="Full Name" required />
+        <input type="text" id="regEmail" placeholder="email" required />
         <input
           type="password"
           id="regPassword"
@@ -26,9 +27,7 @@
           required
         />
         <button type="submit">Sign Up</button>
-        <p>
-          Already have an account? <a href="#" onclick="showLogin()">Login</a>
-        </p>
+        <p>Already have an account? <a href="#" id="loginLink">Login</a></p>
       </form>
 
       <!-- Login Form -->
@@ -44,11 +43,17 @@
         <button type="submit">Sign In</button>
         <p>
           Don’t have an account?
-          <a href="#" onclick="showRegister()">Register</a>
+          <a href="#" id="registerLink">Register</a>
         </p>
       </form>
     </div>
+    <div class="loader-overlay" id="loaderOverlay">
+      <div class="loader">
+        <div class="spinner"></div>
+        <span class="loading-text">Loading...</span>
+      </div>
+    </div>
 
-    <script src="auth.js"></script>
+    <script type="module" src="auth.js"></script>
   </body>
 </html>

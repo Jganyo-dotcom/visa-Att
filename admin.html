@@ -8,31 +8,94 @@
   </head>
   <body>
     <header>
-      <h1>Admin Dashboard</h1>
+      <div class="header-left">
+        <img src="logo.png" alt="Company Logo" class="logo" />
+        <h1 id="welcome">Admin Dashboard</h1>
+      </div>
+
+      <div class="header-right">
+        <button id="signOutBtn" class="btn-signout">Sign Out</button>
+      </div>
     </header>
 
     <main class="grid">
       <!-- Pending Accounts -->
       <section>
-        <h2>Pending Approvals</h2>
+        <h2>📋 Pending Approvals</h2>
         <ul id="pendingList"></ul>
       </section>
 
       <!-- Locked Accounts -->
       <section>
-        <h2>Locked Accounts</h2>
+        <h2>🔒 Locked Accounts</h2>
         <ul id="lockedList"></ul>
       </section>
 
       <!-- Attendance -->
       <section>
-        <h2>Attendance</h2>
+        <h2>👥 Attendance</h2>
         <input type="text" id="searchInput" placeholder="Search staff..." />
         <button onclick="markAllPresent()">Mark All Present</button>
         <ul id="attendanceList"></ul>
+        <div id="attendancePagination"></div>
+        <p id="attendanceMessage"></p>
       </section>
+
+      <!-- Create Person -->
+      <section>
+        <h2>➕ Create Person</h2>
+        <form id="createPersonForm" class="form-card">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="department">Department</label>
+            <input type="text" id="department" required />
+          </div>
+
+          <div class="form-group">
+            <label for="contact">Contact</label>
+            <input type="text" id="contact" required />
+          </div>
+
+          <button type="submit" class="btn-primary">Create Person</button>
+        </form>
+      </section>
+
+      <!-- Session Management -->
+      <div>
+        <h2>⚡ Session Management</h2>
+        <button id="createSessionBtn" class="btn-magnificent">
+          ✨ Create Session ✨
+        </button>
+      </div>
+      <div>
+        <button id="printBtn">✨ Print ✨</button>
+      </div>
+      <section>
+        <h2>📋 Absent people</h2>
+        <input
+          type="text"
+          id="searchInputonAbsent"
+          placeholder="Search staff..."
+        />
+        <ul id="absentList"></ul>
+        <div id="paginationControls">
+          <button id="prevBtn">Previous</button>
+          <span id="pageInfo"></span>
+          <button id="nextBtn">Next</button>
+        </div>
+      </section>
+      <div class="loader-overlay" id="loaderrOverlay">
+        <div class="loader">
+          <div class="spinner"></div>
+          <span class="loading-text">Loading...</span>
+        </div>
+      </div>
     </main>
 
-    <script src="admin.js"></script>
+    <script type="module" src="admin.js"></script>
   </body>
 </html>
