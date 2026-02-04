@@ -28,7 +28,6 @@ let currentSearch = ""; // keep track of search term
 
 async function loadAttendance(page = 1, searchTerm = "") {
   try {
-  
     const res = await fetch(
       baseApi +
         `api/get-all?page=${page}&search=${encodeURIComponent(searchTerm)}`,
@@ -198,6 +197,48 @@ async function undoPresent(id, btn) {
     console.error("Network error undoing attendance:", err);
     alert("Failed to undo attendance");
   }
+}
+
+const form = document.getElementById("createPersonForm");
+if (form) {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Not authorized!");
+      window.location.href = "auth.html";
+      return;
+    }
+    const person = {
+      name: document.getElementById("name").value,
+      department: document.getElementById("department").value,
+      contact: document.getElementById("contact").value,
+    };
+    try {
+      showLoader();
+      const res = await fetch(baseApi + "api/create-person", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify(person),
+      });
+      const data = await res.json();
+      hideLoader();
+      if (!res.ok) {
+        alert(data.message || data.error || "Failed to create person");
+        console.error("Error:", data);
+        return;
+      }
+      alert(data.message || "Person created successfully!");
+      loadAttendance();
+      form.reset();
+    } catch (err) {
+      console.error("Network error:", err);
+      alert("Network error!");
+    }
+  });
 }
 
 // Mark all present

@@ -14,7 +14,24 @@
       </div>
 
       <div class="header-right">
-        <button id="signOutBtn" class="btn-signout">Sign Out</button>
+        <!-- Inline buttons (visible on large screens) -->
+        <div class="desktop-menu">
+          <button id="changePasswordBtn" class="btn-secondary">
+            Change Password
+          </button>
+          <button id="signOutBtn" class="btn-signout">Sign Out</button>
+        </div>
+
+        <!-- Hamburger (visible on small screens) -->
+        <button id="hamburgerBtn" class="hamburger">&#9776;</button>
+
+        <!-- Dropdown menu for small screens -->
+        <div id="mobileMenu" class="mobile-menu">
+          <button id="changePasswordBtnMobile" class="btn-secondary">
+            Change Password
+          </button>
+          <button id="signOutBtnMobile" class="btn-signout">Sign Out</button>
+        </div>
       </div>
     </header>
 
@@ -113,5 +130,23 @@
       </div>
     </footer>
     <script type="module" src="admin.js"></script>
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" id="closeModal">&times;</span>
+        <h2>Change Password</h2>
+        <form id="changePasswordForm">
+          <div class="form-group">
+            <label for="currentPassword">Current Password</label>
+            <input type="password" id="currentPassword" required />
+          </div>
+          <div class="form-group">
+            <label for="newPassword">New Password</label>
+            <input type="password" id="newPassword" required />
+          </div>
+          <button type="submit" class="btn-primary">Update Password</button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
