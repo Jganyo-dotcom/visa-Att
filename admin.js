@@ -87,6 +87,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // expose approveUser if you rely on inline onclick
   window.approveUser = approveUser;
   window.deleteUser = deleteUser;
+  const refreshBtn = document.getElementById("refreshit");
+  refreshBtn.addEventListener("click", Refresh);
 
   // Fetch locked accounts
   async function loadLocked() {
@@ -491,9 +493,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Mark all present
-  async function markAllPresent() {
-    await fetch("/api/attendance/markAll", { method: "POST" });
+  async function Refresh() {
+    console.log("hit");
     loadAttendance();
+    loadLocked();
+    loadPending();
+    loadAbsentPeople();
   }
 
   document

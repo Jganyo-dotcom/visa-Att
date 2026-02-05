@@ -21,6 +21,13 @@ function showLoader() {
 function hideLoader() {
   document.getElementById("staffloaderOverlay").style.display = "none";
 }
+
+async function Refresh() {
+  loadAttendance();
+}
+const refreshBtn = document.getElementById("refreshit");
+refreshBtn.addEventListener("click", Refresh);
+
 document.getElementById("welcome").innerHTML = `Welcome ${user.username}`;
 console.log("loaded");
 let currentPage = 1;
