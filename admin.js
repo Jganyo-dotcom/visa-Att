@@ -83,6 +83,54 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  async function loadStaffAccounts() {
+    try {
+      showLoader();
+      const res = await fetch(baseApi + "api/admin/staff/accounts", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+
+      const result = await res.json();
+      hideLoader();
+      if (!res.ok) {
+        hideLoader();
+        console.log(result.message || "Failed to load pending accounts");
+        console.error("Error:", result);
+        return;
+      }
+
+      if (result.message) {
+        console.log(result.message);
+      }
+
+      const list = document.getElementById("StaffList");
+      if (!list) {
+        console.error("No element with id 'pendingList'");
+        return;
+      }
+      list.innerHTML = "";
+
+      // ✅ Use result.data because that's where the array is
+      const users = result.data;
+
+      users.forEach((u) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+    ${u.name} (${u.username}, ${u.email})
+    <button class="delete" onclick="deleteUser('${u._id}')">Delete</button>
+  `;
+        list.appendChild(li);
+      });
+    } catch (err) {
+      hideLoader();
+      console.error("Error loading pending:", err);
+    }
+  }
+
   // expose approveUser if you rely on inline onclick
   window.approveUser = approveUser;
   window.deleteUser = deleteUser;
@@ -302,6 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // reload pending list
       loadPending();
+      loadStaffAccounts();
     } catch (err) {
       console.error("Network error deleting user:", err);
       alert("Network error!");
@@ -498,6 +547,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadLocked();
     loadPending();
     loadAbsentPeople();
+    loadStaffAccounts();
   }
 
   document
@@ -946,4 +996,5 @@ document.addEventListener("DOMContentLoaded", () => {
   loadLocked();
   loadAttendance();
   loadAbsentPeople();
+  loadStaffAccounts();
 });
