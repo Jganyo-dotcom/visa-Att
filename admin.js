@@ -1,14 +1,13 @@
 //const baseApi = "http://127.0.0.1:4444/";
 const baseApi = "https://attandance-app-1.onrender.com/";
 console.log("loaded");
-const instructionSign = true;
+let instructionSign = true;
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
 document.addEventListener("DOMContentLoaded", () => {
   let instruction = "stop!!";
 
   if (user.hasChangedPassword !== true) {
-    console.log(user);
     const modal = document.getElementById("changePasswordModal");
     const closeBtn = document.getElementById("closeModal");
 
