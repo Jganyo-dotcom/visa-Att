@@ -464,7 +464,7 @@ button.delete:hover {
   background-color: rgba(0, 0, 0, 0.6);
 
   /* Flexbox centering */
-  display: flex;
+
   align-items: center;
   justify-content: center;
 }
@@ -499,4 +499,17 @@ button.delete:hover {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
 }

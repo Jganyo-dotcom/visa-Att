@@ -1,10 +1,27 @@
-// const baseApi = "http://127.0.0.1:4444/";
+//const baseApi = "http://127.0.0.1:4444/";
 const baseApi = "https://attandance-app-1.onrender.com/";
 console.log("loaded");
 const instructionSign = true;
-
+const token = localStorage.getItem("token");
+const user = JSON.parse(localStorage.getItem("user"));
 document.addEventListener("DOMContentLoaded", () => {
   let instruction = "stop!!";
+
+  if (user.hasChangedPassword !== true) {
+    console.log(user);
+    const modal = document.getElementById("changePasswordModal");
+    const closeBtn = document.getElementById("closeModal");
+
+    if (modal && closeBtn) {
+      modal.style.display = "block"; // or "block" depending on your CSS
+      closeBtn.style.display = "none";
+    }
+  } else {
+    const modal = document.getElementById("changePasswordModal");
+    if (modal) {
+      modal.style.display = "none";
+    }
+  }
 
   function showLoader() {
     document.getElementById("loaderrOverlay").style.display = "flex";
@@ -13,9 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function hideLoader() {
     document.getElementById("loaderrOverlay").style.display = "none";
   }
-
-  const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
 
   document.getElementById("welcome").innerHTML = `Welcome ${user.username}`;
   console.log("loaded");
@@ -36,13 +50,13 @@ document.addEventListener("DOMContentLoaded", () => {
       hideLoader();
       if (!res.ok) {
         hideLoader();
-        alert(result.message || "Failed to load pending accounts");
+        console.log(result.message || "Failed to load pending accounts");
         console.error("Error:", result);
         return;
       }
 
       if (result.message) {
-        alert(result.message);
+        console.log(result.message);
       }
 
       const list = document.getElementById("pendingList");
@@ -57,19 +71,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
       users.forEach((u) => {
         const li = document.createElement("li");
-        li.innerHTML = `${u.name} (${u.username}, ${u.email}) 
-        <button class="approve" onclick="approveUser('${u._id}')">Approve</button>`;
+        li.innerHTML = `
+    ${u.name} (${u.username}, ${u.email})
+    <button class="approve" onclick="approveUser('${u._id}')">Approve</button>
+    <button class="delete" onclick="deleteUser('${u._id}')">Delete</button>
+  `;
         list.appendChild(li);
       });
     } catch (err) {
       hideLoader();
       console.error("Error loading pending:", err);
-      alert("Failed to load pending accounts");
     }
   }
 
   // expose approveUser if you rely on inline onclick
   window.approveUser = approveUser;
+  window.deleteUser = deleteUser;
 
   // Fetch locked accounts
   async function loadLocked() {
@@ -85,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const result = await res.json();
 
       if (!res.ok) {
-        alert(result.message || "Failed to load locked accounts");
         console.error("Error:", result);
         return;
       }
@@ -112,7 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     } catch (err) {
       console.error("Error loading locked accounts:", err);
-      alert("Failed to load locked accounts");
     }
   }
 
@@ -185,7 +200,6 @@ document.addEventListener("DOMContentLoaded", () => {
       currentPage = data.page;
     } catch (err) {
       console.error("Error loading attendance:", err);
-      alert("Failed to load attendance");
     }
   }
 
@@ -219,7 +233,6 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        alert("Not authorized!");
         window.location.href = "auth.html";
         return;
       }
@@ -248,6 +261,48 @@ document.addEventListener("DOMContentLoaded", () => {
       loadPending();
     } catch (err) {
       console.error("Network error approving user:", err);
+      alert("Network error!");
+    }
+  }
+
+  async function deleteUser(id) {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Not authorized!");
+        window.location.href = "auth.html";
+        return;
+      }
+
+      const confirmed = confirm(
+        "Are you sure you want to delete this account?",
+      );
+      if (!confirmed) return;
+
+      const res = await fetch(baseApi + `api/admin/unverify/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message || "Failed to delete user");
+        console.error("Error deleting user:", data);
+        return;
+      }
+
+      if (data.message) {
+        alert(data.message); // show backend feedback
+      }
+
+      // reload pending list
+      loadPending();
+    } catch (err) {
+      console.error("Network error deleting user:", err);
       alert("Network error!");
     }
   }
@@ -480,6 +535,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = await res.json();
         hideLoader();
         if (!res.ok) {
+          hideLoader();
           alert(data.message || data.error || "Failed to create person");
           console.error("Error:", data);
           return;
@@ -507,9 +563,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Optional: close menu when clicking outside
+  // Close mobile menu when clicking outside
   window.addEventListener("click", (e) => {
     if (e.target !== hamburgerBtn && !mobileMenu.contains(e.target)) {
       mobileMenu.style.display = "none";
+    }
+  });
+
+  // Close modal when clicking outside, but only if user has already changed password
+  window.addEventListener("click", (e) => {
+    if (user.hasChangedPassword === true && e.target === modal) {
+      modal.style.display = "none";
     }
   });
 
@@ -517,8 +581,38 @@ document.addEventListener("DOMContentLoaded", () => {
   const openBtnDesktop = document.getElementById("changePasswordBtn");
   const openBtnMobile = document.getElementById("changePasswordBtnMobile");
   const closeBtn = document.getElementById("closeModal");
+
+  // Only hide modal by default if user has already changed password
+  if (user.hasChangedPassword !== true) {
+    console.log("User must change password:", user);
+    modal.style.display = "flex"; // show modal centered
+    // hide close button so they can't dismiss
+  } else {
+    modal.style.display = "none"; // hide modal normally
+  }
+
+  // Open modal from desktop button
+  if (openBtnDesktop) {
+    openBtnDesktop.addEventListener("click", () => {
+      modal.style.display = "flex";
+    });
+  }
+
+  // Open modal from mobile button
+  if (openBtnMobile) {
+    openBtnMobile.addEventListener("click", () => {
+      modal.style.display = "flex";
+    });
+  }
+
+  // Close modal
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+  }
+
   const formm = document.getElementById("changePasswordForm");
-  modal.style.display = "none";
 
   // Open modal from desktop button
   if (openBtnDesktop) {
@@ -542,9 +636,40 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Close when clicking outside modal
-  window.addEventListener("click", (e) => {
-    if (e.target === modal) {
-      modal.style.display = "none";
+
+  const deleteAccountBtn = document.getElementById("deleteAccount");
+
+  deleteAccountBtn.addEventListener("click", async () => {
+    const confirmed = confirm(
+      "Are you sure you want to delete your account? This action cannot be undone.",
+    );
+    if (!confirmed) return;
+
+    try {
+      // Call backend route
+      const res = await fetch(baseApi + `api/admin/${user.id}/delete`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("token") || localStorage.getItem("token")}`,
+        },
+      });
+
+      if (res.ok) {
+        // Clear tokens
+        sessionStorage.removeItem("token");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user"); // if you stored user info
+
+        // Redirect to auth/login page
+        window.location.href = "/auth.html";
+      } else {
+        const data = await res.json();
+        alert("Error deleting account: " + data.message);
+      }
+    } catch (err) {
+      console.error("Delete account error:", err);
+      alert("Server error deleting account");
     }
   });
 
@@ -574,7 +699,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.ok) {
         alert("Password updated successfully!");
         modal.style.display = "none";
+        handleSignOut();
       } else {
+        hideLoader();
         alert(data.message || "Error updating password");
       }
     } catch (err) {
