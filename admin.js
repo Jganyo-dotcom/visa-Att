@@ -518,8 +518,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       const person = {
-        name: document.getElementById("name").value,
-        department: document.getElementById("department").value,
+        name: document.getElementById("name").value.toUpperCase(),
+        department: document.getElementById("department").value.toUpperCase(),
         contact: document.getElementById("contact").value,
       };
       try {
