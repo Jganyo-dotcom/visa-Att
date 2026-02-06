@@ -43,7 +43,7 @@ document
     const name = document.getElementById("regName").value;
     const password = document.getElementById("regPassword").value;
     const confirm_password =
-    document.getElementById("regConfirmPassword").value;
+      document.getElementById("regConfirmPassword").value;
     const email = document.getElementById("regEmail").value.toLowerCase();
     const org = document.getElementById("regOrg").value;
 
@@ -121,6 +121,8 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
         window.location.href = "/admin.html";
       } else if (data.safe_user.role === "Staff") {
         window.location.href = "/staff.html";
+      } else if (data.safe_user.role === "Manager") {
+        window.location.href = "/manager.html";
       } else {
         alert("Unknown role!");
       }

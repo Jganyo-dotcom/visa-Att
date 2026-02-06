@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Main Dashboard</title>
+    <title>Super Admin Dashboard</title>
     <link rel="stylesheet" href="dashboard.css" />
   </head>
   <body>
@@ -11,74 +11,63 @@
     <header>
       <div class="header-left">
         <img src="logo.png" alt="Company Logo" class="logo" />
-        <h1 id="welcome">Admin Dashboard</h1>
+        <h1 id="welcome">Super Admin Dashboard</h1>
       </div>
       <div class="header-right">
-        <button id="hamburgerBtn" class="hamburger">&#9776;</button>
+        <button id="SignOutBtn" class="btn-signout">Sign Out</button>
+        <button id="openChangePassword" class="btn-secondary">
+          Change Password
+        </button>
       </div>
     </header>
 
-    <!-- Shared Side Menu -->
-    <div id="sideMenu" class="side-menu">
-      <button id="closeMenuBtn" class="close-btn">&times;</button>
-      <button id="changePasswordBtn" class="btn-secondary">
-        Change Password
-      </button>
-      <button id="deleteAccount" class="btn-danger">Delete Account</button>
-      <button id="staffPage" class="btn-secondary">Manage Staff</button>
-      <button id="peoplePage" class="btn-secondary">Manage People</button>
-      <button id="database" class="btn-secondary">Database</button>
-      <button id="signOutBtn" class="btn-signout">Sign Out</button>
-    </div>
-
-    <!-- Page-specific content -->
-    <main class="grid">
+    <main>
+      <!-- Add Admin -->
       <section>
-        <h2>👥 Attendance</h2>
-        <input type="text" id="searchInput" placeholder="Search staff..." />
-        <button id="refreshit">Refresh</button>
-        <ul id="attendanceList"></ul>
-        <div id="attendancePagination"></div>
-        <p id="attendanceMessage"></p>
-      </section>
-
-      <section>
-        <h2>➕ Create Person</h2>
-        <form id="createPersonForm" class="form-card">
+        <h2>➕ Add New Admin</h2>
+        <form id="addAdminForm" class="form-card">
           <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" required />
           </div>
           <div class="form-group">
-            <label for="department">Department</label>
-            <input type="text" id="department" required />
+            <label for="username">Username</label>
+            <input type="text" id="username" required />
           </div>
           <div class="form-group">
-            <label for="contact">Contact</label>
-            <input type="text" id="contact" required />
+            <label for="email">Email</label>
+            <input type="email" id="email" required />
           </div>
-          <button type="submit" class="btn-primary">Create Person</button>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required />
+          </div>
+          <div class="form-group">
+            <label for="org">Organization</label>
+            <input type="text" id="org" required />
+          </div>
+          <button type="submit" class="btn-primary">Add Admin</button>
         </form>
       </section>
 
+      <!-- List Admins -->
       <section>
-        <h2>⚡ Session Management</h2>
-        <button id="createSessionBtn" class="btn-magnificent">
-          ✨ Create Session ✨
-        </button>
-      </section>
-
-      <section>
-        <button id="printBtn">✨ Print ✨</button>
-      </section>
-
-      <!-- Loader -->
-      <div class="loader-overlay" id="loaderrOverlay">
-        <div class="loader">
-          <div class="spinner"></div>
-          <span class="loading-text">Loading...</span>
+        <h2>👥 All Admins</h2>
+        <div class="table-container">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Organization</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="adminList"></tbody>
+          </table>
         </div>
-      </div>
+      </section>
     </main>
 
     <!-- Shared Footer -->
@@ -98,6 +87,7 @@
         <a href="https://github.com/Jganyo-dotcom/" target="_blank">GitHub</a>
       </div>
     </footer>
+
     <!-- Change Password Modal -->
     <div id="changePasswordModal" class="slide-modal">
       <div class="slide-modal-content">
@@ -105,7 +95,7 @@
         <h2>Change Password</h2>
         <form id="changePasswordForm">
           <div class="form-group">
-            <label for="oldPassword">Old Password</label>
+            <label for="currentPassword">Old Password</label>
             <input type="password" id="currentPassword" required />
           </div>
           <div class="form-group">
@@ -120,6 +110,7 @@
         </form>
       </div>
     </div>
-    <script src="admin.js"></script>
+
+    <script src="manager.js"></script>
   </body>
 </html>

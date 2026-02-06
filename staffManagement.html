@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Main Dashboard</title>
-    <link rel="stylesheet" href="dashboard.css" />
+    <title>Manage Staff</title>
+    <link rel="stylesheet" href="management.css" />
   </head>
   <body>
     <!-- Shared Header -->
@@ -24,6 +24,7 @@
       <button id="changePasswordBtn" class="btn-secondary">
         Change Password
       </button>
+      <button id="mainPage" class="btn-signout">Dashboard</button>
       <button id="deleteAccount" class="btn-danger">Delete Account</button>
       <button id="staffPage" class="btn-secondary">Manage Staff</button>
       <button id="peoplePage" class="btn-secondary">Manage People</button>
@@ -32,46 +33,19 @@
     </div>
 
     <!-- Page-specific content -->
-    <main class="grid">
+    <main>
       <section>
-        <h2>👥 Attendance</h2>
-        <input type="text" id="searchInput" placeholder="Search staff..." />
-        <button id="refreshit">Refresh</button>
-        <ul id="attendanceList"></ul>
-        <div id="attendancePagination"></div>
-        <p id="attendanceMessage"></p>
+        <h2>📋 Pending Approvals</h2>
+        <ul id="pendingList"></ul>
       </section>
-
       <section>
-        <h2>➕ Create Person</h2>
-        <form id="createPersonForm" class="form-card">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" required />
-          </div>
-          <div class="form-group">
-            <label for="department">Department</label>
-            <input type="text" id="department" required />
-          </div>
-          <div class="form-group">
-            <label for="contact">Contact</label>
-            <input type="text" id="contact" required />
-          </div>
-          <button type="submit" class="btn-primary">Create Person</button>
-        </form>
+        <h2>📋 Staff Management</h2>
+        <ul id="StaffList"></ul>
       </section>
-
       <section>
-        <h2>⚡ Session Management</h2>
-        <button id="createSessionBtn" class="btn-magnificent">
-          ✨ Create Session ✨
-        </button>
+        <h2>🔒 Locked Accounts</h2>
+        <ul id="lockedList"></ul>
       </section>
-
-      <section>
-        <button id="printBtn">✨ Print ✨</button>
-      </section>
-
       <!-- Loader -->
       <div class="loader-overlay" id="loaderrOverlay">
         <div class="loader">
@@ -120,6 +94,7 @@
         </form>
       </div>
     </div>
-    <script src="admin.js"></script>
+
+    <script src="STM.js"></script>
   </body>
 </html>

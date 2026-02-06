@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Main Dashboard</title>
-    <link rel="stylesheet" href="dashboard.css" />
+    <title>Manage People</title>
+    <link rel="stylesheet" href="database.css" />
   </head>
   <body>
     <!-- Shared Header -->
     <header>
       <div class="header-left">
         <img src="logo.png" alt="Company Logo" class="logo" />
-        <h1 id="welcome">Admin Dashboard</h1>
+        <h1 id="welcome">DATABASE</h1>
       </div>
       <div class="header-right">
         <button id="hamburgerBtn" class="hamburger">&#9776;</button>
@@ -24,6 +24,7 @@
       <button id="changePasswordBtn" class="btn-secondary">
         Change Password
       </button>
+      <button id="mainPage" class="btn-danger">Dashboard</button>
       <button id="deleteAccount" class="btn-danger">Delete Account</button>
       <button id="staffPage" class="btn-secondary">Manage Staff</button>
       <button id="peoplePage" class="btn-secondary">Manage People</button>
@@ -32,53 +33,27 @@
     </div>
 
     <!-- Page-specific content -->
-    <main class="grid">
-      <section>
+    <!-- Page-specific content -->
+    <main>
+     
         <h2>👥 Attendance</h2>
-        <input type="text" id="searchInput" placeholder="Search staff..." />
-        <button id="refreshit">Refresh</button>
-        <ul id="attendanceList"></ul>
+        <div class="attendance-controls">
+          <input type="text" id="searchInput" placeholder="Search staff..." />
+          <button id="refreshit">Refresh</button>
+        </div>
+
+        <div class="table-container">
+          <table class="attendance-table">
+            
+            <tbody id="attendanceList">
+              <!-- rows injected here -->
+            </tbody>
+          </table>
+        </div>
+
         <div id="attendancePagination"></div>
         <p id="attendanceMessage"></p>
-      </section>
-
-      <section>
-        <h2>➕ Create Person</h2>
-        <form id="createPersonForm" class="form-card">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" required />
-          </div>
-          <div class="form-group">
-            <label for="department">Department</label>
-            <input type="text" id="department" required />
-          </div>
-          <div class="form-group">
-            <label for="contact">Contact</label>
-            <input type="text" id="contact" required />
-          </div>
-          <button type="submit" class="btn-primary">Create Person</button>
-        </form>
-      </section>
-
-      <section>
-        <h2>⚡ Session Management</h2>
-        <button id="createSessionBtn" class="btn-magnificent">
-          ✨ Create Session ✨
-        </button>
-      </section>
-
-      <section>
-        <button id="printBtn">✨ Print ✨</button>
-      </section>
-
-      <!-- Loader -->
-      <div class="loader-overlay" id="loaderrOverlay">
-        <div class="loader">
-          <div class="spinner"></div>
-          <span class="loading-text">Loading...</span>
-        </div>
-      </div>
+      
     </main>
 
     <!-- Shared Footer -->
@@ -120,6 +95,7 @@
         </form>
       </div>
     </div>
-    <script src="admin.js"></script>
+
+    <script src="database.js"></script>
   </body>
 </html>

@@ -416,89 +416,44 @@ button.delete:hover {
   background-color: #a71d2a; /* darker red on hover */
 }
 /* Default: show desktop menu, hide hamburger + mobile menu */
-.desktop-menu {
-  display: flex;
-  gap: 10px;
-}
-
+/* Hamburger button */
 .hamburger {
-  display: none; /* hidden by default */
   font-size: 24px;
   background: none;
   border: none;
   cursor: pointer;
+  z-index: 1100;
 }
 
-.mobile-menu {
-  display: none; /* hidden until toggled by JS */
-  flex-direction: column;
-  background-color: #f9f9f9;
-  position: absolute;
-  right: 10px;
-  top: 60px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-/* Show hamburger on small screens */
-@media (max-width: 768px) {
-  .desktop-menu {
-    display: none; /* hide desktop menu */
-  }
-
-  .hamburger {
-    display: inline-block; /* show hamburger */
-  }
-}
-
-/* Modal base */
-.modal {
-  display: none; /* hidden by default */
+/* Side menu base */
+.side-menu {
   position: fixed;
-  z-index: 1000;
-  left: 0;
   top: 0;
-  width: 100%;
+  left: -100%; /* hidden off-screen */
+  width: 250px;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-
-  /* Flexbox centering */
-
-  align-items: center;
-  justify-content: center;
-}
-
-/* Modal content */
-.modal-content {
-  background-color: #fff;
+  background-color: #f9f9f9;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
   padding: 20px;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-
-  /* Fade-in animation */
-  animation: fadeIn 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: left 0.3s ease;
+  z-index: 1000;
 }
 
-/* Close button */
+/* Active state (visible) */
+.side-menu.active {
+  left: 0;
+}
+
+/* Close button inside side menu */
 .close-btn {
-  float: right;
-  font-size: 24px;
+  font-size: 28px;
+  background: none;
+  border: none;
   cursor: pointer;
-}
-
-/* Fade-in animation keyframes */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  align-self: flex-end;
 }
 
 .btn-danger {
@@ -512,4 +467,67 @@ button.delete:hover {
 
 .btn-danger:hover {
   background-color: #c0392b;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1; /* fills available space */
+}
+
+footer {
+  margin-top: 0; /* remove manual margin */
+}
+
+/* Slide-up modal base */
+.slide-modal {
+  display: none; /* hidden by default */
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  align-items: flex-end; /* align content at bottom */
+  justify-content: center;
+}
+
+/* Modal content box */
+.slide-modal-content {
+  background-color: #fff;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px 12px 0 0;
+  padding: 25px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease;
+}
+
+/* Slide-up animation */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Close button */
+.slide-modal .close-btn {
+  float: right;
+  font-size: 28px;
+  cursor: pointer;
+  color: #2c3e50;
 }

@@ -33,107 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("welcome").innerHTML = `Welcome ${user.username}`;
   console.log("loaded");
 
-  // Fetch pending accounts
-  async function loadPending() {
-    try {
-      showLoader();
-      const res = await fetch(baseApi + "api/admin/pending/accounts", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
-
-      const result = await res.json();
-      hideLoader();
-      if (!res.ok) {
-        hideLoader();
-        console.log(result.message || "Failed to load pending accounts");
-        console.error("Error:", result);
-        return;
-      }
-
-      if (result.message) {
-        console.log(result.message);
-      }
-
-      const list = document.getElementById("pendingList");
-      if (!list) {
-        console.error("No element with id 'pendingList'");
-        return;
-      }
-      list.innerHTML = "";
-
-      // ✅ Use result.data because that's where the array is
-      const users = result.data;
-
-      users.forEach((u) => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-    ${u.name} (${u.username}, ${u.email})
-    <button class="approve" onclick="approveUser('${u._id}')">Approve</button>
-    <button class="delete" onclick="deleteUser('${u._id}')">Delete</button>
-  `;
-        list.appendChild(li);
-      });
-    } catch (err) {
-      hideLoader();
-      console.error("Error loading pending:", err);
-    }
-  }
-
-  async function loadStaffAccounts() {
-    try {
-      showLoader();
-      const res = await fetch(baseApi + "api/admin/staff/accounts", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
-
-      const result = await res.json();
-      hideLoader();
-      if (!res.ok) {
-        hideLoader();
-        console.log(result.message || "Failed to load pending accounts");
-        console.error("Error:", result);
-        return;
-      }
-
-      if (result.message) {
-        console.log(result.message);
-      }
-
-      const list = document.getElementById("StaffList");
-      if (!list) {
-        console.error("No element with id 'pendingList'");
-        return;
-      }
-      list.innerHTML = "";
-
-      // ✅ Use result.data because that's where the array is
-      const users = result.data;
-
-      users.forEach((u) => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-    ${u.name} (${u.username}, ${u.email})
-    <button class="delete" onclick="deleteUser('${u._id}')">Delete</button>
-  `;
-        list.appendChild(li);
-      });
-    } catch (err) {
-      hideLoader();
-      console.error("Error loading pending:", err);
-    }
-  }
-
   // expose approveUser if you rely on inline onclick
-  window.approveUser = approveUser;
-  window.deleteUser = deleteUser;
+
+  // window.deleteUser = deleteUser;
   const refreshBtn = document.getElementById("refreshit");
   refreshBtn.addEventListener("click", Refresh);
 
@@ -229,16 +131,8 @@ document.addEventListener("DOMContentLoaded", () => {
           );
         }
 
-        // delete button
-        const deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "DELETE";
-        deleteBtn.className = "delete";
-        deleteBtn.addEventListener("click", () =>
-          deleteStaff(s._id, deleteBtn),
-        );
-
         li.appendChild(actionBtn);
-        li.appendChild(deleteBtn);
+
         list.appendChild(li);
       });
 
@@ -276,86 +170,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initial load
   document.addEventListener("DOMContentLoaded", () => loadAttendance());
-
-  // Approve user
-  async function approveUser(id) {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        window.location.href = "auth.html";
-        return;
-      }
-
-      const res = await fetch(baseApi + `api/admin/verify/${id}`, {
-        method: "GET", // switched to GET
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message || "Failed to approve user");
-        console.error("Error approving user:", data);
-        return;
-      }
-
-      if (data.message) {
-        alert(data.message); // show backend feedback
-      }
-
-      // reload pending list
-      loadPending();
-    } catch (err) {
-      console.error("Network error approving user:", err);
-      alert("Network error!");
-    }
-  }
-
-  async function deleteUser(id) {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        alert("Not authorized!");
-        window.location.href = "auth.html";
-        return;
-      }
-
-      const confirmed = confirm(
-        "Are you sure you want to delete this account?",
-      );
-      if (!confirmed) return;
-
-      const res = await fetch(baseApi + `api/admin/unverify/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message || "Failed to delete user");
-        console.error("Error deleting user:", data);
-        return;
-      }
-
-      if (data.message) {
-        alert(data.message); // show backend feedback
-      }
-
-      // reload pending list
-      loadPending();
-      loadStaffAccounts();
-    } catch (err) {
-      console.error("Network error deleting user:", err);
-      alert("Network error!");
-    }
-  }
 
   // Unblock user
   async function unblockUser(id) {
@@ -544,22 +358,13 @@ document.addEventListener("DOMContentLoaded", () => {
   async function Refresh() {
     console.log("hit");
     loadAttendance();
-    loadLocked();
-    loadPending();
-    loadAbsentPeople();
+
     loadStaffAccounts();
   }
 
-  document
-    .getElementById("searchInputonAbsent")
-    .addEventListener("input", (e) => {
-      const term = e.target.value.toLowerCase();
-      document.querySelectorAll("#aabsentList li").forEach((li) => {
-        li.style.display = li.textContent.toLowerCase().includes(term)
-          ? ""
-          : "none";
-      });
-    });
+  function capitalise(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  }
 
   const form = document.getElementById("createPersonForm");
   if (form) {
@@ -572,8 +377,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       const person = {
-        name: document.getElementById("name").value.toUpperCase(),
-        department: document.getElementById("department").value.toUpperCase(),
+        name: capitalise(document.getElementById("name").value),
+        department: capitalise(document.getElementById("department").value),
+
         contact: document.getElementById("contact").value,
       };
       try {
@@ -605,24 +411,64 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const hamburgerBtn = document.getElementById("hamburgerBtn");
-  const mobileMenu = document.getElementById("mobileMenu");
+  const sideMenu = document.getElementById("sideMenu");
+  const closeMenuBtn = document.getElementById("closeMenuBtn");
 
+  const modal = document.getElementById("changePasswordModal");
+  const openBtnDesktop = document.getElementById("changePasswordBtn");
+
+  const closeBtn = document.getElementById("closeModal");
+
+  // --- Side Menu Logic ---
   hamburgerBtn.addEventListener("click", () => {
-    // Toggle menu visibility
-    if (mobileMenu.style.display === "flex") {
-      mobileMenu.style.display = "none";
+    sideMenu.classList.toggle("active");
+
+    // Toggle hamburger icon ↔ X
+    if (sideMenu.classList.contains("active")) {
+      hamburgerBtn.innerHTML = "&times;"; // X
     } else {
-      mobileMenu.style.display = "flex";
+      hamburgerBtn.innerHTML = "&#9776;"; // Hamburger
     }
   });
 
-  // Optional: close menu when clicking outside
-  // Close mobile menu when clicking outside
+  // Close menu when clicking the X inside
+  if (closeMenuBtn) {
+    closeMenuBtn.addEventListener("click", () => {
+      sideMenu.classList.remove("active");
+      hamburgerBtn.innerHTML = "&#9776;";
+    });
+  }
+
+  // Close menu when clicking outside
   window.addEventListener("click", (e) => {
-    if (e.target !== hamburgerBtn && !mobileMenu.contains(e.target)) {
-      mobileMenu.style.display = "none";
+    if (!sideMenu.contains(e.target) && e.target !== hamburgerBtn) {
+      sideMenu.classList.remove("active");
+      hamburgerBtn.innerHTML = "&#9776;";
     }
   });
+
+  // --- Modal Logic ---
+  if (user.hasChangedPassword !== true) {
+    console.log("User must change password:", user);
+    modal.style.display = "flex"; // force modal open
+    if (closeBtn) closeBtn.style.display = "none"; // hide close button
+  } else {
+    modal.style.display = "none";
+  }
+
+  // Open modal from desktop button
+  if (openBtnDesktop) {
+    openBtnDesktop.addEventListener("click", () => {
+      modal.style.display = "flex";
+    });
+  }
+
+  // Close modal
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+  }
 
   // Close modal when clicking outside, but only if user has already changed password
   window.addEventListener("click", (e) => {
@@ -631,63 +477,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  const modal = document.getElementById("changePasswordModal");
-  const openBtnDesktop = document.getElementById("changePasswordBtn");
-  const openBtnMobile = document.getElementById("changePasswordBtnMobile");
-  const closeBtn = document.getElementById("closeModal");
-
-  // Only hide modal by default if user has already changed password
-  if (user.hasChangedPassword !== true) {
-    console.log("User must change password:", user);
-    modal.style.display = "flex"; // show modal centered
-    // hide close button so they can't dismiss
-  } else {
-    modal.style.display = "none"; // hide modal normally
-  }
-
-  // Open modal from desktop button
-  if (openBtnDesktop) {
-    openBtnDesktop.addEventListener("click", () => {
-      modal.style.display = "flex";
-    });
-  }
-
-  // Open modal from mobile button
-  if (openBtnMobile) {
-    openBtnMobile.addEventListener("click", () => {
-      modal.style.display = "flex";
-    });
-  }
-
-  // Close modal
-  if (closeBtn) {
-    closeBtn.addEventListener("click", () => {
-      modal.style.display = "none";
-    });
-  }
-
   const formm = document.getElementById("changePasswordForm");
-
-  // Open modal from desktop button
-  if (openBtnDesktop) {
-    openBtnDesktop.addEventListener("click", () => {
-      modal.style.display = "flex"; // use flex so it centers with your CSS
-    });
-  }
-
-  // Open modal from mobile button
-  if (openBtnMobile) {
-    openBtnMobile.addEventListener("click", () => {
-      modal.style.display = "flex";
-    });
-  }
-
-  // Close modal
-  if (closeBtn) {
-    closeBtn.addEventListener("click", () => {
-      modal.style.display = "none";
-    });
-  }
 
   // Close when clicking outside modal
 
@@ -732,6 +522,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const currentPassword = document.getElementById("currentPassword").value;
     const newPassword = document.getElementById("newPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
 
     try {
       const token = localStorage.getItem("token"); // assuming you store JWT in localStorage
@@ -872,66 +663,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  let currentPagee = 1;
-  const limit = 5; // number of items per page
-
-  async function loadAbsentPeople(page = 1, searchTerm = "") {
-    try {
-      const response = await fetch(
-        baseApi +
-          `api/Absents?page=${page}&limit=${limit}&search=${encodeURIComponent(searchTerm)}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        },
-      );
-
-      const result = await response.json();
-
-      const list = document.getElementById("absentList");
-      list.innerHTML = "";
-
-      result.data.forEach((person) => {
-        const li = document.createElement("li");
-        li.textContent = `${person.name} (${person.department}) ${person.contact}`;
-        list.appendChild(li);
-      });
-
-      // Update pagination info
-      document.getElementById("pageInfo").textContent =
-        `Page ${result.page} of ${result.totalPages}`;
-
-      // Enable/disable buttons
-      document.getElementById("prevBtn").disabled = result.page <= 1;
-      document.getElementById("nextBtn").disabled =
-        result.page >= result.totalPages;
-
-      currentPagee = result.page;
-    } catch (err) {
-      console.error("Error fetching absent people:", err);
-    }
-  }
-
-  // Event listeners for pagination buttons
-  document.getElementById("prevBtn").addEventListener("click", () => {
-    if (currentPagee > 1) {
-      loadAbsentPeople(
-        currentPagee - 1,
-        document.getElementById("searchInputonAbsent").value,
-      );
-    }
-  });
-
-  document.getElementById("nextBtn").addEventListener("click", () => {
-    loadAbsentPeople(
-      currentPagee + 1,
-      document.getElementById("searchInputonAbsent").value,
-    );
-  });
-
   document.getElementById("printBtn").addEventListener("click", async () => {
     try {
       const session = localStorage.getItem("sessionId");
@@ -975,26 +706,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Real-time search
-  document
-    .getElementById("searchInputonAbsent")
-    .addEventListener("input", (e) => {
-      const term = e.target.value;
-      loadAbsentPeople(1, term); // always start from page 1 when searching
-    });
+  document.getElementById("staffPage").addEventListener("click", () => {
+    console.log("ha");
+    window.location.href = "/staffManagement.html";
+  });
 
-  // Initial load
-  loadAbsentPeople();
+  document.getElementById("peoplePage").addEventListener("click", () => {
+    window.location.href = "/people.html";
+  });
 
-  // Load first page on page ready
-  loadAbsentPeople();
+  document.getElementById("database").addEventListener("click", () => {
+    window.location.href = "/database.html";
+  });
 
-  // Initial load
-
-  console.log("loaded");
-  loadPending();
-  loadLocked();
   loadAttendance();
-  loadAbsentPeople();
-  loadStaffAccounts();
 });

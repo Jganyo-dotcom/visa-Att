@@ -206,6 +206,10 @@ async function undoPresent(id, btn) {
   }
 }
 
+function capitalise(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
 const form = document.getElementById("createPersonForm");
 if (form) {
   form.addEventListener("submit", async (e) => {
@@ -217,8 +221,8 @@ if (form) {
       return;
     }
     const person = {
-      name: document.getElementById("name").value,
-      department: document.getElementById("department").value,
+      name: capitalise(document.getElementById("name").value),
+      department: capitalise(document.getElementById("department").value),
       contact: document.getElementById("contact").value,
     };
     try {
