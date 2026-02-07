@@ -626,6 +626,7 @@ async function loadLocked() {
 loadStaffAccounts();
 //loadAbsentPeople()
 loadPending();
+loadLocked()
 
 // Real-time search
 // document
