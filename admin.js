@@ -390,7 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
         department: capitalise(document.getElementById("department").value),
 
         contact: document.getElementById("contact").value,
-        level: document.getElementById("visaLevels").value,
+        level: document.getElementById("VisaLevels").value,
       };
       try {
         showLoader();
