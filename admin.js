@@ -213,14 +213,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const signOutMobile = document.getElementById("signOutBtnMobile");
 
   function handleSignOut() {
-    if (instructionSign !== true) {
-      alert("Close session before you can sign out");
-      return;
-    }
+
 
     // Ask three times for confirmation
     for (let i = 1; i <= 3; i++) {
-      const confirmed = confirm(`(${i}/3) Are you sure you want to sign out?`);
+      const confirmed = confirm(
+        `(${i}/3) Have you printed your attendance before you clearing?`,
+      );
       if (!confirmed) {
         alert("Sign out cancelled");
         return;
@@ -677,7 +676,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Ask three times for confirmation
       for (let i = 1; i <= 3; i++) {
-        const confirmed = confirm(`(${i}/3) Have you printed the attendance?`);
+        const confirmed = confirm(
+          `(${i}/3) Have you printed your attendance before you clearing?`,
+        );
         if (!confirmed) {
           alert("Session close cancelled");
           return;
