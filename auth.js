@@ -1,6 +1,6 @@
-const baseApi = "https://attandance-app-1.onrender.com/";
+//const baseApi = "https://attandance-app-1.onrender.com/";
 
-//const baseApi = "http://127.0.0.1:4444/";
+const baseApi = "http://127.0.0.1:4444/";
 
 // Show loader
 export function showLoader() {
@@ -73,7 +73,7 @@ document
 
       if (!res.ok) {
         // Show backend message if available
-        alert(data.error || "Registration failed!");
+        alert(data.error || data.message || "Registration failed!");
         console.error("Backend error:", data); // log full response for debugging
         return;
       }
@@ -107,7 +107,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     hideLoader(); // ✅ hide loader after response
 
     if (!res.ok) {
-      alert(data.message || "Login failed!");
+      alert(data.message || data.error || "Login failed!");
       return;
     }
 
