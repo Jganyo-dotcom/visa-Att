@@ -19,6 +19,7 @@ if (user.org !== "Visa") {
   const visaLevelsEl = document.getElementById("VisaLevels");
   if (visaLevelsEl) {
     visaLevelsEl.style.display = "none";
+    visaLevelsEl.removeAttribute("required");
   }
 }
 
