@@ -5,7 +5,7 @@ console.log("loaded");
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
 document.addEventListener("DOMContentLoaded", () => {
-  const instruction = "go ahead";
+
 
   if (user.hasChangedPassword !== true) {
     const modal = document.getElementById("changePasswordModal");
@@ -654,7 +654,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // ✅ toggle button text and style
         createSessionBtn.textContent = "Close Session";
-        instructionSign = false;
+   
         createSessionBtn.classList.add("danger");
       }
     } catch (err) {
@@ -702,7 +702,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      instructionSign = true;
+
       if (data.message) {
         alert(data.message);
       }
@@ -739,7 +739,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Convert response to blob
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
-      instruction = "go ahead";
+  
 
       // Use filename from backend headers
       const disposition = response.headers.get("Content-Disposition");

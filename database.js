@@ -1,7 +1,7 @@
 //const baseApi = "http://127.0.0.1:4444/";
 const baseApi = "https://attandance-app-1.onrender.com/";
 console.log("loaded");
-let instructionSign = true;
+
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -175,10 +175,7 @@ const signOut = document.getElementById("signOutBtn");
 signOut.addEventListener("click", handleSignOut);
 
 function handleSignOut() {
-  if (instructionSign !== true) {
-    alert("Close session before you can sign out");
-    return;
-  }
+
 
   // Ask three times for confirmation
   for (let i = 1; i <= 3; i++) {

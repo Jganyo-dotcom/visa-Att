@@ -2,7 +2,7 @@
 //const baseApi = "http://127.0.0.1:4444/";
 const baseApi = "https://attandance-app-1.onrender.com/";
 console.log("loaded");
-let instructionSign = true;
+
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -116,10 +116,18 @@ const signOut = document.getElementById("signOutBtn");
 signOut.addEventListener("click", handleSignOut);
 
 function handleSignOut() {
-  if (instructionSign !== true) {
-    alert("close session before you can signout");
-    return;
+  // Ask three times for confirmation
+  for (let i = 1; i <= 3; i++) {
+    const confirmed = confirm(
+      `(${i}/3) Have you printed your attendance before you clearing?`,
+    );
+    if (!confirmed) {
+      alert("Sign out cancelled");
+      return;
+    }
   }
+
+  // Only reaches here if user clicked OK all three times
   sessionStorage.removeItem("token");
   localStorage.removeItem("token");
   localStorage.removeItem("user"); // only if you stored user info under this key
