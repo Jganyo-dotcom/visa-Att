@@ -5,9 +5,14 @@ console.log("loaded");
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
 document.addEventListener("DOMContentLoaded", () => {
+
   if (user.org !== "Visa") {
-    document.getElementById("VisaLevels").style.display = "none";
+    const visaLevelsEl = document.getElementById("VisaLevels");
+    if (visaLevelsEl) {
+      visaLevelsEl.style.display = "none";
+    }
   }
+
   if (user.hasChangedPassword !== true) {
     const modal = document.getElementById("changePasswordModal");
     const closeBtn = document.getElementById("closeModal");
@@ -390,8 +395,15 @@ document.addEventListener("DOMContentLoaded", () => {
         department: capitalise(document.getElementById("department").value),
 
         contact: document.getElementById("contact").value,
-        level: document.getElementById("VisaLevels").value,
       };
+
+      if (user.org === "Visa") {
+        const visaLevelsEl = document.getElementById("VisaLevels");
+        if (visaLevelsEl) {
+          person.level = visaLevelsEl.value;
+        }
+      }
+
       try {
         showLoader();
         const res = await fetch(baseApi + "api/create-person", {

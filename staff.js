@@ -15,6 +15,13 @@ document.getElementById("staffsignOutBtn").addEventListener("click", () => {
   window.location.href = "index.html"; // redirect to login page
 });
 
+if (user.org !== "Visa") {
+  const visaLevelsEl = document.getElementById("VisaLevels");
+  if (visaLevelsEl) {
+    visaLevelsEl.style.display = "none";
+  }
+}
+
 function showLoader() {
   document.getElementById("staffloaderOverlay").style.display = "flex";
 }
@@ -224,8 +231,13 @@ if (form) {
       name: capitalise(document.getElementById("name").value),
       department: capitalise(document.getElementById("department").value),
       contact: document.getElementById("contact").value,
-      level: document.getElementById("VisaLevels").value,
     };
+    if (user.org === "Visa") {
+      const visaLevelsEl = document.getElementById("VisaLevels");
+      if (visaLevelsEl) {
+        person.level = visaLevelsEl.value;
+      }
+    }
     try {
       showLoader();
       const res = await fetch(baseApi + "api/create-person", {
