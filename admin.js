@@ -535,7 +535,11 @@ document.addEventListener("DOMContentLoaded", () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ currentPassword, newPassword }),
+          body: JSON.stringify({
+            currentPassword,
+            newPassword,
+            confirmPassword,
+          }),
         },
       );
 
@@ -547,7 +551,7 @@ document.addEventListener("DOMContentLoaded", () => {
         handleSignOut();
       } else {
         hideLoader();
-        alert(data.message || "Error updating password");
+        alert(data.message || data.error || "Error updating password");
       }
     } catch (err) {
       hideLoader();
@@ -591,6 +595,38 @@ document.addEventListener("DOMContentLoaded", () => {
         },
       });
 
+      // Check if response is a file (Excel) or JSON
+      const contentType = res.headers.get("Content-Type");
+
+      if (
+        contentType &&
+        contentType.includes(
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        )
+      ) {
+        // It's an Excel file → trigger download
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+
+        // Use filename from headers if available
+        const disposition = res.headers.get("Content-Disposition");
+        let filename = "attendance.xlsx";
+        if (disposition && disposition.includes("filename=")) {
+          filename = disposition.split("filename=")[1];
+        }
+        a.download = filename;
+
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+
+        return; // stop here, file downloaded
+      }
+
+      // Otherwise, parse as JSON
       const data = await res.json();
 
       if (!res.ok) {
