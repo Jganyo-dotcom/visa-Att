@@ -11,7 +11,7 @@ async function loadAttendance(page = 1, searchTerm = "") {
     const limit = 25;
     const res = await fetch(
       baseApi +
-        `api/get-all?page=${page}&limit=${limit}search=${encodeURIComponent(searchTerm)}`,
+        `api/get-all?page=${page}&limit=${limit}&search=${encodeURIComponent(searchTerm)}`,
       {
         method: "GET",
         headers: {

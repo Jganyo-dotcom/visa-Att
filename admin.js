@@ -94,9 +94,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function loadAttendance(page = 1, searchTerm = "") {
     try {
+      const limit = 15;
       const res = await fetch(
         baseApi +
-          `api/get-all?page=${page}&search=${encodeURIComponent(searchTerm)}`,
+          `api/get-all?page=${page}&limit=${limit}&search=${encodeURIComponent(searchTerm)}`,
         {
           method: "GET",
           headers: {
