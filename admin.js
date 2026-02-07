@@ -5,8 +5,9 @@ console.log("loaded");
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
 document.addEventListener("DOMContentLoaded", () => {
-
-
+  if (user.org !== "Visa") {
+    document.getElementById("VisaLevels").style.display = "none";
+  }
   if (user.hasChangedPassword !== true) {
     const modal = document.getElementById("changePasswordModal");
     const closeBtn = document.getElementById("closeModal");
@@ -213,8 +214,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const signOutMobile = document.getElementById("signOutBtnMobile");
 
   function handleSignOut() {
-
-
     // Ask three times for confirmation
     for (let i = 1; i <= 3; i++) {
       const confirmed = confirm(
@@ -391,6 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
         department: capitalise(document.getElementById("department").value),
 
         contact: document.getElementById("contact").value,
+        level: document.getElementById("visaLevels").value,
       };
       try {
         showLoader();
@@ -654,7 +654,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // ✅ toggle button text and style
         createSessionBtn.textContent = "Close Session";
-   
+
         createSessionBtn.classList.add("danger");
       }
     } catch (err) {
@@ -702,7 +702,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-
       if (data.message) {
         alert(data.message);
       }
@@ -739,7 +738,6 @@ document.addEventListener("DOMContentLoaded", () => {
       // Convert response to blob
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
-  
 
       // Use filename from backend headers
       const disposition = response.headers.get("Content-Disposition");

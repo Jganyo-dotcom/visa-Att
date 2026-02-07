@@ -40,8 +40,10 @@ async function loadAttendance(page = 1, searchTerm = "") {
       <tr>
         <th>Name</th>
         <th>Department</th>
+        <th>Level</th>
         <th>Contact</th>
         <th>Action</th>
+        <th>Update</th>
       </tr>
     `;
     table.appendChild(thead);
@@ -53,8 +55,10 @@ async function loadAttendance(page = 1, searchTerm = "") {
       tr.innerHTML = `
         <td>${s.name}</td>
         <td>${s.department}</td>
+        <td>${s.level}</td>
         <td>${s.contact}</td>
         <button class="btn-danger" onclick="deleteUser('${s._id}', '${s.name}')">Delete</button>
+        <button class="btn-danger" onclick="UpdateUser('${s._id}', '${s.name}')">Update</button>
       `;
       tbody.appendChild(tr);
     });
@@ -72,6 +76,9 @@ async function loadAttendance(page = 1, searchTerm = "") {
   }
 }
 
+function UpdateUser() {
+  alert("This function is not yet implemented");
+}
 async function deleteUser(id, name) {
   try {
     const token = localStorage.getItem("token");
@@ -175,8 +182,6 @@ const signOut = document.getElementById("signOutBtn");
 signOut.addEventListener("click", handleSignOut);
 
 function handleSignOut() {
-
-
   // Ask three times for confirmation
   for (let i = 1; i <= 3; i++) {
     const confirmed = confirm(`(${i}/3) Are you sure you want to sign out?`);

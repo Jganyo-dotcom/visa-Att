@@ -224,6 +224,7 @@ if (form) {
       name: capitalise(document.getElementById("name").value),
       department: capitalise(document.getElementById("department").value),
       contact: document.getElementById("contact").value,
+      level: document.getElementById("VisaLevels").value,
     };
     try {
       showLoader();
