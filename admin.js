@@ -1,11 +1,11 @@
 //const baseApi = "http://127.0.0.1:4444/";
 const baseApi = "https://attandance-app-1.onrender.com/";
 console.log("loaded");
-let instructionSign = true;
+
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
 document.addEventListener("DOMContentLoaded", () => {
-  let instruction = "stop!!";
+  const instruction = "go ahead";
 
   if (user.hasChangedPassword !== true) {
     const modal = document.getElementById("changePasswordModal");
@@ -214,9 +214,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function handleSignOut() {
     if (instructionSign !== true) {
-      alert("close session before you can signout");
+      alert("Close session before you can sign out");
       return;
     }
+
+    // Ask three times for confirmation
+    for (let i = 1; i <= 3; i++) {
+      const confirmed = confirm(`(${i}/3) Are you sure you want to sign out?`);
+      if (!confirmed) {
+        alert("Sign out cancelled");
+        return;
+      }
+    }
+
+    // Only reaches here if user clicked OK all three times
     sessionStorage.removeItem("token");
     localStorage.removeItem("token");
     localStorage.removeItem("user"); // only if you stored user info under this key
@@ -630,7 +641,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.message || "Failed to create session");
+        alert(data.message || data.error || "Failed to create session");
         console.error("Error creating session:", data);
         return;
       }
@@ -649,16 +660,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     } catch (err) {
       console.error("Network error creating session:", err);
+      alert(err);
       alert("Network error!");
     }
   }
 
   async function CloseSession() {
     try {
-      if (instruction !== "go ahead") {
-        alert("print attendance before you close session");
-        return;
-      }
       const token = localStorage.getItem("token");
       const sessionId = localStorage.getItem("sessionId");
 
@@ -667,6 +675,16 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      // Ask three times for confirmation
+      for (let i = 1; i <= 3; i++) {
+        const confirmed = confirm(`(${i}/3) Have you printed the attendance?`);
+        if (!confirmed) {
+          alert("Session close cancelled");
+          return;
+        }
+      }
+
+      // Only reaches here if user clicked OK all three times
       const res = await fetch(baseApi + `api/close-session/${sessionId}`, {
         method: "GET",
         headers: {
@@ -682,6 +700,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error closing session:", data);
         return;
       }
+
       instructionSign = true;
       if (data.message) {
         alert(data.message);

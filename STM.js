@@ -118,9 +118,20 @@ signOut.addEventListener("click", handleSignOut);
 
 function handleSignOut() {
   if (instructionSign !== true) {
-    alert("close session before you can signout");
+    alert("Close session before you can sign out");
     return;
   }
+
+  // Ask three times for confirmation
+  for (let i = 1; i <= 3; i++) {
+    const confirmed = confirm(`(${i}/3) Are you sure you want to sign out?`);
+    if (!confirmed) {
+      alert("Sign out cancelled");
+      return;
+    }
+  }
+
+  // Only reaches here if user clicked OK all three times
   sessionStorage.removeItem("token");
   localStorage.removeItem("token");
   localStorage.removeItem("user"); // only if you stored user info under this key
@@ -619,7 +630,7 @@ async function loadLocked() {
 
 loadStaffAccounts();
 //loadAbsentPeople()
-loadPending()
+loadPending();
 
 // Real-time search
 // document
