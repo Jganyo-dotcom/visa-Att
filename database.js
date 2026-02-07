@@ -8,9 +8,10 @@ const user = JSON.parse(localStorage.getItem("user"));
 // When loading attendance, decide whether to show Level column
 async function loadAttendance(page = 1, searchTerm = "") {
   try {
+    const limit = 25;
     const res = await fetch(
       baseApi +
-        `api/get-all?page=${page}&search=${encodeURIComponent(searchTerm)}`,
+        `api/get-all?page=${page}&limit=${limit}search=${encodeURIComponent(searchTerm)}`,
       {
         method: "GET",
         headers: {
