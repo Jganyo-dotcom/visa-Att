@@ -57,8 +57,8 @@ async function loadAttendance(page = 1, searchTerm = "") {
         <td>${s.department}</td>
         <td>${s.level}</td>
         <td>${s.contact}</td>
-        <button class="btn-danger" onclick="deleteUser('${s._id}', '${s.name}')">Delete</button>
-        <button class="btn-danger" onclick="UpdateUser('${s._id}', '${s.name}')">Update</button>
+        <td><button class="btn-danger" onclick="deleteUser('${s._id}', '${s.name}')">Delete</button></td>
+        <td><button class="btn btn-primary" onclick="UpdateUser('${s._id}', '${s.name}')">Update</button></td>
       `;
       tbody.appendChild(tr);
     });
