@@ -92,6 +92,49 @@
         </form>
       </div>
     </div>
+    <div id="updateModal" class="modal" style="display: none">
+      <div class="modal-content">
+        <span id="closeModall" class="close">&times;</span>
+        <h2>Update User</h2>
+        <form id="updateForm">
+          <input id="updateId" readonly />
+
+          <label>Name</label>
+          <input type="text" id="updateName" />
+
+          <label>Department</label>
+          <select id="updateDepartment" required>
+            <option value="">-- Department --</option>
+            <option value="Counselling">Counselling</option>
+            <option value="Prayer">Prayer</option>
+            <option value="Divine Ex">Divine Ex</option>
+            <option value="Ushering">Ushering</option>
+            <option value="Technical">Technical</option>
+            <option value="Welfare">Welfare</option>
+            <option value="Media">Media</option>
+            <option value="Music">Music</option>
+            <option value="Outreach">Outreach</option>
+          </select>
+
+          <label>Level</label>
+          <select id="updateLevel" required>
+            <option value="">-- Level --</option>
+            <option value="L 100">L 100</option>
+            <option value="L 200">L 200</option>
+            <option value="L 300">L 300</option>
+            <option value="L 400">L 400</option>
+            <option value="5th year">5th year</option>
+            <option value="6th year">6th year</option>
+            <option value="Masters">Masters</option>
+          </select>
+
+          <label>Contact</label>
+          <input type="text" id="updateContact" />
+
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+      </div>
+    </div>
 
     <script src="database.js"></script>
   </body>

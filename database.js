@@ -5,6 +5,7 @@ console.log("loaded");
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
 
+// When loading attendance, decide whether to show Level column
 async function loadAttendance(page = 1, searchTerm = "") {
   try {
     const res = await fetch(
@@ -20,17 +21,11 @@ async function loadAttendance(page = 1, searchTerm = "") {
     );
     const data = await res.json();
 
-    // Show backend message if present
-    if (data.message) {
-      document.getElementById("attendanceMessage").textContent = data.message;
-    }
-
     const container = document.getElementById("attendanceList");
     container.innerHTML = "";
 
     const staff = data.staff || data;
 
-    // Create table
     const table = document.createElement("table");
     table.className = "attendance-table";
 
@@ -40,7 +35,7 @@ async function loadAttendance(page = 1, searchTerm = "") {
       <tr>
         <th>Name</th>
         <th>Department</th>
-        <th>Level</th>
+        ${user.org === "Visa" ? "<th>Level</th>" : ""}
         <th>Contact</th>
         <th>Action</th>
         <th>Update</th>
@@ -55,10 +50,10 @@ async function loadAttendance(page = 1, searchTerm = "") {
       tr.innerHTML = `
         <td>${s.name}</td>
         <td>${s.department}</td>
-        <td>${s.level}</td>
+        ${user.org === "Visa" ? `<td>${s.level}</td>` : ""}
         <td>${s.contact}</td>
         <td><button class="btn-danger" onclick="deleteUser('${s._id}', '${s.name}')">Delete</button></td>
-        <td><button class="btn btn-primary" onclick="UpdateUser('${s._id}', '${s.name}')">Update</button></td>
+        <td><button class="btn btn-primary" onclick="UpdateUser('${s._id}', '${s.name}', '${s.department}', '${s.level}', '${s.contact}')">Update</button></td>
       `;
       tbody.appendChild(tr);
     });
@@ -76,9 +71,90 @@ async function loadAttendance(page = 1, searchTerm = "") {
   }
 }
 
-function UpdateUser() {
-  alert("This function is not yet implemented");
+function UpdateUser(id, name, department, level, contact) {
+  document.getElementById("updateId").value = id;
+  document.getElementById("updateName").value = name;
+  document.getElementById("updateDepartment").value = department;
+  document.getElementById("updateContact").value = contact;
+
+  const levelField = document.getElementById("updateLevel");
+  const levelLabel = levelField.previousElementSibling; // the <label>
+
+  if (user.org === "Visa") {
+    levelField.value = level;
+    levelField.required = true;
+    levelField.style.display = "block";
+    levelLabel.style.display = "block";
+  } else {
+    levelField.required = false;
+    levelField.style.display = "none";
+    levelLabel.style.display = "none";
+  }
+
+  document.getElementById("updateModal").style.display = "block";
 }
+
+document.getElementById("closeModall").addEventListener("click", () => {
+  document.getElementById("updateModal").style.display = "none";
+});
+
+document.getElementById("updateForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const submitBtn = e.target.querySelector("button[type='submit']");
+  submitBtn.textContent = "Updating...";
+  submitBtn.disabled = true;
+
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alert("Not authorized!");
+    window.location.href = "auth.html";
+    return;
+  }
+
+  // Build updatedUser object
+  const updatedUser = {
+    name: document.getElementById("updateName").value,
+    department: document.getElementById("updateDepartment").value,
+    contact: document.getElementById("updateContact").value,
+  };
+
+  // Only include level if org is Visa
+  if (user.org === "Visa") {
+    updatedUser.level = document.getElementById("updateLevel").value;
+  }
+
+  const id = document.getElementById("updateId").value;
+
+  try {
+    const res = await fetch(baseApi + `api/admin/update/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(updatedUser),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.message || "Failed to update user");
+      console.error("Error updating user:", data);
+    } else {
+      alert(data.message || "User updated successfully!");
+      document.getElementById("updateModal").style.display = "none";
+      loadAttendance();
+    }
+  } catch (err) {
+    console.error("Network error updating user:", err);
+    alert("Network error!");
+  } finally {
+    submitBtn.textContent = "Save Changes";
+    submitBtn.disabled = false;
+  }
+});
+
 async function deleteUser(id, name) {
   try {
     const token = localStorage.getItem("token");
