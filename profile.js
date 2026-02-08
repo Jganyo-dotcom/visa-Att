@@ -38,6 +38,7 @@ function UpdateUser(user) {
   document.getElementById("adminUsername").value = user.username;
   document.getElementById("adminEmail").value = user.email;
   document.getElementById("adminOrg").value = user.org;
+  document.getElementById("adminRole").value = user.role;
 }
 
 UpdateUser(user);
