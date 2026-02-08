@@ -67,6 +67,7 @@ async function loadAttendance(page = 1, searchTerm = "") {
     }
 
     currentPage = data.page;
+    ;
   } catch (err) {
     console.error("Error loading attendance:", err);
   }
@@ -196,6 +197,7 @@ async function deleteUser(id, name) {
   }
 }
 
+let currentSearch = ""
 function renderAttendancePagination(page, totalPages) {
   const container = document.getElementById("attendancePagination");
   container.innerHTML = "";
