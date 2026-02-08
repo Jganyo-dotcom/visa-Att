@@ -172,6 +172,9 @@ document.getElementById("database").addEventListener("click", () => {
 document.getElementById("mainPage").addEventListener("click", () => {
   window.location.href = "/admin.html";
 });
+document.getElementById("profilePage").addEventListener("click", () => {
+  window.location.href = "/profile.html";
+});
 
 document
   .getElementById("searchInputonAbsent")

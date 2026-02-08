@@ -591,3 +591,20 @@ option {
   background: #007bff;
   color: #fff;
 }
+
+.btn-secondary{
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.btn-secondary {
+  background: #3498db;
+  color: #fff;
+}
+.btn-secondary:hover {
+  background: #2980b9;
+}

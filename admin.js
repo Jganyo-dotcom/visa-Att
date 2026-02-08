@@ -785,6 +785,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("database").addEventListener("click", () => {
     window.location.href = "/database.html";
   });
+  document.getElementById("profilePage").addEventListener("click", () => {
+    window.location.href = "/profile.html";
+  });
 
   loadAttendance();
 });

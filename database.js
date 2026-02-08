@@ -67,7 +67,6 @@ async function loadAttendance(page = 1, searchTerm = "") {
     }
 
     currentPage = data.page;
-    ;
   } catch (err) {
     console.error("Error loading attendance:", err);
   }
@@ -197,7 +196,7 @@ async function deleteUser(id, name) {
   }
 }
 
-let currentSearch = ""
+let currentSearch = "";
 function renderAttendancePagination(page, totalPages) {
   const container = document.getElementById("attendancePagination");
   container.innerHTML = "";
@@ -314,6 +313,9 @@ document.getElementById("database").addEventListener("click", () => {
 });
 document.getElementById("mainPage").addEventListener("click", () => {
   window.location.href = "/admin.html";
+});
+document.getElementById("profilePage").addEventListener("click", () => {
+  window.location.href = "/profile.html";
 });
 
 // --- Modal Logic ---

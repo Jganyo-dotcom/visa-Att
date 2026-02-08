@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manage Staff</title>
-    <link rel="stylesheet" href="management.css" />
+    <title>Admin Profile</title>
+    <link rel="stylesheet" href="database.css" />
   </head>
   <body>
     <!-- Shared Header -->
     <header>
       <div class="header-left">
         <img src="logo.png" alt="Company Logo" class="logo" />
-        <h1 id="welcome">Admin Dashboard</h1>
+        <h1 id="welcome">Admin Profile</h1>
       </div>
       <div class="header-right">
         <button id="hamburgerBtn" class="hamburger">&#9776;</button>
@@ -29,33 +29,38 @@
       <button id="staffPage" class="btn-secondary">Manage Staff</button>
       <button id="peoplePage" class="btn-secondary">Manage People</button>
       <button id="database" class="btn-secondary">Database</button>
-      <button id="profilePage" class="btn-secondary">profile</button>
       <button id="signOutBtn" class="btn-signout">Sign Out</button>
     </div>
 
     <!-- Page-specific content -->
     <main>
       <section>
-        <h2>📋 Pending Approvals</h2>
-        <ul id="pendingList"></ul>
-      </section>
-      <section>
-        <h2>📋 Staff Management</h2>
-        <ul id="StaffList"></ul>
-      </section>
-      <section>
-        <h2>🔒 Locked Accounts</h2>
-        <ul id="lockedList"></ul>
-      </section>
-      <!-- Loader -->
-      <div class="loader-overlay" id="loaderrOverlay">
-        <div class="loader">
-          <div class="spinner"></div>
-          <span class="loading-text">Loading...</span>
-        </div>
-      </div>
-    </main>
+        <h2>👤 Update Profile</h2>
+        <form id="updateAdminForm" class="form-card">
+          <div class="form-group">
+            <label for="adminName">Name</label>
+            <input type="text" id="adminName" required />
+          </div>
 
+          <div class="form-group">
+            <label for="adminEmail">Email</label>
+            <input type="email" id="adminEmail" required />
+          </div>
+
+          <div class="form-group">
+            <label for="adminUsername">username</label>
+            <input type="text" id="adminUsername" required />
+          </div>
+
+          <div class="form-group">
+            <label for="adminOrg">organisation</label>
+            <input type="text" id="adminOrg" placeholder="org..." readonly />
+          </div>
+
+          <button type="submit" class="btn-primary">Save Changes</button>
+        </form>
+      </section>
+    </main>
     <!-- Shared Footer -->
     <footer>
       <p>© 2026 Attendance App. Created by <strong>Elikem</strong>.</p>
@@ -73,29 +78,7 @@
         <a href="https://github.com/Jganyo-dotcom/" target="_blank">GitHub</a>
       </div>
     </footer>
-    <!-- Change Password Modal -->
-    <div id="changePasswordModal" class="slide-modal">
-      <div class="slide-modal-content">
-        <span id="closeModal" class="close-btn">&times;</span>
-        <h2>Change Password</h2>
-        <form id="changePasswordForm">
-          <div class="form-group">
-            <label for="oldPassword">Old Password</label>
-            <input type="password" id="currentPassword" required />
-          </div>
-          <div class="form-group">
-            <label for="newPassword">New Password</label>
-            <input type="password" id="newPassword" required />
-          </div>
-          <div class="form-group">
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" required />
-          </div>
-          <button type="submit" class="btn-primary">Update Password</button>
-        </form>
-      </div>
-    </div>
 
-    <script src="STM.js"></script>
+    <script src="profile.js"></script>
   </body>
 </html>

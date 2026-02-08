@@ -91,8 +91,8 @@ document
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const main = document.getElementById("loginUsername").value;
-  const password = document.getElementById("loginPassword").value;
+  const main = document.getElementById("loginUsername").value.trim();
+  const password = document.getElementById("loginPassword").value.trim();
 
   try {
     showLoader(); // ✅ show loader before request
