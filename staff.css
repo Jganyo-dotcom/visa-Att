@@ -385,3 +385,32 @@ option {
     padding: 10px;
   }
 }
+
+/* Side menu */
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background-color: #f9f9f9;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: left 0.3s ease;
+  z-index: 1000;
+}
+
+.side-menu.active {
+  left: 0;
+}
+
+.side-menu .close-btn {
+  font-size: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  align-self: flex-end;
+}

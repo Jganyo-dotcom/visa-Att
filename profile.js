@@ -13,6 +13,12 @@ const closeMenuBtn = document.getElementById("closeMenuBtn");
 
 // --- Side Menu Logic ---
 hamburgerBtn.addEventListener("click", () => {
+  if (user.role !== "Admin") {
+    document.getElementById("mainPage").style.display = "none";
+    document.getElementById("staffPage").style.display = "none";
+    document.getElementById("peoplePage").style.display = "none";
+    document.getElementById("database").style.display = "none";
+  }
   sideMenu.classList.toggle("active");
 
   // Toggle hamburger icon ↔ X
@@ -74,7 +80,6 @@ document
     // Only include level if org is Visa
 
     try {
-      console.log(user);
       const res = await fetch(baseApi + `api/update/me/${user.id}`, {
         method: "PATCH",
         headers: {
