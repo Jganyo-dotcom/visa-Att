@@ -174,6 +174,9 @@ document.getElementById("mainPage").addEventListener("click", () => {
 document.getElementById("profilePage").addEventListener("click", () => {
   window.location.href = "/profile.html";
 });
+document.getElementById("analysisPage").addEventListener("click", () => {
+  window.location.href = "/analysis.html";
+});
 
 // --- Modal Logic ---
 if (user.hasChangedPassword !== true) {

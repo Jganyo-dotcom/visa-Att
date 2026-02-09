@@ -18,6 +18,7 @@ hamburgerBtn.addEventListener("click", () => {
     document.getElementById("staffPage").style.display = "none";
     document.getElementById("peoplePage").style.display = "none";
     document.getElementById("database").style.display = "none";
+    document.getElementById("analysisPage").style.display = "none";
   }
   sideMenu.classList.toggle("active");
 
