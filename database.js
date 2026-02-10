@@ -21,6 +21,7 @@ async function loadAttendance(page = 1, searchTerm = "") {
       },
     );
     const data = await res.json();
+    document.getElementById("number").innerHTML = data.total
 
     const container = document.getElementById("attendanceList");
     container.innerHTML = "";
