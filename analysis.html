@@ -4,7 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Manage People</title>
-    <link rel="stylesheet" href="analusis.css" />
+    <link rel="stylesheet" href="analysis.css" />
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <!-- Shared Header -->
@@ -23,15 +25,26 @@
       <button id="closeMenuBtn" class="close-btn">&times;</button>
       <button id="mainPage" class="btn-danger">Dashboard</button>
       <button id="database" class="btn-secondary">Database</button>
-      <button id="profilePage" class="btn-secondary">profile</button>
+      <button id="profilePage" class="btn-secondary">Profile</button>
       <button id="signOutBtn" class="btn-signout">Sign Out</button>
     </div>
 
     <!-- Page-specific content -->
-    <!-- Page-specific content -->
     <main>
       <h2>🗄️📊 Analysis</h2>
-      <h1>NOT AVAILABLE YET</h1>
+
+      <!-- Date selector -->
+      <label for="reportDate">Select Date:</label>
+      <input type="date" id="reportDate" />
+      <button id="loadReportBtn">Load Report</button>
+
+      <!-- Charts -->
+      <div style="width: 400px; margin-top: 20px">
+        <canvas id="dailyPie"></canvas>
+      </div>
+      <div style="width: 400px; margin-top: 20px">
+        <canvas id="dailyBar"></canvas>
+      </div>
     </main>
 
     <!-- Shared Footer -->
@@ -51,8 +64,6 @@
         <a href="https://github.com/Jganyo-dotcom/" target="_blank">GitHub</a>
       </div>
     </footer>
-    <!-- Change Password Modal -->
-
-    <script src="analysis.js"></script>
   </body>
+  <script  src="analysis.js"></script>
 </html>
