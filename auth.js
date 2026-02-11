@@ -46,6 +46,7 @@ document
       document.getElementById("regConfirmPassword").value;
     const email = document.getElementById("regEmail").value.toLowerCase();
     const org = document.getElementById("regOrg").value;
+    const imageFile = document.getElementById("image").files[0];
 
     if (password !== confirm_password) {
       alert("Passwords do not match!");
@@ -55,26 +56,29 @@ document
     try {
       showLoader();
 
+      // Build FormData
+      const formData = new FormData();
+      formData.append("username", username);
+      formData.append("name", name);
+      formData.append("password", password);
+      formData.append("confirm_password", confirm_password);
+      formData.append("email", email);
+      formData.append("org", org);
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
+
       const res = await fetch(baseApi + "api/guest/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          username,
-          email,
-          password,
-          confirm_password,
-          org,
-        }),
+        body: formData, // browser sets headers automatically
       });
 
-      const data = await res.json(); // parse JSON no matter what
+      const data = await res.json();
       hideLoader();
 
       if (!res.ok) {
-        // Show backend message if available
         alert(data.error || data.message || "Registration failed!");
-        console.error("Backend error:", data); // log full response for debugging
+        console.error("Backend error:", data);
         return;
       }
 

@@ -37,6 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.getElementById("welcome").innerHTML = `Welcome ${user.username}`;
+  const dps = document.getElementsByClassName("dp");
+  for (const el of dps) {
+    el.src = user.dp;
+  }
+
   console.log("loaded");
 
   // expose approveUser if you rely on inline onclick
