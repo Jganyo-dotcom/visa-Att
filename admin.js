@@ -5,7 +5,7 @@ console.log("loaded");
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
 document.addEventListener("DOMContentLoaded", () => {
-  if (user.org !== "Visa") {
+  if (user.org === "Teens") {
     const visaLevelsEl = document.getElementById("VisaLevels");
     if (visaLevelsEl) {
       visaLevelsEl.style.display = "none";
@@ -398,7 +398,7 @@ document.addEventListener("DOMContentLoaded", () => {
         contact: document.getElementById("contact").value,
       };
 
-      if (user.org === "Visa") {
+      if (user.org !== "Teens") {
         const visaLevelsEl = document.getElementById("VisaLevels");
         if (visaLevelsEl) {
           person.level = visaLevelsEl.value;

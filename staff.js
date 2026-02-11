@@ -15,7 +15,7 @@ document.getElementById("staffsignOutBtn").addEventListener("click", () => {
   window.location.href = "index.html"; // redirect to login page
 });
 
-if (user.org !== "Visa") {
+if (user.org === "Teens") {
   const visaLevelsEl = document.getElementById("VisaLevels");
   if (visaLevelsEl) {
     visaLevelsEl.style.display = "none";
@@ -233,7 +233,7 @@ if (form) {
       department: capitalise(document.getElementById("department").value),
       contact: document.getElementById("contact").value,
     };
-    if (user.org === "Visa") {
+    if (user.org !== "Teens") {
       const visaLevelsEl = document.getElementById("VisaLevels");
       if (visaLevelsEl) {
         person.level = visaLevelsEl.value;
