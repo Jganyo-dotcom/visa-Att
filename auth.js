@@ -47,7 +47,6 @@ document
     const email = document.getElementById("regEmail").value.toLowerCase();
     const org = document.getElementById("regOrg").value;
 
-
     if (password !== confirm_password) {
       alert("Passwords do not match!");
       return;
@@ -56,19 +55,12 @@ document
     try {
       showLoader();
 
-      // Build FormData
-      const formData = new FormData();
-      formData.append("username", username);
-      formData.append("name", name);
-      formData.append("password", password);
-      formData.append("confirm_password", confirm_password);
-      formData.append("email", email);
-      formData.append("org", org);
-
-
       const res = await fetch(baseApi + "api/guest/register", {
         method: "POST",
-        body: formData, // browser sets headers automatically
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, email, password, org, name }),
       });
 
       const data = await res.json();
