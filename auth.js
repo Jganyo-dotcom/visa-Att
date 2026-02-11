@@ -46,7 +46,7 @@ document
       document.getElementById("regConfirmPassword").value;
     const email = document.getElementById("regEmail").value.toLowerCase();
     const org = document.getElementById("regOrg").value;
-    const imageFile = document.getElementById("image").files[0];
+
 
     if (password !== confirm_password) {
       alert("Passwords do not match!");
@@ -64,9 +64,7 @@ document
       formData.append("confirm_password", confirm_password);
       formData.append("email", email);
       formData.append("org", org);
-      if (imageFile) {
-        formData.append("image", imageFile);
-      }
+
 
       const res = await fetch(baseApi + "api/guest/register", {
         method: "POST",
