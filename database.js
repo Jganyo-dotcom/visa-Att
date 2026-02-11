@@ -37,7 +37,7 @@ async function loadAttendance(page = 1, searchTerm = "") {
       <tr>
         <th>Name</th>
         <th>Department</th>
-        ${user.org === "Visa" ? "<th>Level</th>" : ""}
+        ${user.org !== "Teens" ? "<th>Level</th>" : ""}
         <th>Contact</th>
         <th>Action</th>
         <th>Update</th>
@@ -52,7 +52,7 @@ async function loadAttendance(page = 1, searchTerm = "") {
       tr.innerHTML = `
         <td>${s.name}</td>
         <td>${s.department}</td>
-        ${user.org === "Visa" ? `<td>${s.level}</td>` : ""}
+        ${user.org !== "Teens" ? `<td>${s.level}</td>` : ""}
         <td>${s.contact}</td>
         <td><button class="btn-danger" onclick="deleteUser('${s._id}', '${s.name}')">Delete</button></td>
         <td><button class="btn btn-primary" onclick="UpdateUser('${s._id}', '${s.name}', '${s.department}', '${s.level}', '${s.contact}')">Update</button></td>
@@ -82,7 +82,7 @@ function UpdateUser(id, name, department, level, contact) {
   const levelField = document.getElementById("updateLevel");
   const levelLabel = levelField.previousElementSibling; // the <label>
 
-  if (user.org === "Visa") {
+  if (user.org !== "Teens") {
     levelField.value = level;
     levelField.required = true;
     levelField.style.display = "block";
@@ -121,8 +121,8 @@ document.getElementById("updateForm").addEventListener("submit", async (e) => {
     contact: document.getElementById("updateContact").value,
   };
 
-  // Only include level if org is Visa
-  if (user.org === "Visa") {
+  // Only include level if org is not Teens
+  if (user.org !== "Teens") {
     updatedUser.level = document.getElementById("updateLevel").value;
   }
 
