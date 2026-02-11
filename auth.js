@@ -60,7 +60,7 @@ document
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, email, password, org, name }),
+        body: JSON.stringify({ username, email, password, org, name , confirm_password}),
       });
 
       const data = await res.json();
