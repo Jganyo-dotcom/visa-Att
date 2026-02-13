@@ -148,11 +148,6 @@ forgotLink.addEventListener("click", (e) => {
   forgotModal.style.display = "block";
 });
 
-// Close modal
-closeForgot.addEventListener("click", () => {
-  forgotModal.style.display = "none";
-});
-
 // Handle form submit
 forgotForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -179,5 +174,10 @@ forgotForm.addEventListener("submit", async (e) => {
   }
 
   // Close modal
+  forgotModal.style.display = "none";
+});
+
+// Close modal when X is clicked
+closeForgot.addEventListener("click", () => {
   forgotModal.style.display = "none";
 });
