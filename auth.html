@@ -51,6 +51,9 @@
         />
         <button type="submit">Sign In</button>
         <p>
+          <a href="#" id="forgotPassword">forgotPassword?</a>
+        </p>
+        <p>
           Don’t have an account?
           <a href="#" id="registerLink">Register</a>
         </p>
@@ -64,5 +67,22 @@
     </div>
 
     <script type="module" src="auth.js"></script>
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close" id="closeForgot">&times;</span>
+        <h2>Reset Password</h2>
+        <p>Please enter your username or email to reset your password.</p>
+        <form id="forgotForm">
+          <input
+            type="text"
+            id="forgotInput"
+            placeholder="Username or Email"
+            required
+          />
+          <button type="submit">Send Reset Link</button>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

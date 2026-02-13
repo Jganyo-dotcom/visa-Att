@@ -60,7 +60,14 @@ document
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, email, password, org, name , confirm_password}),
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+          org,
+          name,
+          confirm_password,
+        }),
       });
 
       const data = await res.json();
@@ -128,4 +135,49 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     hideLoader(); // ✅ hide loader on error
     alert("Network error during login");
   }
+});
+
+const forgotLink = document.getElementById("forgotPassword");
+const forgotModal = document.getElementById("forgotPasswordModal");
+const closeForgot = document.getElementById("closeForgot");
+const forgotForm = document.getElementById("forgotForm");
+
+// Show modal when link clicked
+forgotLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  forgotModal.style.display = "block";
+});
+
+// Close modal
+closeForgot.addEventListener("click", () => {
+  forgotModal.style.display = "none";
+});
+
+// Handle form submit
+forgotForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const value = document.getElementById("forgotInput").value;
+  console.log("Forgot password request for:", value);
+
+  try {
+    const response = await fetch(baseApi + "api/forget-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ identifier: value }),
+    });
+
+    const result = await response.json();
+    console.log("Backend response:", result);
+
+    // Show user feedback
+    alert(
+      result.message || "If this account exists, a reset link will be sent.",
+    );
+  } catch (error) {
+    console.error("Error sending forgot password request:", error);
+    alert("Something went wrong. Please try again later.");
+  }
+
+  // Close modal
+  forgotModal.style.display = "none";
 });
