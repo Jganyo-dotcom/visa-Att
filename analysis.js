@@ -1,5 +1,5 @@
-const baseApi = "http://127.0.0.1:4444/";
-//const baseApi = "https://attandance-app-1.onrender.com/";
+//const baseApi = "http://127.0.0.1:4444/";
+const baseApi = "https://attandance-app-1.onrender.com/";
 
 const hamburgerBtn = document.getElementById("hamburgerBtn");
 const sideMenu = document.getElementById("sideMenu");
@@ -51,71 +51,71 @@ document.getElementById("profilePage").addEventListener("click", () => {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// document.getElementById("loadReportBtn").addEventListener("click", async () => {
-//   const date = document.getElementById("reportDate").value;
-//   if (!date) {
-//     alert("Please select a date");
-//     return;
-//   }
+document.getElementById("loadReportBtn").addEventListener("click", async () => {
+  const date = document.getElementById("reportDate").value;
+  if (!date) {
+    alert("Please select a date");
+    return;
+  }
 
-//   try {
-//     // Call backend endpoint with selected date
-//     const res = await fetch(baseApi + `api/end-of-day-report?date=${date}`, {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: "Bearer " + token,
-//       },
-//     });
-//     const data = await res.json();
+  try {
+    // Call backend endpoint with selected date
+    const res = await fetch(baseApi + `api/end-of-day-report?date=${date}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    });
+    const data = await res.json();
 
-//     if (data.message) {
-//       alert(data.message);
-//       return;
-//     }
+    if (data.message) {
+      alert(data.message);
+      return;
+    }
 
-//     // Destroy old charts if they exist
-//     if (window.pieChart) window.pieChart.destroy();
-//     if (window.barChart) window.barChart.destroy();
+    // Destroy old charts if they exist
+    if (window.pieChart) window.pieChart.destroy();
+    if (window.barChart) window.barChart.destroy();
 
-//     // Pie chart
-//     window.pieChart = new Chart(document.getElementById("dailyPie"), {
-//       type: "pie",
-//       data: {
-//         labels: ["Present", "Absent"],
-//         datasets: [
-//           {
-//             data: [data.present, data.absent],
-//             backgroundColor: ["#28a745", "#dc3545"], // green for P, red for A
-//           },
-//         ],
-//       },
-//     });
+    // Pie chart
+    window.pieChart = new Chart(document.getElementById("dailyPie"), {
+      type: "pie",
+      data: {
+        labels: ["Present", "Absent"],
+        datasets: [
+          {
+            data: [data.present, data.absent],
+            backgroundColor: ["#28a745", "#dc3545"], // green for P, red for A
+          },
+        ],
+      },
+    });
 
-//     // Bar chart
-//     window.barChart = new Chart(document.getElementById("dailyBar"), {
-//       type: "bar",
-//       data: {
-//         labels: ["Present", "Absent"],
-//         datasets: [
-//           {
-//             label: `Attendance for ${data.date}`,
-//             data: [data.present, data.absent],
-//             backgroundColor: ["#28a745", "#dc3545"],
-//           },
-//         ],
-//       },
-//       options: {
-//         scales: {
-//           y: { beginAtZero: true },
-//         },
-//       },
-//     });
-//   } catch (err) {
-//     console.error(err);
-//     alert("Error loading report");
-//   }
-// });
+    // Bar chart
+    window.barChart = new Chart(document.getElementById("dailyBar"), {
+      type: "bar",
+      data: {
+        labels: ["Present", "Absent"],
+        datasets: [
+          {
+            label: `Attendance for ${data.date}`,
+            data: [data.present, data.absent],
+            backgroundColor: ["#28a745", "#dc3545"],
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: { beginAtZero: true },
+        },
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    alert("Error loading report");
+  }
+});
 
 document.getElementById("loadReportBtn").addEventListener("click", async () => {
   const date = document.getElementById("reportDate").value;
