@@ -53,6 +53,7 @@ async function loadAttendance(page = 1, searchTerm = "") {
     const tbody = document.createElement("tbody");
     staff.forEach((s) => {
       const tr = document.createElement("tr");
+      tr.id = `${s._id}`;
       tr.innerHTML = `
         <td>${s.name}</td>
         <td>${s.gender}</td>
@@ -153,7 +154,20 @@ document.getElementById("updateForm").addEventListener("submit", async (e) => {
     } else {
       alert(data.message || "User updated successfully!");
       document.getElementById("updateModal").style.display = "none";
-      loadAttendance();
+
+      // Use the updated record returned by the server
+      const updated = data.updatedPerson;
+
+      const row = document.getElementById(id);
+      row.innerHTML = `
+    <td>${updated.name}</td>
+    <td>${updated.gender}</td>
+    <td>${updated.department}</td>
+    ${user.org !== "Teens" ? `<td>${updated.level || ""}</td>` : ""}
+    <td>${updated.contact}</td>
+    <td><button class="btn-danger" onclick="deleteUser('${id}', '${updated.name}')">Delete</button></td>
+    <td><button class="btn btn-primary" onclick="UpdateUser('${id}', '${updated.name}', '${updated.department}', '${updated.level || ""}', '${updated.contact}', '${updated.gender}')">Update</button></td>
+  `;
     }
   } catch (err) {
     console.error("Network error updating user:", err);
