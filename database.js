@@ -21,7 +21,10 @@ async function loadAttendance(page = 1, searchTerm = "") {
       },
     );
     const data = await res.json();
-    document.getElementById("number").innerHTML = data.total
+
+    document.getElementById("number").textContent = `Total: ${data.total}`;
+    document.getElementById("females").textContent = `Females: ${data.females}`;
+    document.getElementById("males").textContent = `Males: ${data.males}`;
 
     const container = document.getElementById("attendanceList");
     container.innerHTML = "";
@@ -36,6 +39,7 @@ async function loadAttendance(page = 1, searchTerm = "") {
     thead.innerHTML = `
       <tr>
         <th>Name</th>
+        <th>Gender</th>
         <th>Department</th>
         ${user.org !== "Teens" ? "<th>Level</th>" : ""}
         <th>Contact</th>
@@ -51,11 +55,12 @@ async function loadAttendance(page = 1, searchTerm = "") {
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${s.name}</td>
+        <td>${s.gender}</td>
         <td>${s.department}</td>
         ${user.org !== "Teens" ? `<td>${s.level}</td>` : ""}
         <td>${s.contact}</td>
         <td><button class="btn-danger" onclick="deleteUser('${s._id}', '${s.name}')">Delete</button></td>
-        <td><button class="btn btn-primary" onclick="UpdateUser('${s._id}', '${s.name}', '${s.department}', '${s.level}', '${s.contact}')">Update</button></td>
+        <td><button class="btn btn-primary" onclick="UpdateUser('${s._id}', '${s.name}', '${s.department}', '${s.level}', '${s.contact}', '${s.gender}')">Update</button></td>
       `;
       tbody.appendChild(tr);
     });
@@ -73,11 +78,12 @@ async function loadAttendance(page = 1, searchTerm = "") {
   }
 }
 
-function UpdateUser(id, name, department, level, contact) {
+function UpdateUser(id, name, department, level, contact, gender) {
   document.getElementById("updateId").value = id;
   document.getElementById("updateName").value = name;
   document.getElementById("updateDepartment").value = department;
   document.getElementById("updateContact").value = contact;
+  document.getElementById("updategender").value = gender;
 
   const levelField = document.getElementById("updateLevel");
   const levelLabel = levelField.previousElementSibling; // the <label>
@@ -119,6 +125,7 @@ document.getElementById("updateForm").addEventListener("submit", async (e) => {
     name: document.getElementById("updateName").value,
     department: document.getElementById("updateDepartment").value,
     contact: document.getElementById("updateContact").value,
+    gender: document.getElementById("updategender").value,
   };
 
   // Only include level if org is not Teens

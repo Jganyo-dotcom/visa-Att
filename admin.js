@@ -394,7 +394,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const person = {
         name: capitalise(document.getElementById("name").value),
         department: capitalise(document.getElementById("department").value),
-
+        gender: document.getElementById("gender").value,
         contact: document.getElementById("contact").value,
       };
 

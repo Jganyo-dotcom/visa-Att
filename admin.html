@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Main Dashboard</title>
-    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="icon" type="image/png" href="/logo.png" />
     <link rel="stylesheet" href="dashboard.css" />
   </head>
   <body>
@@ -50,8 +50,7 @@
         <h2>➕ Create Person</h2>
         <form id="createPersonForm" class="form-card">
           <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" required />
+            <input type="text" id="name" placeholder="Full Name" required />
           </div>
           <select id="department" class="form-group" required>
             <option value="">-- Department --</option>
@@ -64,6 +63,14 @@
             <option value="Media">Media</option>
             <option value="Music">Music</option>
             <option value="Outreach">Outreach</option>
+            <option value="School of The Word">School of The Word</option>
+            <option value="Protocol">Protocol</option>
+            <option value="Instrumantalist">Instrumantalist</option>
+          </select>
+          <select id="gender" class="form-group" required>
+            <option value="">-- Gender --</option>
+            <option value="F">Female</option>
+            <option value="M">Male</option>
           </select>
           <select id="VisaLevels" class="form-group" required>
             <option value="">-- Level --</option>
@@ -76,8 +83,7 @@
             <option value="Masters">Masters</option>
           </select>
           <div class="form-group">
-            <label for="contact">Contact</label>
-            <input type="text" id="contact" required />
+            <input type="text" id="contact" placeholder="Contact" required />
           </div>
           <button type="submit" class="btn-primary">Create Person</button>
         </form>

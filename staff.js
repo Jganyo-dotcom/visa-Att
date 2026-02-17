@@ -232,6 +232,7 @@ if (form) {
       name: capitalise(document.getElementById("name").value),
       department: capitalise(document.getElementById("department").value),
       contact: document.getElementById("contact").value,
+      gender: document.getElementById("gender").value,
     };
     if (user.org !== "Teens") {
       const visaLevelsEl = document.getElementById("VisaLevels");
@@ -277,7 +278,6 @@ const closeMenuBtn = document.getElementById("closeMenuBtn");
 
 // --- Side Menu Logic ---
 hamburgerBtn.addEventListener("click", () => {
- 
   sideMenu.classList.toggle("active");
 
   // Toggle hamburger icon ↔ X

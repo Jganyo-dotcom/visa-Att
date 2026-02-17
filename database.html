@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Manage People</title>
-    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="icon" type="image/png" href="/logo.png" />
     <link rel="stylesheet" href="database.css" />
   </head>
   <body>
@@ -38,7 +38,15 @@
     <!-- Page-specific content -->
     <!-- Page-specific content -->
     <main>
-      <h2>🗄️📊 Database <p id="number"></p></h2>
+      <h2>
+        🗄️📊 Database
+        <div class="stats">
+          <span id="number"></span>
+          <span id="females"></span>
+          <span id="males"></span>
+        </div>
+      </h2>
+
       <div class="attendance-controls">
         <input type="text" id="searchInput" placeholder="Search member..." />
         <button id="refreshit">Refresh</button>
@@ -117,6 +125,9 @@
             <option value="Media">Media</option>
             <option value="Music">Music</option>
             <option value="Outreach">Outreach</option>
+            <option value="School of The Word">School of The Word</option>
+            <option value="Protocol">Protocol</option>
+            <option value="Instrumantalist">Instrumantalist</option>
           </select>
 
           <label>Level</label>
@@ -129,6 +140,11 @@
             <option value="5th year">5th year</option>
             <option value="6th year">6th year</option>
             <option value="Masters">Masters</option>
+          </select>
+          <select id="updategender" required>
+            <option value="">-- Gender --</option>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
           </select>
 
           <label>Contact</label>

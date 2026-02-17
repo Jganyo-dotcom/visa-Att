@@ -116,3 +116,64 @@ document.getElementById("loadReportBtn").addEventListener("click", async () => {
     alert("Error loading report");
   }
 });
+
+document.getElementById("loadReportBtn").addEventListener("click", async () => {
+  const date = document.getElementById("reportDate").value;
+  if (!date) {
+    alert("Please select a date");
+    return;
+  }
+
+  try {
+    const res = await fetch(baseApi + `api/gender-report?date=${date}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    });
+    const data = await res.json();
+
+    if (data.message) {
+      alert(data.message);
+      return;
+    }
+
+    // Destroy old charts if they exist
+    if (window.femaleChart) window.femaleChart.destroy();
+    if (window.maleChart) window.maleChart.destroy();
+
+    // Female pie chart
+    window.femaleChart = new Chart(document.getElementById("femalePie"), {
+      type: "pie",
+      data: {
+        labels: ["Present", "Absent"],
+        datasets: [
+          {
+            data: [data.females.present, data.females.absent],
+            backgroundColor: ["#28a745", "#dc3545"], // green, red
+          },
+        ],
+      },
+      options: { plugins: { title: { display: true, text: "Females" } } },
+    });
+
+    // Male pie chart
+    window.maleChart = new Chart(document.getElementById("malePie"), {
+      type: "pie",
+      data: {
+        labels: ["Present", "Absent"],
+        datasets: [
+          {
+            data: [data.males.present, data.males.absent],
+            backgroundColor: ["#28a745", "#dc3545"],
+          },
+        ],
+      },
+      options: { plugins: { title: { display: true, text: "Males" } } },
+    });
+  } catch (err) {
+    console.error(err);
+    alert("Error loading gender report");
+  }
+});
