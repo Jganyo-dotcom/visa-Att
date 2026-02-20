@@ -382,6 +382,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const form = document.getElementById("createPersonForm");
+
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -391,12 +392,20 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "auth.html";
         return;
       }
+
+      // Read contact inside the submit handler
+  
+
       const person = {
         name: capitalise(document.getElementById("name").value),
         department: capitalise(document.getElementById("department").value),
         gender: document.getElementById("gender").value,
-        contact: document.getElementById("contact").value,
       };
+          const contact = document.getElementById("contact").value.trim();
+
+      if (contact.length > 0) {
+        person.contact = contact;
+      }
 
       if (user.org !== "Teens") {
         const visaLevelsEl = document.getElementById("VisaLevels");
@@ -418,7 +427,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = await res.json();
         hideLoader();
         if (!res.ok) {
-          hideLoader();
           alert(data.message || data.error || "Failed to create person");
           console.error("Error:", data);
           return;

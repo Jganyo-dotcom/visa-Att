@@ -52,6 +52,7 @@ async function loadAttendance(page = 1, searchTerm = "") {
     // Table body
     const tbody = document.createElement("tbody");
     staff.forEach((s) => {
+      const contactValue = s.contact ? s.contact : "";
       const tr = document.createElement("tr");
       tr.id = `${s._id}`;
       tr.innerHTML = `
@@ -59,9 +60,9 @@ async function loadAttendance(page = 1, searchTerm = "") {
         <td>${s.gender}</td>
         <td>${s.department}</td>
         ${user.org !== "Teens" ? `<td>${s.level}</td>` : ""}
-        <td>${s.contact}</td>
+        <td>${contactValue}</td>
         <td><button class="btn-danger" onclick="deleteUser('${s._id}', '${s.name}')">Delete</button></td>
-        <td><button class="btn btn-primary" onclick="UpdateUser('${s._id}', '${s.name}', '${s.department}', '${s.level}', '${s.contact}', '${s.gender}')">Update</button></td>
+        <td><button class="btn btn-primary" onclick="UpdateUser('${s._id}', '${s.name}', '${s.department}', '${s.level}', '${contactValue}', '${s.gender}')">Update</button></td>
       `;
       tbody.appendChild(tr);
     });
@@ -80,9 +81,11 @@ async function loadAttendance(page = 1, searchTerm = "") {
 }
 
 function UpdateUser(id, name, department, level, contact, gender) {
+  console.log(department);
   document.getElementById("updateId").value = id;
   document.getElementById("updateName").value = name;
   document.getElementById("updateDepartment").value = department;
+  document.getElementById("temp").innerHTML = department;
   document.getElementById("updateContact").value = contact;
   document.getElementById("updategender").value = gender;
 
@@ -125,9 +128,13 @@ document.getElementById("updateForm").addEventListener("submit", async (e) => {
   const updatedUser = {
     name: document.getElementById("updateName").value,
     department: document.getElementById("updateDepartment").value,
-    contact: document.getElementById("updateContact").value,
     gender: document.getElementById("updategender").value,
   };
+
+  const contact = document.getElementById("updateContact").value;
+  if (contact.length > 0) {
+    updatedUser.contact = contact;
+  }
 
   // Only include level if org is not Teens
   if (user.org !== "Teens") {
@@ -159,14 +166,15 @@ document.getElementById("updateForm").addEventListener("submit", async (e) => {
       const updated = data.updatedPerson;
 
       const row = document.getElementById(id);
+      const contactValue = updated.contact ? updated.contact : "";
       row.innerHTML = `
     <td>${updated.name}</td>
     <td>${updated.gender}</td>
     <td>${updated.department}</td>
     ${user.org !== "Teens" ? `<td>${updated.level || ""}</td>` : ""}
-    <td>${updated.contact}</td>
+    <td>${contactValue}</td>
     <td><button class="btn-danger" onclick="deleteUser('${id}', '${updated.name}')">Delete</button></td>
-    <td><button class="btn btn-primary" onclick="UpdateUser('${id}', '${updated.name}', '${updated.department}', '${updated.level || ""}', '${updated.contact}', '${updated.gender}')">Update</button></td>
+    <td><button class="btn btn-primary" onclick="UpdateUser('${id}', '${updated.name}', '${updated.department}', '${updated.level || ""}', '${contactValue}', '${updated.gender}')">Update</button></td>
   `;
     }
   } catch (err) {

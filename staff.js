@@ -219,6 +219,7 @@ function capitalise(str) {
 }
 
 const form = document.getElementById("createPersonForm");
+
 if (form) {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -228,18 +229,27 @@ if (form) {
       window.location.href = "auth.html";
       return;
     }
+
+    // Read contact inside the submit handler
+
     const person = {
       name: capitalise(document.getElementById("name").value),
       department: capitalise(document.getElementById("department").value),
-      contact: document.getElementById("contact").value,
       gender: document.getElementById("gender").value,
     };
+    const contact = document.getElementById("contact").value.trim();
+
+    if (contact.length > 0) {
+      person.contact = contact;
+    }
+
     if (user.org !== "Teens") {
       const visaLevelsEl = document.getElementById("VisaLevels");
       if (visaLevelsEl) {
         person.level = visaLevelsEl.value;
       }
     }
+
     try {
       showLoader();
       const res = await fetch(baseApi + "api/create-person", {
@@ -266,6 +276,7 @@ if (form) {
     }
   });
 }
+
 document.getElementById("staffProfile").addEventListener("click", () => {
   window.location.href = "/profile.html";
 });
