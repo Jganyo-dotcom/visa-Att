@@ -1,6 +1,6 @@
 //const baseApi = "http://127.0.0.1:4444/";
 const baseApi = "https://attandance-app-1.onrender.com/";
-console.log("loaded");
+
 
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
@@ -21,10 +21,12 @@ async function loadAttendance(page = 1, searchTerm = "") {
       },
     );
     const data = await res.json();
-
-    document.getElementById("number").textContent = `Total: ${data.total}`;
-    document.getElementById("females").textContent = `Females: ${data.females}`;
-    document.getElementById("males").textContent = `Males: ${data.males}`;
+    const males = data.males ? data.males : 0;
+    const females = data.females ? data.females : 0;
+    const total = data.total ? data.total : 0;
+    document.getElementById("number").textContent = `Total: ${total}`;
+    document.getElementById("females").textContent = `Females: ${females}`;
+    document.getElementById("males").textContent = `Males: ${males}`;
 
     const container = document.getElementById("attendanceList");
     container.innerHTML = "";
