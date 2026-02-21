@@ -178,7 +178,7 @@ document.getElementById("updateForm").addEventListener("submit", async (e) => {
     <td>${contactValue}</td>
     <td><button class="btn-danger" onclick="deleteUser('${id}', '${updated.name}')">Delete</button></td>
     <td><button class="btn btn-primary" onclick="UpdateUser('${id}', '${updated.name}', '${updated.department}', '${updated.level || ""}', '${contactValue}', '${updated.gender}')">Update</button></td>
-    <td><button class="btn btn-primary" onclick="openReportModal('${s._id}', '${s.name}')">Report</button></td>
+    <td><button class="btn btn-primary" onclick="openReportModal('${id}', '${updated.name}')">Report</button></td>
   `;
     }
   } catch (err) {
