@@ -394,3 +394,154 @@ footer a:hover {
     transform: translateY(0);
   }
 }
+
+.attendancetable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.attendancetable th,
+.attendancetable td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.attendancetable th {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.attendancetable tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.attendancetable tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  /* Use the correct class name: .attendancetable */
+  .attendancetable,
+  .attendancetable thead,
+  .attendancetable tbody,
+  .attendancetable th,
+  .attendancetable td,
+  .attendancetable tr {
+    display: block;
+    width: 100%;
+  }
+
+  .attendancetable thead {
+    display: none; /* Hide the header row entirely on small screens */
+  }
+
+  .attendancetable tr {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .attendancetable td {
+    text-align: left;
+    padding-left: 50%;
+    position: relative;
+    border: none;
+    border-bottom: 1px solid #eee;
+  }
+
+  .attendancetable td::before {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    white-space: nowrap;
+    font-weight: bold;
+    color: #555;
+  }
+
+  .attendancetable td:nth-of-type(1)::before {
+    content: "Date";
+  }
+  .attendancetable td:nth-of-type(2)::before {
+    content: "Status";
+  }
+}
+
+.Modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  overflow: auto;
+}
+
+.Modal-content {
+  background: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.Modal-title {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #007bff;
+  color: #fff;
+}
+.btn-secondary {
+  background: #6c757d;
+  color: #fff;
+}
+.btn-danger {
+  background: #dc3545;
+  color: #fff;
+}
+
+.loader {
+  text-align: center;
+  margin: 10px 0;
+  font-style: italic;
+}
+
+.report-result {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.Modal-footer {
+  text-align: right;
+  margin-top: 20px;
+}

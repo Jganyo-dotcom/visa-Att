@@ -103,6 +103,44 @@
         </form>
       </div>
     </div>
+    <!-- Report Modal -->
+    <div id="reportModal" class="modal">
+      <div class="Modal-content">
+        <h2 class="Modal-title">Attendance Report</h2>
+
+        <!-- Date selector -->
+        <div class="form-group">
+          <label for="reportDate">Select Date</label>
+          <input type="date" id="reportDate" required />
+        </div>
+
+        <!-- Action buttons -->
+        <div class="button-group">
+          <button id="checkReportBtn" class="btn btn-primary">
+            Check Attendance
+          </button>
+          <button id="checkHistoryBtn" class="btn btn-secondary">
+            View Full Attendance History
+          </button>
+        </div>
+
+        <!-- Loader -->
+        <div id="loader" class="loader" style="display: none">
+          🔄 Searching attendance...
+        </div>
+
+        <!-- Results -->
+        <div id="reportResult" class="report-result"></div>
+
+        <!-- Close button -->
+        <div class="modal-footer">
+          <button onclick="closeReportModal()" class="btn btn-danger">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div id="updateModal" class="modal" style="display: none">
       <div class="modal-content">
         <span id="closeModall" class="close">&times;</span>

@@ -1,7 +1,6 @@
 //const baseApi = "http://127.0.0.1:4444/";
 const baseApi = "https://attandance-app-1.onrender.com/";
 
-
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -47,6 +46,7 @@ async function loadAttendance(page = 1, searchTerm = "") {
         <th>Contact</th>
         <th>Action</th>
         <th>Update</th>
+        <th>Report</th>
       </tr>
     `;
     table.appendChild(thead);
@@ -65,6 +65,7 @@ async function loadAttendance(page = 1, searchTerm = "") {
         <td>${contactValue}</td>
         <td><button class="btn-danger" onclick="deleteUser('${s._id}', '${s.name}')">Delete</button></td>
         <td><button class="btn btn-primary" onclick="UpdateUser('${s._id}', '${s.name}', '${s.department}', '${s.level}', '${contactValue}', '${s.gender}')">Update</button></td>
+        <td><button class="btn btn-primary" onclick="openReportModal('${s._id}', '${s.name}')">Report</button></td>
       `;
       tbody.appendChild(tr);
     });
@@ -177,6 +178,7 @@ document.getElementById("updateForm").addEventListener("submit", async (e) => {
     <td>${contactValue}</td>
     <td><button class="btn-danger" onclick="deleteUser('${id}', '${updated.name}')">Delete</button></td>
     <td><button class="btn btn-primary" onclick="UpdateUser('${id}', '${updated.name}', '${updated.department}', '${updated.level || ""}', '${contactValue}', '${updated.gender}')">Update</button></td>
+    <td><button class="btn btn-primary" onclick="openReportModal('${s._id}', '${s.name}')">Report</button></td>
   `;
     }
   } catch (err) {
@@ -484,3 +486,136 @@ wrapper.appendChild(table);
 container.appendChild(wrapper);
 
 loadAttendance();
+
+function openReportModal(personId) {
+  document.getElementById("reportModal").style.display = "block";
+  document.getElementById("checkReportBtn").onclick = () =>
+    checkAttendance(personId);
+  document.getElementById("checkHistoryBtn").onclick = () =>
+    checkAttendanceHistory(personId);
+}
+
+function closeReportModal() {
+  document.getElementById("reportModal").style.display = "none";
+  document.getElementById("reportResult").innerHTML = "";
+}
+
+async function checkAttendance(personId) {
+  const date = document.getElementById("reportDate").value;
+  if (!date) {
+    alert("Please select a date");
+    return;
+  }
+
+  const loader = document.getElementById("loader");
+  const result = document.getElementById("reportResult");
+  loader.style.display = "block";
+  result.innerHTML = "";
+
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch(
+      `${baseApi}api/personal-report/${personId}?date=${date}`,
+      {
+        headers: { Authorization: "Bearer " + token },
+      },
+    );
+    const data = await res.json();
+    loader.style.display = "none";
+
+    if (!res.ok || !data || !data.records || data.records.length === 0) {
+      result.innerHTML = data.message;
+      return;
+    }
+
+    const status = data.records[0].status; // assuming status field exists
+    if (status === "P") {
+      result.innerHTML = `
+        <div style="width:100px;height:100px;border-radius:50%;border:4px solid green;
+                    display:flex;align-items:center;justify-content:center;color:green;font-size:48px;">
+          ✓
+        </div>
+        <p>Present on ${date}</p>
+      `;
+    } else if (status === "A") {
+      result.innerHTML = `
+        <div style="width:100px;height:100px;border-radius:50%;border:4px solid red;
+                    display:flex;align-items:center;justify-content:center;color:red;font-size:48px;">
+          ✗
+        </div>
+        <p>Absent on ${date}</p>
+      `;
+    } else {
+      result.innerHTML = `<p>Status: ${status}</p>`;
+    }
+  } catch (err) {
+    loader.style.display = "none";
+    console.error("Error fetching report:", err);
+    result.innerHTML = `<p style="color:red;">Error fetching attendance</p>`;
+  }
+}
+
+async function checkAttendanceHistory(personId) {
+  const date = document.getElementById("reportDate").value;
+  if (!date) {
+    alert("Please select a date");
+    return;
+  }
+
+  const loader = document.getElementById("loader");
+  const result = document.getElementById("reportResult");
+  loader.style.display = "block";
+  result.innerHTML = "";
+
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch(
+      `${baseApi}api/personal-report-history/${personId}?date=${date}&range=downward`,
+      {
+        headers: { Authorization: "Bearer " + token },
+      },
+    );
+    const data = await res.json();
+    loader.style.display = "none";
+
+    if (!res.ok || !data || !data.records || data.records.length === 0) {
+      result.innerHTML = data.message;
+      return;
+    }
+
+    // Build a table of results
+    let tableHTML = `
+  <table class="attendancetable">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+`;
+
+    data.records.forEach((r) => {
+      const statusCircle =
+        r.status === "P"
+          ? `<div style="width:30px;height:30px;border-radius:50%;border:2px solid green;
+                  display:flex;align-items:center;justify-content:center;color:green;font-size:18px;">✓</div>`
+          : `<div style="width:30px;height:30px;border-radius:50%;border:2px solid red;
+                  display:flex;align-items:center;justify-content:center;color:red;font-size:18px;">✗</div>`;
+
+      tableHTML += `
+    <tr>
+      <td>${r.date}</td>
+      <td>${statusCircle}</td>
+    </tr>
+  `;
+    });
+
+    tableHTML += `</tbody></table>`;
+    result.innerHTML = tableHTML;
+  } catch (err) {
+    loader.style.display = "none";
+    console.error("Error fetching history:", err);
+    result.innerHTML = `<p style="color:red;">Error fetching attendance history</p>`;
+  }
+}
