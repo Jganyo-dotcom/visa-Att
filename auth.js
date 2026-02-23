@@ -1,6 +1,6 @@
-const baseApi = "https://attandance-app-1.onrender.com/";
+//const baseApi = "https://attandance-app-1.onrender.com/";
 
-//const baseApi = "http://127.0.0.1:4444/";
+const baseApi = "http://127.0.0.1:4444/";
 
 // Show loader
 export function showLoader() {
@@ -133,7 +133,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
   } catch (err) {
     console.log(err);
     hideLoader(); // ✅ hide loader on error
-    alert("Network error during login");
+    alert("Network error during loginn");
   }
 });
 

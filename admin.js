@@ -1,6 +1,5 @@
-//const baseApi = "http://127.0.0.1:4444/";
-const baseApi = "https://attandance-app-1.onrender.com/";
-
+const baseApi = "http://127.0.0.1:4444/";
+//const baseApi = "https://attandance-app-1.onrender.com/";
 
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
@@ -263,38 +262,129 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = await res.json();
 
-      if (res.ok) {
-        alert(data.message || "Marked present");
+      // Create overlay
+      const overlay = document.createElement("div");
+      overlay.style.cssText = `
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      animation: fadeIn 0.5s ease;
+    `;
 
-        if (data.presentPerson && data.presentPerson.status === "P") {
-          btn.textContent = "Marked";
-          btn.className = "undo";
+      // Circle + icon
+      const circle = document.createElement("div");
+      circle.style.cssText = `
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+      font-weight: bold;
+      color: white;
+      animation: scaleUp 0.5s ease;
+    `;
 
-          // Remove any existing listeners
-          btn.replaceWith(btn.cloneNode(true));
-          const newBtn =
-            document.querySelector("#attendanceList button.undo:last-child") ||
-            btn;
+      const msg = document.createElement("div");
+      msg.style.cssText = `
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      text-align: center;
+    `;
 
-          // Attach undo handler
-
-          newBtn.addEventListener("click", () => undoPresent(id, newBtn));
-          loadAttendance();
-          // Save marked state
-          let marked = JSON.parse(localStorage.getItem("markedList") || "[]");
-          if (!marked.includes(id)) {
-            marked.push(id);
-            localStorage.setItem("markedList", JSON.stringify(marked));
-          }
-        }
+      if (res.ok && data.presentPerson && data.presentPerson.status === "P") {
+        circle.innerHTML = "&#10004;"; // ✔
+        circle.style.backgroundColor = "green";
+        msg.textContent = data.message || "Marked present";
       } else {
-        alert(data.message || "Failed to mark attendance");
+        circle.innerHTML = "&#10006;"; // ✖
+        circle.style.backgroundColor = "red";
+        msg.textContent = data.message || "Failed to mark attendance";
       }
+
+      overlay.appendChild(circle);
+      overlay.appendChild(msg);
+      document.body.appendChild(overlay);
+
+      // Auto-remove overlay after 2 seconds
+      setTimeout(() => {
+        overlay.remove();
+      }, 2000);
     } catch (err) {
       console.error("Network error marking present:", err);
-      alert("Failed to mark attendance");
+
+      const overlay = document.createElement("div");
+      overlay.style.cssText = `
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      animation: fadeIn 0.5s ease;
+    `;
+
+      const circle = document.createElement("div");
+      circle.innerHTML = "&#10006;";
+      circle.style.cssText = `
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: red;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+      font-weight: bold;
+      color: white;
+      animation: scaleUp 0.5s ease;
+    `;
+
+      const msg = document.createElement("div");
+      msg.textContent = "Network error marking attendance";
+      msg.style.cssText = `
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      text-align: center;
+    `;
+
+      overlay.appendChild(circle);
+      overlay.appendChild(msg);
+      document.body.appendChild(overlay);
+
+      setTimeout(() => {
+        overlay.remove();
+      }, 2000);
     }
   }
+
+  // Add animations with CSS
+  const style = document.createElement("style");
+  style.innerHTML = `
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes scaleUp {
+  from { transform: scale(0.5); }
+  to { transform: scale(1); }
+}
+`;
+  document.head.appendChild(style);
 
   // deleteStaff.js
 
@@ -394,14 +484,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Read contact inside the submit handler
-  
 
       const person = {
         name: capitalise(document.getElementById("name").value),
         department: capitalise(document.getElementById("department").value),
         gender: document.getElementById("gender").value,
       };
-          const contact = document.getElementById("contact").value.trim();
+      const contact = document.getElementById("contact").value.trim();
 
       if (contact.length > 0) {
         person.contact = contact;

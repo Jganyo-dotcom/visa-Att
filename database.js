@@ -1,5 +1,6 @@
-//const baseApi = "http://127.0.0.1:4444/";
-const baseApi = "https://attandance-app-1.onrender.com/";
+const baseApi = "http://127.0.0.1:4444/";
+//const baseApi = "https://attandance-app-1.onrender.com/";
+
 
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
@@ -47,6 +48,7 @@ async function loadAttendance(page = 1, searchTerm = "") {
         <th>Action</th>
         <th>Update</th>
         <th>Report</th>
+        <th>QR-code</th>
       </tr>
     `;
     table.appendChild(thead);
@@ -66,6 +68,7 @@ async function loadAttendance(page = 1, searchTerm = "") {
         <td><button class="btn-danger" onclick="deleteUser('${s._id}', '${s.name}')">Delete</button></td>
         <td><button class="btn btn-primary" onclick="UpdateUser('${s._id}', '${s.name}', '${s.department}', '${s.level}', '${contactValue}', '${s.gender}')">Update</button></td>
         <td><button class="btn btn-primary" onclick="openReportModal('${s._id}', '${s.name}')">Report</button></td>
+        <td><button class="btn btn-primary" onclick="generateCode('${s._id}')">Generate</button></td>
       `;
       tbody.appendChild(tr);
     });
@@ -179,6 +182,7 @@ document.getElementById("updateForm").addEventListener("submit", async (e) => {
     <td><button class="btn-danger" onclick="deleteUser('${id}', '${updated.name}')">Delete</button></td>
     <td><button class="btn btn-primary" onclick="UpdateUser('${id}', '${updated.name}', '${updated.department}', '${updated.level || ""}', '${contactValue}', '${updated.gender}')">Update</button></td>
     <td><button class="btn btn-primary" onclick="openReportModal('${id}', '${updated.name}')">Report</button></td>
+    <td><button class="btn btn-primary" onclick="generateCode('${id}')">Generate</button></td>
   `;
     }
   } catch (err) {
@@ -353,6 +357,10 @@ document.getElementById("profilePage").addEventListener("click", () => {
 });
 document.getElementById("analysisPage").addEventListener("click", () => {
   window.location.href = "/analysis.html";
+});
+
+document.getElementById("code").addEventListener("click", () => {
+  window.location.href = "/qrcode.html";
 });
 
 // --- Modal Logic ---
@@ -618,4 +626,30 @@ async function checkAttendanceHistory(personId) {
     console.error("Error fetching history:", err);
     result.innerHTML = `<p style="color:red;">Error fetching attendance history</p>`;
   }
+}
+
+// Include QRCode.js in your page
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+function generateCode(id) {
+  // Open modal
+  document.getElementById("qrModal").style.display = "block";
+
+  // Clear any previous QR
+  document.getElementById("qrcode").innerHTML = "";
+
+  // Generate QR with the MongoDB _id
+  new QRCode(document.getElementById("qrcode"), {
+    text: id, // the MongoDB _id
+    width: 200,
+    height: 200,
+    colorDark: "#000000",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H,
+  });
+}
+
+function closeQrModal() {
+  document.getElementById("qrModal").style.display = "none";
+  document.getElementById("qrcode").innerHTML = "";
 }

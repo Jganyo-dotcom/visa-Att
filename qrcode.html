@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Attendance Scanner</title>
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="stylesheet" href="analysis.css" />
+    <script src="https://unpkg.com/html5-qrcode"></script>
+  </head>
+  <body>
+    <!-- Shared Header -->
+    <header>
+      <div class="header-left">
+        <img src="logo.png" alt="Company Logo" class="logo" />
+        <h1 id="welcome">QR Attendance Scanner</h1>
+      </div>
+    </header>
+
+    <!-- Scanner trigger -->
+    <main>
+      <!-- Button to open scanner -->
+      <button id="openScannerBtn" class="btn btn-primary">
+        📷 Scan Attendance QR
+      </button>
+
+      <!-- Scanner modal -->
+      <div id="scannerModal" class="modal" style="display: none">
+        <div class="modal-content">
+          <h2>Scan QR Code</h2>
+          <div id="qr-reader" style="width: 300px; margin: auto"></div>
+          <div id="scan-result" class="scan-result"></div>
+          <button onclick="closeScanner()" class="btn btn-danger">Close</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2026 Attendance App. Created by <strong>Elikem</strong>.</p>
+      <p>
+        <a href="mailto:elikemejay@gmail.com">📧 Email</a> |
+        <a href="tel:0593320375"> 📞 Call</a>
+      </p>
+      <div class="social-links">
+        <a
+          href="https://www.linkedin.com/in/james-ganyo-aa0593360"
+          target="_blank"
+          >LinkedIn</a
+        >
+        <a href="https://wa.me/233503841074" target="_blank">WhatsApp</a>
+        <a href="https://github.com/Jganyo-dotcom/" target="_blank">GitHub</a>
+      </div>
+    </footer>
+
+    <script src="qrcode.js"></script>
+  </body>
+</html>

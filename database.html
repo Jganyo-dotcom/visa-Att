@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <title>Manage People</title>
     <link rel="icon" type="image/png" href="/logo.png" />
     <link rel="stylesheet" href="database.css" />
@@ -29,6 +30,8 @@
       <button id="deleteAccount" class="btn-danger">Delete Account</button>
       <button id="staffPage" class="btn-secondary">Manage Staff</button>
       <button id="peoplePage" class="btn-secondary">Manage People</button>
+      <button id="code" class="btn-secondary">code</button>
+      <button id="database" class="btn-secondary">Database</button>
       <button id="database" class="btn-secondary">Database</button>
       <button id="profilePage" class="btn-secondary">profile</button>
       <button id="analysisPage" class="btn-secondary">Analysis</button>
@@ -138,6 +141,14 @@
             Close
           </button>
         </div>
+      </div>
+    </div>
+
+    <div id="qrModal" class="modal" style="display: none">
+      <div class="modal-content">
+        <h2>QR Code</h2>
+        <div id="qrcode"></div>
+        <button onclick="closeQrModal()" class="btn btn-danger">Close</button>
       </div>
     </div>
 
