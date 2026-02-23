@@ -91,7 +91,7 @@ function UpdateUser(id, name, department, level, contact, gender) {
   document.getElementById("updateId").value = id;
   document.getElementById("updateName").value = name;
   document.getElementById("updateDepartment").value = department;
-  document.getElementById("temp").innerHTML = department;
+  // document.getElementById("temp").innerHTML = "tadaa";
   document.getElementById("updateContact").value = contact;
   document.getElementById("updategender").value = gender;
 

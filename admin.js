@@ -888,6 +888,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("analysisPage").addEventListener("click", () => {
     window.location.href = "/analysis.html";
   });
+  document.getElementById("code").addEventListener("click", () => {
+    window.location.href = "/qrcode.html";
+  });
 
   loadAttendance();
 });
