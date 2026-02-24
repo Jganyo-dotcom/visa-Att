@@ -305,6 +305,7 @@ document.addEventListener("DOMContentLoaded", () => {
         circle.innerHTML = "&#10004;"; // ✔
         circle.style.backgroundColor = "green";
         msg.textContent = data.message || "Marked present";
+        loadAttendance();
       } else {
         circle.innerHTML = "&#10006;"; // ✖
         circle.style.backgroundColor = "red";
