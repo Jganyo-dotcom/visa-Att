@@ -8,7 +8,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 // When loading attendance, decide whether to show Level column
 async function loadAttendance(page = 1, searchTerm = "") {
   try {
-    const limit = 25;
+    const limit = 60;
     const res = await fetch(
       baseApi +
         `api/get-all?page=${page}&limit=${limit}&search=${encodeURIComponent(searchTerm)}`,
@@ -361,6 +361,9 @@ document.getElementById("analysisPage").addEventListener("click", () => {
 
 document.getElementById("code").addEventListener("click", () => {
   window.location.href = "/qrcode.html";
+});
+document.getElementById("tend").addEventListener("click", () => {
+  window.location.href = "/Attend.html";
 });
 
 // --- Modal Logic ---

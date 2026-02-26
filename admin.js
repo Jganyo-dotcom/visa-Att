@@ -892,6 +892,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("code").addEventListener("click", () => {
     window.location.href = "/qrcode.html";
   });
+  document.getElementById("tend").addEventListener("click", () => {
+    window.location.href = "/Attend.html";
+  });
 
   loadAttendance();
 });

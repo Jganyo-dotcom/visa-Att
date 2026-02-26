@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance Report</title>
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="stylesheet" href="Atten.css" />
+  </head>
+  <body>
+    <!-- Shared Header -->
+    <header>
+      <div class="header-left">
+        <img src="logo.png" alt="Company Logo" class="logo" />
+        <h1 id="welcome">Attendance Report Viewer</h1>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <section class="controls">
+        <label for="dateInput">Choose Date:</label>
+        <input type="date" id="dateInput" />
+        <button id="loadBtn" class="btn btn-primary">Load Attendance</button>
+
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="🔍 Search attendance..."
+          class="search-box"
+        />
+      </section>
+
+      <section id="attendanceContainer">
+        <div class="attendance-wrapper" id="attendance-wrapper">
+          <!-- Table will be injected here -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2026 Attendance App. Created by <strong>Elikem</strong>.</p>
+      <p>
+        <a href="mailto:elikemejay@gmail.com">📧 Email</a> |
+        <a href="tel:0593320375"> 📞 Call</a>
+      </p>
+      <div class="social-links">
+        <a
+          href="https://www.linkedin.com/in/james-ganyo-aa0593360"
+          target="_blank"
+          >LinkedIn</a
+        >
+        <a href="https://wa.me/233503841074" target="_blank">WhatsApp</a>
+        <a href="https://github.com/Jganyo-dotcom/" target="_blank">GitHub</a>
+      </div>
+    </footer>
+
+    <script src="Attendance.js"></script>
+  </body>
+</html>

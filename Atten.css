@@ -1,0 +1,281 @@
+/* Reset defaults */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+p,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #2c3e50;
+  color: #fff;
+  padding: 15px 30px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+  height: 40px;
+  margin-right: 15px;
+}
+
+/* Main content */
+main {
+  flex: 1;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+main h2 {
+  color: #007bff;
+  margin-bottom: 20px;
+}
+
+main h1 {
+  font-size: 28px;
+  color: #555;
+  background: #fff3cd;
+  border: 1px solid #ffeeba;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+  background: #2c3e50;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  margin-top: 0;
+}
+
+footer a {
+  color: #1abc9c;
+  text-decoration: none;
+  margin: 0 5px;
+}
+footer a:hover {
+  text-decoration: underline;
+}
+
+.social-links {
+  margin-top: 10px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  main h1 {
+    font-size: 22px;
+    padding: 15px 20px;
+  }
+}
+/* General table styling */
+/* Container for the table */
+.attendance-wrapper {
+  width: 100%;
+  margin-top: 20px;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.attendance-wrapper h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.attendance-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Desktop Header */
+.attendance-wrapper thead tr {
+  background: linear-gradient(90deg, #007bff, #0056b3);
+  color: #ffffff;
+}
+
+.attendance-wrapper th {
+  padding: 15px;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+.attendance-wrapper td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+/* Alternating Row Colors */
+.attendance-wrapper tbody tr:nth-child(even) {
+  background-color: #fcfcfc;
+}
+
+/* Mobile "Card" View */
+@media screen and (max-width: 768px) {
+  /* Force table components to block layout */
+  .attendance-wrapper table,
+  .attendance-wrapper thead,
+  .attendance-wrapper tbody,
+  .attendance-wrapper th,
+  .attendance-wrapper td,
+  .attendance-wrapper tr {
+    display: block;
+  }
+
+  /* Hide the actual header row */
+  .attendance-wrapper thead tr {
+    display: none;
+  }
+
+  /* Style each row like a Card */
+  .attendance-wrapper tr {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Style each cell to show the label on the left and value on the right */
+  .attendance-wrapper td {
+    border: none;
+    border-bottom: 1px solid #f0f0f0;
+    position: relative;
+    padding-left: 45%;
+    text-align: right;
+    min-height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .attendance-wrapper td:last-child {
+    border-bottom: none;
+  }
+
+  /* The magic: inject the Label from the data-label attribute */
+  .attendance-wrapper td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    width: 40%;
+    text-align: left;
+    font-weight: 700;
+    color: #007bff;
+    text-transform: uppercase;
+    font-size: 11px;
+  }
+}
+
+.footer-message {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+}
+
+.search-box {
+  margin-left: 15px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 14px;
+  width: 250px;
+  transition: all 0.3s ease;
+}
+
+.search-box:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.5);
+}
+
+/* Footer message */
+.footer-message {
+  margin-top: 15px;
+  font-weight: bold;
+  color: #007bff;
+  text-align: center;
+  font-size: 16px;
+}
+
+/* The Loader Container */
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  gap: 15px;
+}
+
+/* The Spinner Animation */
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #f3f3f3;
+  border-bottom-color: #007bff; /* Matches your header color */
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+.loader-text {
+  font-family: "Segoe UI", sans-serif;
+  color: #0056b3;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.flagged {
+  background-color: #ffe0e0 !important;
+  color: #b30000;
+  font-weight: bold;
+}
