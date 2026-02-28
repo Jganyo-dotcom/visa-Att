@@ -187,48 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Undo present
-  async function undoPresent(id, btn) {
-    const session = localStorage.getItem("sessionId");
-    try {
-      const res = await fetch(baseApi + `api/mark-absent/${id}/${session}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
 
-      const data = await res.json();
-
-      if (res.ok) {
-        alert(data.message || "Marked absent");
-
-        // Reset button state
-        btn.textContent = "Present";
-        btn.className = "present";
-
-        // Clear old listeners
-        btn.replaceWith(btn.cloneNode(true));
-        const newBtn =
-          document.querySelector("#attendanceList button.present:last-child") ||
-          btn;
-
-        // Attach markPresent handler
-        newBtn.addEventListener("click", () => markPresent(id, newBtn));
-
-        // Remove from localStorage
-        let marked = JSON.parse(localStorage.getItem("markedList") || "[]");
-        marked = marked.filter((x) => x !== id);
-        localStorage.setItem("markedList", JSON.stringify(marked));
-      } else {
-        alert(data.message || "Failed to undo attendance");
-      }
-    } catch (err) {
-      console.error("Network error undoing attendance:", err);
-      alert("Failed to undo attendance");
-    }
-  }
 
   // Mark all present
 
