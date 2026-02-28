@@ -291,3 +291,41 @@ footer {
   background-color: #dc3545; /* red */
   color: white;
 }
+
+#createSessionBtn.danger {
+  background-color: #dc3545; /* red */
+  color: white;
+}
+
+#createSessionBtn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+#createSessionBtn.danger {
+  background: linear-gradient(
+    135deg,
+    #ff0000,
+    #b30000
+  ) !important; /* intense red gradient */
+  color: #fff !important;
+  border: none;
+  box-shadow:
+    0 0 12px rgba(255, 0, 0, 0.6),
+    0 0 24px rgba(255, 0, 0, 0.4);
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
+
+/* Hover effect for danger */
+#createSessionBtn.danger:hover {
+  background: linear-gradient(135deg, #b30000, #ff0000) !important;
+  box-shadow:
+    0 0 20px rgba(255, 0, 0, 0.8),
+    0 0 40px rgba(255, 0, 0, 0.6);
+  transform: scale(1.1);
+}
