@@ -41,8 +41,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // expose approveUser if you rely on inline onclick
 
   // window.deleteUser = deleteUser;
-  const refreshBtn = document.getElementById("refreshit");
-  refreshBtn.addEventListener("click", Refresh);
+  if (document.getElementById("refreshit")) {
+    const refreshBtn = document.getElementById("refreshit");
+    refreshBtn.addEventListener("click", Refresh);
+  }
 
   // Fetch locked accounts
   async function loadLocked() {
@@ -86,96 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error loading locked accounts:", err);
     }
   }
-
-  // Attendance list
-  let currentPage = 1;
-  let currentSearch = ""; // keep track of search term
-
-  async function loadAttendance(page = 1, searchTerm = "") {
-    try {
-      const limit = 15;
-      const res = await fetch(
-        baseApi +
-          `api/get-all?page=${page}&limit=${limit}&search=${encodeURIComponent(searchTerm)}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        },
-      );
-      const data = await res.json();
-
-      // Show backend message if present
-      if (data.message) {
-        document.getElementById("attendanceMessage").textContent = data.message;
-      }
-
-      const list = document.getElementById("attendanceList");
-      list.innerHTML = "";
-
-      const staff = data.staff || data;
-
-      staff.forEach((s) => {
-        const li = document.createElement("li");
-        li.textContent = s.name + " ";
-
-        // present/undo button
-        const actionBtn = document.createElement("button");
-        if (s.status === "P") {
-          actionBtn.textContent = "Marked";
-          actionBtn.className = "undo";
-          actionBtn.addEventListener("click", () =>
-            undoPresent(s._id, actionBtn),
-          );
-        } else {
-          actionBtn.textContent = "Present";
-          actionBtn.className = "present";
-          actionBtn.addEventListener("click", () =>
-            markPresent(s._id, actionBtn),
-          );
-        }
-
-        li.appendChild(actionBtn);
-
-        list.appendChild(li);
-      });
-
-      if (data.totalPages) {
-        renderAttendancePagination(data.page, data.totalPages);
-      }
-
-      currentPage = data.page;
-    } catch (err) {
-      console.error("Error loading attendance:", err);
-    }
-  }
-
-  function renderAttendancePagination(page, totalPages) {
-    const container = document.getElementById("attendancePagination");
-    container.innerHTML = "";
-
-    for (let p = 1; p <= totalPages; p++) {
-      const btn = document.createElement("button");
-      btn.textContent = p;
-      btn.className = p === page ? "active-page" : "";
-      btn.onclick = () => {
-        currentPage = p;
-        loadAttendance(p, currentSearch);
-      };
-      container.appendChild(btn);
-    }
-  }
-
-  // Real-time search: query backend instead of filtering DOM
-  document.getElementById("searchInput").addEventListener("input", (e) => {
-    currentSearch = e.target.value.trim();
-    loadAttendance(1, currentSearch); // reset to page 1 when searching
-  });
-
-  // Initial load
-  document.addEventListener("DOMContentLoaded", () => loadAttendance());
 
   // Unblock user
   async function unblockUser(id) {
@@ -244,148 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (signOutMobile) {
     signOutMobile.addEventListener("click", handleSignOut);
   }
-
-  // Mark present
-  // Mark present
-  // Mark present
-  // Mark present
-  async function markPresent(id, btn) {
-    const session = localStorage.getItem("sessionId");
-    try {
-      const res = await fetch(baseApi + `api/mark-present/${id}/${session}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
-
-      const data = await res.json();
-
-      // Create overlay
-      const overlay = document.createElement("div");
-      overlay.style.cssText = `
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      animation: fadeIn 0.5s ease;
-    `;
-
-      // Circle + icon
-      const circle = document.createElement("div");
-      circle.style.cssText = `
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 40px;
-      font-weight: bold;
-      color: white;
-      animation: scaleUp 0.5s ease;
-    `;
-
-      const msg = document.createElement("div");
-      msg.style.cssText = `
-      margin-top: 15px;
-      font-size: 18px;
-      font-weight: bold;
-      color: white;
-      text-align: center;
-    `;
-
-      if (res.ok && data.presentPerson && data.presentPerson.status === "P") {
-        circle.innerHTML = "&#10004;"; // ✔
-        circle.style.backgroundColor = "green";
-        msg.textContent = data.message || "Marked present";
-        loadAttendance();
-      } else {
-        circle.innerHTML = "&#10006;"; // ✖
-        circle.style.backgroundColor = "red";
-        msg.textContent = data.message || "Failed to mark attendance";
-      }
-
-      overlay.appendChild(circle);
-      overlay.appendChild(msg);
-      document.body.appendChild(overlay);
-
-      // Auto-remove overlay after 2 seconds
-      setTimeout(() => {
-        overlay.remove();
-      }, 2000);
-    } catch (err) {
-      console.error("Network error marking present:", err);
-
-      const overlay = document.createElement("div");
-      overlay.style.cssText = `
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      animation: fadeIn 0.5s ease;
-    `;
-
-      const circle = document.createElement("div");
-      circle.innerHTML = "&#10006;";
-      circle.style.cssText = `
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background-color: red;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 40px;
-      font-weight: bold;
-      color: white;
-      animation: scaleUp 0.5s ease;
-    `;
-
-      const msg = document.createElement("div");
-      msg.textContent = "Network error marking attendance";
-      msg.style.cssText = `
-      margin-top: 15px;
-      font-size: 18px;
-      font-weight: bold;
-      color: white;
-      text-align: center;
-    `;
-
-      overlay.appendChild(circle);
-      overlay.appendChild(msg);
-      document.body.appendChild(overlay);
-
-      setTimeout(() => {
-        overlay.remove();
-      }, 2000);
-    }
-  }
-
-  // Add animations with CSS
-  const style = document.createElement("style");
-  style.innerHTML = `
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@keyframes scaleUp {
-  from { transform: scale(0.5); }
-  to { transform: scale(1); }
-}
-`;
-  document.head.appendChild(style);
 
   // deleteStaff.js
 
@@ -461,12 +231,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Mark all present
-  async function Refresh() {
-    console.log("hit");
-    loadAttendance();
-
-    loadStaffAccounts();
-  }
 
   function capitalise(str) {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
@@ -522,7 +286,6 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
         alert(data.message || "Person created successfully!");
-        loadAttendance();
         form.reset();
       } catch (err) {
         console.error("Network error:", err);
@@ -895,6 +658,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("tend").addEventListener("click", () => {
     window.location.href = "/Attend.html";
   });
-
-  loadAttendance();
+  document.getElementById("MA").addEventListener("click", () => {
+    window.location.href = "/markAttendace.html";
+  });
 });

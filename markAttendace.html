@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Main Dashboard</title>
     <link rel="icon" type="image/png" href="/l.png" />
-    <link rel="stylesheet" href="temp.css" />
+    <link rel="stylesheet" href="t4.css" />
   </head>
   <body>
     <!-- Shared Header -->
@@ -31,7 +31,6 @@
       <button id="peoplePage" class="btn-secondary">Manage People</button>
       <button id="code" class="btn-secondary">Att By Scan</button>
       <button id="tend" class="btn-secondary">Attendance</button>
-      <button id="MA" class="btn-secondary">Mark Attendance</button>
       <button id="database" class="btn-secondary">Database</button>
       <button id="profilePage" class="btn-secondary">profile</button>
       <button id="analysisPage" class="btn-secondary">Analysis</button>
@@ -40,60 +39,13 @@
 
     <!-- Page-specific content -->
     <main class="grid">
-
-
       <section>
-        <h2>➕ Create Person</h2>
-        <form id="createPersonForm" class="form-card">
-          <div class="form-group">
-            <input type="text" id="name" placeholder="Full Name" required />
-          </div>
-          <select id="department" class="form-group" required>
-            <option value="">-- Department --</option>
-            <option value="Counselling">Counselling</option>
-            <option value="Prayer">Prayer</option>
-            <option value="Divine Ex">Divine Ex</option>
-            <option value="Ushering">Ushering</option>
-            <option value="Technical">Technical</option>
-            <option value="Welfare">Welfare</option>
-            <option value="Media">Media</option>
-            <option value="Music">Music</option>
-            <option value="Outreach">Outreach</option>
-            <option value="School of The Word">School of The Word</option>
-            <option value="Protocol">Protocol</option>
-            <option value="Instrumantalist">Instrumantalist</option>
-          </select>
-          <select id="gender" class="form-group" required>
-            <option value="">-- Gender --</option>
-            <option value="F">Female</option>
-            <option value="M">Male</option>
-          </select>
-          <select id="VisaLevels" class="form-group" required>
-            <option value="">-- Level --</option>
-            <option value="L 100">L 100</option>
-            <option value="L 200">L 200</option>
-            <option value="L 300">L 300</option>
-            <option value="L 400">L 400</option>
-            <option value="5th yesr">5th yesr</option>
-            <option value="6th year">6th year</option>
-            <option value="Masters">Masters</option>
-          </select>
-          <div class="form-group">
-            <input type="text" id="contact" placeholder="Contact" />
-          </div>
-          <button type="submit" class="btn-primary">Create Person</button>
-        </form>
-      </section>
-
-      <section>
-        <h2>⚡ Session Management</h2>
-        <button id="createSessionBtn" class="btn-magnificent">
-          ✨ Create Session ✨
-        </button>
-      </section>
-
-      <section>
-        <button id="printBtn">✨ Print ✨</button>
+        <h2>👥 Attendance</h2>
+        <input type="text" id="searchInput" placeholder="Search member..." />
+        <button id="refreshit">Refresh</button>
+        <ul id="attendanceList"></ul>
+        <div id="attendancePagination"></div>
+        <p id="attendanceMessage"></p>
       </section>
 
       <!-- Loader -->
@@ -144,6 +96,6 @@
         </form>
       </div>
     </div>
-    <script src="admin.js"></script>
+    <script src="MA.js"></script>
   </body>
 </html>
