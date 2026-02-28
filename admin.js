@@ -187,8 +187,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-
-
   // Mark all present
 
   function capitalise(str) {

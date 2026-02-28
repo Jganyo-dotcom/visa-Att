@@ -286,3 +286,8 @@ footer {
     font-size: 1.2rem;
   }
 }
+
+.danger {
+  background-color: #dc3545; /* red */
+  color: white;
+}
