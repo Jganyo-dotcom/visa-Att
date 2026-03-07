@@ -2,182 +2,215 @@ const baseApi = "https://attandance-app-1.onrender.com/";
 
 //const baseApi = "http://127.0.0.1:4444/";
 
-// Show loader
-export function showLoader() {
-  document.getElementById("loaderOverlay").style.display = "flex";
-}
+document.addEventListener("DOMContentLoaded", () => {
+  // Show loader
+  function showLoader() {
+    document.getElementById("loaderOverlay").style.display = "flex";
+  }
 
-export function hideLoader() {
-  document.getElementById("loaderOverlay").style.display = "none";
-}
+  function hideLoader() {
+    document.getElementById("loaderOverlay").style.display = "none";
+  }
 
-// Toggle between forms
-function showRegister() {
-  document.getElementById("loginForm").classList.add("hidden");
-  document.getElementById("registerForm").classList.remove("hidden");
-}
+  // Toggle between forms
+  function showRegister() {
+    document.getElementById("loginForm").classList.add("hidden");
+    document.getElementById("registerForm").classList.remove("hidden");
+  }
 
-function showLogin() {
-  document.getElementById("registerForm").classList.add("hidden");
-  document.getElementById("loginForm").classList.remove("hidden");
-}
+  function showLogin() {
+    document.getElementById("registerForm").classList.add("hidden");
+    document.getElementById("loginForm").classList.remove("hidden");
+  }
 
-document.getElementById("loginLink").addEventListener("click", (e) => {
-  e.preventDefault();
-  showLogin();
-});
-
-document.getElementById("registerLink").addEventListener("click", (e) => {
-  e.preventDefault();
-  showRegister();
-});
-
-// Register form submission
-// Register form submission
-document
-  .getElementById("registerForm")
-  .addEventListener("submit", async (e) => {
+  document.getElementById("loginLink").addEventListener("click", (e) => {
     e.preventDefault();
+    showLogin();
+  });
 
-    const username = document.getElementById("regUsername").value;
-    const name = document.getElementById("regName").value;
-    const password = document.getElementById("regPassword").value;
-    const confirm_password =
-      document.getElementById("regConfirmPassword").value;
-    const email = document.getElementById("regEmail").value.toLowerCase();
-    const org = document.getElementById("regOrg").value;
+  document.getElementById("registerLink").addEventListener("click", (e) => {
+    e.preventDefault();
+    showRegister();
+  });
 
-    if (password !== confirm_password) {
-      alert("Passwords do not match!");
-      return;
-    }
+  // Register form submission
+  // Register form submission
+  document
+    .getElementById("registerForm")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-    try {
-      showLoader();
+      const username = document.getElementById("regUsername").value;
+      const name = document.getElementById("regName").value;
+      const password = document.getElementById("regPassword").value;
+      const confirm_password =
+        document.getElementById("regConfirmPassword").value;
+      const email = document.getElementById("regEmail").value.toLowerCase();
+      const org = document.getElementById("regOrg").value;
 
-      const res = await fetch(baseApi + "api/guest/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          email,
-          password,
-          org,
-          name,
-          confirm_password,
-        }),
-      });
-
-      const data = await res.json();
-      hideLoader();
-
-      if (!res.ok) {
-        alert(data.error || data.message || "Registration failed!");
-        console.error("Backend error:", data);
+      if (password !== confirm_password) {
+        alert("Passwords do not match!");
         return;
       }
 
-      alert(data.message || "Registered successfully!");
-      showLogin();
+      try {
+        showLoader();
+
+        const res = await fetch(baseApi + "api/guest/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username,
+            email,
+            password,
+            org,
+            name,
+            confirm_password,
+          }),
+        });
+
+        const data = await res.json();
+        hideLoader();
+
+        if (!res.ok) {
+          alert(data.error || data.message || "Registration failed!");
+          console.error("Backend error:", data);
+          return;
+        }
+
+        alert(data.message || "Registered successfully!");
+        showLogin();
+      } catch (err) {
+        hideLoader();
+        console.error("Network error:", err);
+        alert("Network error!");
+      }
+    });
+
+  // Login form submission
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const main = document.getElementById("loginUsername").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+
+    try {
+      showLoader(); // ✅ show loader before request
+
+      const res = await fetch(baseApi + "api/guest/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ main, password }), // FIXED
+      });
+
+      const data = await res.json();
+      hideLoader(); // ✅ hide loader after response
+
+      if (!res.ok) {
+        showMessage(
+          "loginMessage",
+          data.message || data.error || "Login failed!",
+          "error",
+        );
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
+      showMessage(
+        "loginMessage",
+        data.message || "Login successful",
+        "success",
+      );
+      if (data.message) {
+        localStorage.setItem("user", JSON.stringify(data.safe_user));
+
+        if (data.safe_user.role === "Admin") {
+          window.location.href = "/admin.html";
+        } else if (data.safe_user.role === "Staff") {
+          window.location.href = "/staff.html";
+        } else if (data.safe_user.role === "Manager") {
+          window.location.href = "/manager.html";
+        } else {
+          alert("Unknown role!");
+        }
+      } else {
+        showMessage(
+          "loginMessage",
+          data.message || data.error || "Login failed!",
+          "error",
+        );
+      }
     } catch (err) {
-      hideLoader();
-      console.error("Network error:", err);
-      alert("Network error!");
+      console.log(err);
+      hideLoader(); // ✅ hide loader on error
+      showMessage("loginMessage", "Login failed!", "error");
     }
   });
 
-// Login form submission
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
+  const forgotLink = document.getElementById("forgotPassword");
+  const forgotModal = document.getElementById("forgotPasswordModal");
+  const closeForgot = document.getElementById("closeForgot");
+  const forgotForm = document.getElementById("forgotForm");
 
-  const main = document.getElementById("loginUsername").value.trim();
-  const password = document.getElementById("loginPassword").value.trim();
+  // Show modal when link clicked
+  forgotLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    forgotModal.style.display = "block"; // show modal
+  });
 
-  try {
-    showLoader(); // ✅ show loader before request
+  // Handle form submit
+  forgotForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const value = document.getElementById("forgotInput").value;
+    console.log("Forgot password request for:", value);
 
-    const res = await fetch(baseApi + "api/guest/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ main, password }), // FIXED
-    });
+    try {
+      const response = await fetch(baseApi + "api/forget-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ identifier: value }),
+      });
 
-    const data = await res.json();
-    hideLoader(); // ✅ hide loader after response
+      const result = await response.json();
+      console.log("Backend response:", result);
 
-    if (!res.ok) {
-      alert(data.message || data.error || "Login failed!");
-      return;
+      // Show user feedback
+      alert(
+        result.message || "If this account exists, a reset link will be sent.",
+      );
+    } catch (error) {
+      console.error("Error sending forgot password request:", error);
+      alert("Something went wrong. Please try again later.");
     }
 
-    localStorage.setItem("token", data.token);
-    alert(data.message || "Login successful");
+    // Close modal
+    forgotModal.style.display = "none";
+  });
 
-    if (data.message) {
-      localStorage.setItem("user", JSON.stringify(data.safe_user));
+  // Close modal when X is clicked
+  closeForgot.addEventListener("click", () => {
+    forgotModal.style.display = "none";
+  });
 
-      if (data.safe_user.role === "Admin") {
-        window.location.href = "/admin.html";
-      } else if (data.safe_user.role === "Staff") {
-        window.location.href = "/staff.html";
-      } else if (data.safe_user.role === "Manager") {
-        window.location.href = "/manager.html";
-      } else {
-        alert("Unknown role!");
-      }
-    } else {
-      alert(data.message || "Login failed!");
-    }
-  } catch (err) {
-    console.log(err);
-    hideLoader(); // ✅ hide loader on error
-    alert("Network error during loginn");
+  function showMessage(elementId, message, type = "error") {
+    const el = document.getElementById(elementId);
+    el.textContent = message;
+    el.className = `form-message ${type}`;
+    el.style.display = "block";
   }
 });
 
-const forgotLink = document.getElementById("forgotPassword");
-const forgotModal = document.getElementById("forgotPasswordModal");
-const closeForgot = document.getElementById("closeForgot");
-const forgotForm = document.getElementById("forgotForm");
+function togglePassword() {
+  const input = document.getElementById("loginPassword");
+  const icon = document.querySelector(".toggle-password");
 
-// Show modal when link clicked
-forgotLink.addEventListener("click", (e) => {
-  e.preventDefault();
-  forgotModal.style.display = "block";
-});
-
-// Handle form submit
-forgotForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const value = document.getElementById("forgotInput").value;
-  console.log("Forgot password request for:", value);
-
-  try {
-    const response = await fetch(baseApi + "api/forget-password", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ identifier: value }),
-    });
-
-    const result = await response.json();
-    console.log("Backend response:", result);
-
-    // Show user feedback
-    alert(
-      result.message || "If this account exists, a reset link will be sent.",
-    );
-  } catch (error) {
-    console.error("Error sending forgot password request:", error);
-    alert("Something went wrong. Please try again later.");
+  if (input.type === "password") {
+    input.type = "text";
+    icon.textContent = "🙈"; // change icon to hide
+  } else {
+    input.type = "password";
+    icon.textContent = "👁"; // change icon to show
   }
-
-  // Close modal
-  forgotModal.style.display = "none";
-});
-
-// Close modal when X is clicked
-closeForgot.addEventListener("click", () => {
-  forgotModal.style.display = "none";
-});
+}

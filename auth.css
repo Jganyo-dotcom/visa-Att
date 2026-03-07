@@ -190,3 +190,48 @@ a {
   font-size: 24px;
   cursor: pointer;
 }
+
+.password-wrapper {
+  position: relative;
+  width: 100%; /* keep it inside the container */
+}
+
+.password-wrapper input {
+  width: 100%;
+  box-sizing: border-box; /* ensures padding stays inside width */
+  padding: 12px 40px 12px 16px; /* space for icon */
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  color: #666;
+}
+
+.form-message {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 8px;
+  border-radius: 5px;
+  display: none; /* hidden until message is set */
+}
+
+.form-message.success {
+  background: rgba(43, 193, 85, 0.1);
+  color: #2bc155;
+  border: 1px solid #2bc155;
+}
+
+.form-message.error {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid #ef4444;
+}

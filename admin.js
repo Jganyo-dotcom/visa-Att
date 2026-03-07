@@ -618,4 +618,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("MA").addEventListener("click", () => {
     window.location.href = "/markAttendace.html";
   });
+  document.getElementById("followPage").addEventListener("click", () => {
+    window.location.href = "/GHYYK.html";
+  });
 });
