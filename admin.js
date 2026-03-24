@@ -621,4 +621,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("followPage").addEventListener("click", () => {
     window.location.href = "/GHYYK.html";
   });
+  document.getElementById("DoubleServicePage").addEventListener("click", () => {
+    window.location.href = "/DD.html";
+  });
 });

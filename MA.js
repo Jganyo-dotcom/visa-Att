@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
       list.innerHTML = "";
 
       const staff = data.staff || data;
+      console.log(data);
 
       staff.forEach((s) => {
         const li = document.createElement("li");
@@ -39,17 +40,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // present/undo button
         const actionBtn = document.createElement("button");
-        if (s.status === "P") {
+        if (s.status === "P" && s.staying === false) {
           actionBtn.textContent = "Marked";
           actionBtn.className = "undo";
           actionBtn.addEventListener("click", () =>
             undoPresent(s._id, actionBtn),
           );
-        } else {
+          addLongPressHandler(actionBtn, s._id, "P"); // separate call
+        }
+
+        if (s.status === "A" && s.staying === false) {
           actionBtn.textContent = "Present";
           actionBtn.className = "present";
           actionBtn.addEventListener("click", () =>
             markPresent(s._id, actionBtn),
+          );
+          addLongPressHandler(actionBtn, s._id, "A"); // separate call
+        }
+
+        if (s.status === "P" && s.staying === true) {
+          actionBtn.textContent = "Staying";
+          actionBtn.className = "undostayed";
+          actionBtn.addEventListener("click", () =>
+            UndoStayed(s._id, actionBtn),
           );
         }
 
@@ -155,7 +168,13 @@ document.addEventListener("DOMContentLoaded", () => {
         circle.innerHTML = "&#10004;"; // ✔
         circle.style.backgroundColor = "green";
         msg.textContent = data.message || "Marked present";
-        loadAttendance();
+        const newBtn = document.createElement("button");
+        newBtn.textContent = "Marked";
+        newBtn.className = "undoPresent";
+        newBtn.addEventListener("click", () => undoPresent(id, newBtn));
+        addLongPressHandler(newBtn, id, "P");
+
+        btn.replaceWith(newBtn);
       } else {
         circle.innerHTML = "&#10006;"; // ✖
         circle.style.backgroundColor = "red";
@@ -243,6 +262,150 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   loadAttendance();
 
+  function addLongPressHandler(btn, personId, status) {
+    let pressTimer;
+    let longPressTriggered = false;
+
+    const startPress = () => {
+      clearTimeout(pressTimer);
+      longPressTriggered = false;
+      pressTimer = setTimeout(() => {
+        longPressTriggered = true;
+        showStayedModal(personId, status, btn);
+      }, 2000); // 2 seconds
+    };
+
+    const cancelPress = (e) => {
+      clearTimeout(pressTimer);
+      if (longPressTriggered && e.type === "mouseup") {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    };
+
+    // Desktop
+    btn.addEventListener("mousedown", startPress);
+    btn.addEventListener("mouseup", cancelPress);
+    btn.addEventListener("mouseleave", cancelPress);
+
+    // Mobile
+    btn.addEventListener("touchstart", startPress);
+    btn.addEventListener("touchend", cancelPress);
+    btn.addEventListener("touchcancel", cancelPress);
+  }
+
+  function showStayedModal(personId, status, btn) {
+    const overlay = document.createElement("div");
+    overlay.style.cssText = `
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    z-index: 9999;
+  `;
+
+    const modal = document.createElement("div");
+    modal.style.cssText = `
+    background: #222; 
+    color: #fff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    animation: scaleUp 0.3s ease;
+  `;
+
+    const msg = document.createElement("p");
+    msg.textContent =
+      status === "P" ? "Mark as stayed?" : "Not allowed when absent";
+
+    const stayedBtn = document.createElement("button");
+    stayedBtn.textContent = "Stayed";
+    stayedBtn.style.marginTop = "10px";
+
+    const undoStayedBtn = document.createElement("button");
+    undoStayedBtn.textContent = "Undo stayed";
+    undoStayedBtn.style.marginRight = "10px";
+
+    if (status !== "P") {
+      stayedBtn.disabled = true;
+      undoStayedBtn.style.display = "none";
+    } else {
+      // Mark stayed
+      stayedBtn.onclick = async () => {
+        const session = localStorage.getItem("sessionId");
+        try {
+          const res = await fetch(baseApi + `api/mark-stayed/${personId}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+          });
+          const data = await res.json();
+          if (res.ok) {
+            const newBtn = document.createElement("button");
+            newBtn.textContent = "Staying";
+            newBtn.className = "undoStayed";
+            btn.replaceWith(newBtn);
+            newBtn.addEventListener("click", () =>
+              UndoStayed(personId, newBtn),
+            );
+          } else {
+            alert(data.message || "Failed to mark stayed");
+          }
+        } catch (err) {
+          alert("Network error marking stayed");
+        }
+        overlay.remove();
+      };
+
+      // Undo stayed
+      undoStayedBtn.onclick = async () => {
+        const session = localStorage.getItem("sessionId");
+        try {
+          const res = await fetch(baseApi + `api/mark-stayed/${personId}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+          });
+          const data = await res.json();
+          if (res.ok) {
+            const newBtn = document.createElement("button");
+            newBtn.textContent = "Marked";
+            newBtn.className = "undoPresent";
+            btn.replaceWith(newBtn);
+            newBtn.addEventListener("click", () =>
+              undoPresent(personId, newBtn),
+            );
+          } else {
+            alert(data.message || "Failed to undo stayed");
+          }
+        } catch (err) {
+          alert("Network error undoing stayed");
+        }
+        overlay.remove();
+      };
+    }
+
+    modal.appendChild(msg);
+    modal.appendChild(undoStayedBtn);
+    modal.appendChild(stayedBtn);
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) overlay.remove();
+    });
+  }
+
   // Undo present
   async function undoPresent(id, btn) {
     const session = localStorage.getItem("sessionId");
@@ -272,6 +435,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Attach markPresent handler
         newBtn.addEventListener("click", () => markPresent(id, newBtn));
+        addLongPressHandler(newBtn, id, "A");
 
         // Remove from localStorage
         let marked = JSON.parse(localStorage.getItem("markedList") || "[]");
@@ -313,6 +477,32 @@ document.addEventListener("DOMContentLoaded", () => {
       hamburgerBtn.innerHTML = "&#9776;";
     }
   });
+
+  async function UndoStayed(personId, btn) {
+    const session = localStorage.getItem("sessionId");
+    try {
+      const res = await fetch(baseApi + `api/mark-stayed/${personId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+      const data = await res.json();
+      if (res.ok) {
+        const newBtn = document.createElement("button");
+        newBtn.textContent = "Marked";
+        newBtn.className = "undoPresent";
+        btn.replaceWith(newBtn);
+        newBtn.addEventListener("click", () => undoPresent(personId, newBtn));
+      } else {
+        alert(data.message || "Failed to undo stayed");
+      }
+    } catch (err) {
+      alert("Network error undoing stayed");
+    }
+    overlay.remove();
+  }
 
   document.getElementById("staffPage").addEventListener("click", () => {
     console.log("ha");
