@@ -305,3 +305,44 @@ body {
     padding-top: 100px;
   }
 }
+
+/* Default desktop spacing */
+.dashboard-wrapper {
+  padding-top: 140px; /* keeps cards below fixed header */
+}
+
+/* Tablet screens */
+@media (max-width: 1024px) {
+  .dashboard-wrapper {
+    padding-top: 120px; /* slightly less space */
+  }
+}
+
+/* Mobile screens */
+@media (max-width: 768px) {
+  .dashboard-wrapper {
+    padding-top: 160px; /* extra space so blur never overlaps */
+    align-items: flex-start; /* cards start at top */
+  }
+
+  .brand h1 {
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+  }
+
+  .card-grid {
+    gap: 20px; /* tighter spacing for small screens */
+  }
+}
+
+/* Very small phones */
+@media (max-width: 480px) {
+  .dashboard-wrapper {
+    padding-top: 180px; /* maximum safe spacing */
+  }
+
+  .glass-card {
+    width: 90%; /* cards stretch nicely on narrow screens */
+    height: auto; /* allow height to adjust */
+  }
+}
