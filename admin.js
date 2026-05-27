@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!token) {
     alert("Not authorized!");
     window.location.href = "auth.html";
-    return;
   }
 
   if (user.hasChangedPassword !== true) {

@@ -1,7 +1,10 @@
 //const baseApi = "http://127.0.0.1:4444/";
 const baseApi = "https://attandance-app-1.onrender.com/";
 const token = localStorage.getItem("token");
-
+if (!token) {
+  alert("Not authorized!");
+  window.location.href = "auth.html";
+}
 // Attendance list
 document.addEventListener("DOMContentLoaded", () => {
   let currentPage = 1;

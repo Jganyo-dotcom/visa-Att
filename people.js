@@ -9,7 +9,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 if (!token) {
   alert("Not authorized!");
   window.location.href = "auth.html";
-  return;
+
 }
 
 const hamburgerBtn = document.getElementById("hamburgerBtn");

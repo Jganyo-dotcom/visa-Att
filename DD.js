@@ -3,6 +3,11 @@ const baseApi = "https://attandance-app-1.onrender.com/";
 //const baseApi = "http://127.0.0.1:4444/";
 const token = localStorage.getItem("token");
 
+if (!token) {
+  alert("Not authorized!");
+  window.location.href = "auth.html";
+}
+
 document.getElementById("loadBtn").addEventListener("click", async () => {
   const date = document.getElementById("reportDate").value;
   if (!date) {
@@ -25,7 +30,6 @@ document.getElementById("loadBtn").addEventListener("click", async () => {
       },
     });
     const data = await res.json();
-
 
     if (res.ok) {
       renderTable(data.list || []);

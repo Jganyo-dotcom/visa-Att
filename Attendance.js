@@ -6,7 +6,6 @@ const token = localStorage.getItem("token");
 if (!token) {
   alert("Not authorized!");
   window.location.href = "auth.html";
-  return;
 }
 
 // Global variable to store attendance data

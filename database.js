@@ -7,7 +7,6 @@ const user = JSON.parse(localStorage.getItem("user"));
 if (!token) {
   alert("Not authorized!");
   window.location.href = "auth.html";
-  return;
 }
 
 // When loading attendance, decide whether to show Level column

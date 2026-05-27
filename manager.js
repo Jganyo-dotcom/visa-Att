@@ -5,7 +5,7 @@ const baseApi = "https://attandance-app-1.onrender.com/";
 if (!token) {
   alert("Not authorized!");
   window.location.href = "auth.html";
-  return;
+
 }
 
 const token = localStorage.getItem("token");
