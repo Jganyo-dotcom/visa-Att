@@ -5,6 +5,12 @@ const baseApi = "https://attandance-app-1.onrender.com/";
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
 
+if (!token) {
+  alert("Not authorized!");
+  window.location.href = "auth.html";
+  return;
+}
+
 document.getElementById("staffsignOutBtn").addEventListener("click", () => {
   // Remove only the token
   sessionStorage.removeItem("token");

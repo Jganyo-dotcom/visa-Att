@@ -12,6 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  if (!token) {
+    alert("Not authorized!");
+    window.location.href = "auth.html";
+    return;
+  }
+
   if (user.hasChangedPassword !== true) {
     const modal = document.getElementById("changePasswordModal");
     const closeBtn = document.getElementById("closeModal");
@@ -421,12 +427,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function CreateSession() {
     try {
-      const token = localStorage.getItem("token");
+      const confirmed = window.confirm("Do you really want to open a session?");
+      if (!confirmed) return;
+
       if (!token) {
         alert("Not authorized!");
         window.location.href = "auth.html";
         return;
       }
+
+      // ✅ Show loader
+      document.getElementById("ios-loader").style.display = "flex";
 
       const res = await fetch(baseApi + "api/create-session", {
         method: "GET", // backend expects GET
@@ -436,7 +447,6 @@ document.addEventListener("DOMContentLoaded", () => {
         },
       });
 
-      // Check if response is a file (Excel) or JSON
       const contentType = res.headers.get("Content-Type");
 
       if (
@@ -451,9 +461,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const a = document.createElement("a");
         a.href = url;
 
-        // Use filename from headers if available
-        const disposition = res.headers.get("Content-Disposition");
         let filename = "attendance.xlsx";
+        const disposition = res.headers.get("Content-Disposition");
         if (disposition && disposition.includes("filename=")) {
           filename = disposition.split("filename=")[1];
         }
@@ -467,7 +476,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return; // stop here, file downloaded
       }
 
-      // Otherwise, parse as JSON
       const data = await res.json();
 
       if (!res.ok) {
@@ -485,13 +493,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // ✅ toggle button text and style
         createSessionBtn.textContent = "Close Session";
-
         createSessionBtn.classList.add("danger");
       }
     } catch (err) {
       console.error("Network error creating session:", err);
-      alert(err);
       alert("Network error!");
+    } finally {
+      // ✅ Hide loader
+      document.getElementById("ios-loader").style.display = "none";
     }
   }
 
@@ -505,18 +514,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Ask three times for confirmation
-      for (let i = 1; i <= 3; i++) {
-        const confirmed = confirm(
-          `(${i}/3) Have you printed your attendance before you clearing?`,
-        );
-        if (!confirmed) {
-          alert("Session close cancelled");
-          return;
-        }
+      const confirmed = confirm("Session will close when you click OK?");
+      if (!confirmed) {
+        alert("Session close cancelled");
+        return;
       }
 
-      // Only reaches here if user clicked OK all three times
+      // ✅ Show loader
+      document.getElementById("ios-loader").style.display = "flex";
+
       const res = await fetch(baseApi + `api/close-session/${sessionId}`, {
         method: "GET",
         headers: {
@@ -546,6 +552,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       console.error("Network error closing session:", err);
       alert("Network error!");
+    } finally {
+      // ✅ Hide loader
+      document.getElementById("ios-loader").style.display = "none";
     }
   }
 

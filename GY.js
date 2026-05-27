@@ -3,6 +3,12 @@ const baseApi = "https://attandance-app-1.onrender.com/";
 //const baseApi = "http://127.0.0.1:4444/";
 const token = localStorage.getItem("token");
 
+if (!token) {
+  alert("Not authorized!");
+  window.location.href = "auth.html";
+  return;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("loadBtn").addEventListener("click", async () => {
     const dayOne = document.getElementById("dayOne").value;

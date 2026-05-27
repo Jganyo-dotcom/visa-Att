@@ -4,6 +4,12 @@ const baseApi = "https://attandance-app-1.onrender.com/";
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
 
+if (!token) {
+  alert("Not authorized!");
+  window.location.href = "auth.html";
+  return;
+}
+
 // Side menu toggle
 const hamburgerBtn = document.getElementById("hamburgerBtn");
 const sideMenu = document.getElementById("sideMenu");

@@ -2,6 +2,12 @@
 const baseApi = "https://attandance-app-1.onrender.com/";
 const token = localStorage.getItem("token");
 
+if (!token) {
+  alert("Not authorized!");
+  window.location.href = "auth.html";
+  return;
+}
+
 let html5QrcodeScanner;
 
 document.getElementById("openScannerBtn").addEventListener("click", () => {

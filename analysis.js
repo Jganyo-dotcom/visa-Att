@@ -6,6 +6,12 @@ const sideMenu = document.getElementById("sideMenu");
 const closeMenuBtn = document.getElementById("closeMenuBtn");
 const token = localStorage.getItem("token");
 
+if (!token) {
+  alert("Not authorized!");
+  window.location.href = "auth.html";
+  return;
+}
+
 // const modal = document.getElementById("changePasswordModal");
 const openBtnDesktop = document.getElementById("changePasswordBtn");
 

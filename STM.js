@@ -1,9 +1,14 @@
 //const baseApi = "http://127.0.0.1:4444/";
 const baseApi = "https://attandance-app-1.onrender.com/";
 
-
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
+
+if (!token) {
+  alert("Not authorized!");
+  window.location.href = "auth.html";
+  return;
+}
 let currentPagee = 1;
 const limit = 5; // number of items per page
 
@@ -16,7 +21,6 @@ function hideLoader() {
 }
 
 document.getElementById("welcome").innerHTML = `Welcome ${user.username}`;
-
 
 // async function loadAbsentPeople(page = 1, searchTerm = "") {
 //   console.log("hi")
