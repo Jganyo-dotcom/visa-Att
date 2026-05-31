@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Session Management | Attendance App</title>
+    <link rel="stylesheet" href="sessionM.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Attendance App</h1>
+      <p>Session Management Control Panel</p>
+    </header>
+
+    <main>
+      <div class="card" id="sessionCard">
+        <div class="card-header">
+          <h2>Manage Attendance Session</h2>
+          <span class="status-badge" id="statusBadge">Checking Server...</span>
+        </div>
+
+        <div class="card-body">
+          <div class="input-group">
+            <label for="sessionName">Session Title / Identifier</label>
+            <input
+              type="text"
+              id="sessionName"
+              placeholder="e.g., Morning Lecture, Staff Shift..."
+              autocomplete="off"
+            />
+          </div>
+
+          <button
+            id="sessionActionBtn"
+            class="action-btn state-loading"
+            disabled
+            onclick="handleSessionToggle()"
+          >
+            Loading...
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <div id="ios-loader">
+      <div class="loader-container">
+        <div class="spinner"></div>
+        <p id="loaderText">Processing...</p>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-content">
+        <p class="copyright">
+          © 2026 Attendance App. Created by <strong>Elikem</strong>.
+        </p>
+        <div class="contact-methods">
+          <a href="mailto:elikemejay@gmail.com" class="contact-link"
+            >📧 Email</a
+          >
+          <span class="divider">|</span>
+          <a href="tel:0593320375" class="contact-link">📞 Call</a>
+        </div>
+        <div class="social-links">
+          <a
+            href="https://www.linkedin.com/in/james-ganyo-aa0593360"
+            target="_blank"
+            rel="noopener"
+            >LinkedIn</a
+          >
+          <a href="https://wa.me/233503841074" target="_blank" rel="noopener"
+            >WhatsApp</a
+          >
+          <a
+            href="https://github.com/Jganyo-dotcom/"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+        </div>
+      </div>
+    </footer>
+
+    <script src="sessionM.js"></script>
+  </body>
+</html>

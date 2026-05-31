@@ -7,7 +7,6 @@ const user = JSON.parse(localStorage.getItem("user"));
 if (!token) {
   alert("Not authorized!");
   window.location.href = "auth.html";
-  return;
 }
 let currentPagee = 1;
 const limit = 5; // number of items per page

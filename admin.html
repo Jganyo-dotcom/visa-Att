@@ -8,46 +8,48 @@
     <link rel="stylesheet" href="temp.css" />
   </head>
   <body>
-    <!-- Shared Header -->
     <header>
       <div class="header-left">
         <img src="logo.png" alt="Company Logo" class="logo" />
         <h1 id="welcome">Admin Dashboard</h1>
       </div>
       <div class="header-right">
-        <button id="hamburgerBtn" class="hamburger">&#9776;</button>
+        <button
+          id="hamburgerBtn"
+          class="hamburger"
+          aria-label="Open Navigation"
+        >
+          &#9776;
+        </button>
       </div>
     </header>
 
-    <!-- Shared Side Menu -->
     <div id="sideMenu" class="side-menu">
-      <button id="closeMenuBtn" class="close-btn">&times;</button>
-      <button id="changePasswordBtn" class="btn-secondary">
-        Change Password
+      <button id="closeMenuBtn" class="close-btn" aria-label="Close Navigation">
+        &times;
       </button>
+
       <button id="mainPage" class="btn-secondary">Dashboard</button>
-      <button id="staffPage" class="btn-secondary">Manage Staff</button>
+      <button id="sessionM" class="btn-secondary">Manage Sessions</button>
       <button id="peoplePage" class="btn-secondary">Manage Absentees</button>
       <button id="code" class="btn-secondary">Mark Attendance By Scan</button>
       <button id="tend" class="btn-secondary">Attendance info</button>
       <button id="MA" class="btn-secondary">Mark Attendance</button>
       <button id="database" class="btn-secondary">Database</button>
-      <button id="profilePage" class="btn-secondary">profile</button>
+      <button id="profilePage" class="btn-secondary">Profile</button>
       <button id="analysisPage" class="btn-secondary">
         Analysis Of Attendance
       </button>
       <button id="DoubleServicePage" class="btn-secondary">Double Pip</button>
       <button id="followPage" class="btn-secondary">Filter Attendance</button>
+      <button id="changePasswordBtn" class="btn-secondary">
+        Change Password
+      </button>
+
       <button id="signOutBtn" class="btn-signout">Sign Out</button>
       <button id="deleteAccount" class="btn-danger">Delete Account</button>
     </div>
 
-    <!-- Loader markup -->
-    <div id="ios-loader" class="loader-overlay" style="display: none">
-      <div class="spinner"></div>
-    </div>
-
-    <!-- Page-specific content -->
     <main class="grid">
       <section>
         <h2>➕ Create Person</h2>
@@ -55,65 +57,63 @@
           <div class="form-group">
             <input type="text" id="name" placeholder="Full Name" required />
           </div>
-          <select id="department" class="form-group" required>
-            <option value="">-- Department --</option>
-            <option value="Counselling">Counselling</option>
-            <option value="Prayer">Prayer</option>
-            <option value="Divine Ex">Divine Ex</option>
-            <option value="Ushering">Ushering</option>
-            <option value="Technical">Technical</option>
-            <option value="Welfare">Welfare</option>
-            <option value="Media">Media</option>
-            <option value="Music">Music</option>
-            <option value="Outreach">Outreach</option>
-            <option value="School of the word">School of The Word</option>
-            <option value="Protocol">Protocol</option>
-            <option value="Instrumantalist">Instrumantalist</option>
-            <option value="DODept">Digital Operations Department</option>
-          </select>
-          <select id="gender" class="form-group" required>
-            <option value="">-- Gender --</option>
-            <option value="F">Female</option>
-            <option value="M">Male</option>
-          </select>
-          <select id="VisaLevels" class="form-group" required>
-            <option value="">-- Level --</option>
-            <option value="L 100">L 100</option>
-            <option value="L 200">L 200</option>
-            <option value="L 300">L 300</option>
-            <option value="L 400">L 400</option>
-            <option value="5th yesr">5th yesr</option>
-            <option value="6th year">6th year</option>
-            <option value="Masters">Masters</option>
-          </select>
+
+          <div class="form-group">
+            <select id="department" required>
+              <option value="">-- Department --</option>
+              <option value="Counselling">Counselling</option>
+              <option value="Prayer">Prayer</option>
+              <option value="Divine Ex">Divine Ex</option>
+              <option value="Ushering">Ushering</option>
+              <option value="Technical">Technical</option>
+              <option value="Welfare">Welfare</option>
+              <option value="Media">Media</option>
+              <option value="Music">Music</option>
+              <option value="Outreach">Outreach</option>
+              <option value="School of the word">School of The Word</option>
+              <option value="Protocol">Protocol</option>
+              <option value="Instrumantalist">Instrumantalist</option>
+              <option value="DODept">Digital Operations Department</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <select id="gender" required>
+              <option value="">-- Gender --</option>
+              <option value="F">Female</option>
+              <option value="M">Male</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <select id="VisaLevels" required>
+              <option value="">-- Level --</option>
+              <option value="L 100">L 100</option>
+              <option value="L 200">L 200</option>
+              <option value="L 300">L 300</option>
+              <option value="L 400">L 400</option>
+              <option value="5th yesr">5th year</option>
+              <option value="6th year">6th year</option>
+              <option value="Masters">Masters</option>
+            </select>
+          </div>
+
           <div class="form-group">
             <input type="text" id="contact" placeholder="Contact" />
           </div>
+
           <button type="submit" class="btn-primary">Create Person</button>
         </form>
       </section>
-
-      <section>
-        <h2>⚡ Session Management</h2>
-        <button id="createSessionBtn" class="btn-magnificent">
-          ✨ Create Session ✨
-        </button>
-      </section>
-
-      <section>
-        <button id="printBtn">✨ Print ✨</button>
-      </section>
-
-      <!-- Loader -->
-      <div class="loader-overlay" id="loaderrOverlay">
-        <div class="loader">
-          <div class="spinner"></div>
-          <span class="loading-text">Loading...</span>
-        </div>
-      </div>
     </main>
 
-    <!-- Shared Footer -->
+    <div id="ios-loader" class="loader-overlay">
+      <div class="loader">
+        <div class="spinner"></div>
+        <span class="loading-text">Processing Request...</span>
+      </div>
+    </div>
+
     <footer>
       <p>© 2026 Attendance App. Created by <strong>Elikem</strong>.</p>
       <p>
@@ -124,20 +124,30 @@
         <a
           href="https://www.linkedin.com/in/james-ganyo-aa0593360"
           target="_blank"
+          rel="noopener"
           >LinkedIn</a
         >
-        <a href="https://wa.me/233503841074" target="_blank">WhatsApp</a>
-        <a href="https://github.com/Jganyo-dotcom/" target="_blank">GitHub</a>
+        <a href="https://wa.me/233503841074" target="_blank" rel="noopener"
+          >WhatsApp</a
+        >
+        <a
+          href="https://github.com/Jganyo-dotcom/"
+          target="_blank"
+          rel="noopener"
+          >GitHub</a
+        >
       </div>
     </footer>
-    <!-- Change Password Modal -->
+
     <div id="changePasswordModal" class="slide-modal">
       <div class="slide-modal-content">
-        <span id="closeModal" class="close-btn">&times;</span>
+        <button id="closeModal" class="close-btn" aria-label="Close Modal">
+          &times;
+        </button>
         <h2>Change Password</h2>
         <form id="changePasswordForm">
           <div class="form-group">
-            <label for="oldPassword">Old Password</label>
+            <label for="currentPassword">Old Password</label>
             <input type="password" id="currentPassword" required />
           </div>
           <div class="form-group">
@@ -152,6 +162,7 @@
         </form>
       </div>
     </div>
+
     <script src="admin.js"></script>
   </body>
 </html>

@@ -406,203 +406,203 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  const createSessionBtn = document.getElementById("createSessionBtn");
+  // const createSessionBtn = document.getElementById("createSessionBtn");
 
-  // initialize button state based on localStorage
-  if (localStorage.getItem("sessionId")) {
-    createSessionBtn.textContent = "Close Session";
-    createSessionBtn.classList.add("danger");
-  } else {
-    createSessionBtn.textContent = "✨ Create Session ✨";
-  }
+  // // initialize button state based on localStorage
+  // if (localStorage.getItem("sessionId")) {
+  //   createSessionBtn.textContent = "Close Session";
+  //   createSessionBtn.classList.add("danger");
+  // } else {
+  //   createSessionBtn.textContent = "✨ Create Session ✨";
+  // }
 
-  createSessionBtn.addEventListener("click", async () => {
-    if (createSessionBtn.textContent === "✨ Create Session ✨") {
-      await CreateSession();
-    } else {
-      CloseSession();
-    }
-  });
+  // createSessionBtn.addEventListener("click", async () => {
+  //   if (createSessionBtn.textContent === "✨ Create Session ✨") {
+  //     await CreateSession();
+  //   } else {
+  //     CloseSession();
+  //   }
+  // });
 
-  async function CreateSession() {
-    try {
-      const confirmed = window.confirm("Do you really want to open a session?");
-      if (!confirmed) return;
+  // async function CreateSession() {
+  //   try {
+  //     const confirmed = window.confirm("Do you really want to open a session?");
+  //     if (!confirmed) return;
 
-      if (!token) {
-        alert("Not authorized!");
-        window.location.href = "auth.html";
-        return;
-      }
+  //     if (!token) {
+  //       alert("Not authorized!");
+  //       window.location.href = "auth.html";
+  //       return;
+  //     }
 
-      // ✅ Show loader
-      document.getElementById("ios-loader").style.display = "flex";
+  //     // ✅ Show loader
+  //     document.getElementById("ios-loader").style.display = "flex";
 
-      const res = await fetch(baseApi + "api/create-session", {
-        method: "GET", // backend expects GET
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
+  //     const res = await fetch(baseApi + "api/create-session", {
+  //       method: "GET", // backend expects GET
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: "Bearer " + token,
+  //       },
+  //     });
 
-      const contentType = res.headers.get("Content-Type");
+  //     const contentType = res.headers.get("Content-Type");
 
-      if (
-        contentType &&
-        contentType.includes(
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        )
-      ) {
-        // It's an Excel file → trigger download
-        const blob = await res.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
+  //     if (
+  //       contentType &&
+  //       contentType.includes(
+  //         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  //       )
+  //     ) {
+  //       // It's an Excel file → trigger download
+  //       const blob = await res.blob();
+  //       const url = window.URL.createObjectURL(blob);
+  //       const a = document.createElement("a");
+  //       a.href = url;
 
-        let filename = "attendance.xlsx";
-        const disposition = res.headers.get("Content-Disposition");
-        if (disposition && disposition.includes("filename=")) {
-          filename = disposition.split("filename=")[1];
-        }
-        a.download = filename;
+  //       let filename = "attendance.xlsx";
+  //       const disposition = res.headers.get("Content-Disposition");
+  //       if (disposition && disposition.includes("filename=")) {
+  //         filename = disposition.split("filename=")[1];
+  //       }
+  //       a.download = filename;
 
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        window.URL.revokeObjectURL(url);
+  //       document.body.appendChild(a);
+  //       a.click();
+  //       a.remove();
+  //       window.URL.revokeObjectURL(url);
 
-        return; // stop here, file downloaded
-      }
+  //       return; // stop here, file downloaded
+  //     }
 
-      const data = await res.json();
+  //     const data = await res.json();
 
-      if (!res.ok) {
-        alert(data.message || data.error || "Failed to create session");
-        console.error("Error creating session:", data);
-        return;
-      }
+  //     if (!res.ok) {
+  //       alert(data.message || data.error || "Failed to create session");
+  //       console.error("Error creating session:", data);
+  //       return;
+  //     }
 
-      if (data.message) {
-        alert(data.message);
-      }
+  //     if (data.message) {
+  //       alert(data.message);
+  //     }
 
-      if (data.newSession?._id) {
-        localStorage.setItem("sessionId", data.newSession._id);
+  //     if (data.newSession?._id) {
+  //       localStorage.setItem("sessionId", data.newSession._id);
 
-        // ✅ toggle button text and style
-        createSessionBtn.textContent = "Close Session";
-        createSessionBtn.classList.add("danger");
-      }
-    } catch (err) {
-      console.error("Network error creating session:", err);
-      alert("Network error!");
-    } finally {
-      // ✅ Hide loader
-      document.getElementById("ios-loader").style.display = "none";
-    }
-  }
+  //       // ✅ toggle button text and style
+  //       createSessionBtn.textContent = "Close Session";
+  //       createSessionBtn.classList.add("danger");
+  //     }
+  //   } catch (err) {
+  //     console.error("Network error creating session:", err);
+  //     alert("Network error!");
+  //   } finally {
+  //     // ✅ Hide loader
+  //     document.getElementById("ios-loader").style.display = "none";
+  //   }
+  // }
 
-  async function CloseSession() {
-    try {
-      const token = localStorage.getItem("token");
-      const sessionId = localStorage.getItem("sessionId");
+  // async function CloseSession() {
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     const sessionId = localStorage.getItem("sessionId");
 
-      if (!token || !sessionId) {
-        alert("No active session found");
-        return;
-      }
+  //     if (!token || !sessionId) {
+  //       alert("No active session found");
+  //       return;
+  //     }
 
-      const confirmed = confirm("Session will close when you click OK?");
-      if (!confirmed) {
-        alert("Session close cancelled");
-        return;
-      }
+  //     const confirmed = confirm("Session will close when you click OK?");
+  //     if (!confirmed) {
+  //       alert("Session close cancelled");
+  //       return;
+  //     }
 
-      // ✅ Show loader
-      document.getElementById("ios-loader").style.display = "flex";
+  //     // ✅ Show loader
+  //     document.getElementById("ios-loader").style.display = "flex";
 
-      const res = await fetch(baseApi + `api/close-session/${sessionId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      });
+  //     const res = await fetch(baseApi + `api/close-session/${sessionId}`, {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: "Bearer " + token,
+  //       },
+  //     });
 
-      const data = await res.json();
+  //     const data = await res.json();
 
-      if (!res.ok) {
-        alert(data.message || "Failed to close session");
-        console.error("Error closing session:", data);
-        return;
-      }
+  //     if (!res.ok) {
+  //       alert(data.message || "Failed to close session");
+  //       console.error("Error closing session:", data);
+  //       return;
+  //     }
 
-      if (data.message) {
-        alert(data.message);
-      }
+  //     if (data.message) {
+  //       alert(data.message);
+  //     }
 
-      // ✅ Clear localStorage and toggle button text
-      localStorage.removeItem("sessionId");
-      console.log("Session cleared from localStorage");
+  //     // ✅ Clear localStorage and toggle button text
+  //     localStorage.removeItem("sessionId");
+  //     console.log("Session cleared from localStorage");
 
-      createSessionBtn.textContent = "✨ Create Session ✨";
-      createSessionBtn.classList.remove("danger");
-    } catch (err) {
-      console.error("Network error closing session:", err);
-      alert("Network error!");
-    } finally {
-      // ✅ Hide loader
-      document.getElementById("ios-loader").style.display = "none";
-    }
-  }
+  //     createSessionBtn.textContent = "✨ Create Session ✨";
+  //     createSessionBtn.classList.remove("danger");
+  //   } catch (err) {
+  //     console.error("Network error closing session:", err);
+  //     alert("Network error!");
+  //   } finally {
+  //     // ✅ Hide loader
+  //     document.getElementById("ios-loader").style.display = "none";
+  //   }
+  // }
 
-  document.getElementById("printBtn").addEventListener("click", async () => {
-    try {
-      const session = localStorage.getItem("sessionId");
-      const response = await fetch(
-        baseApi + `api/admin/export-attendance/${session}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        },
-      );
+  // document.getElementById("printBtn").addEventListener("click", async () => {
+  //   try {
+  //     const session = localStorage.getItem("sessionId");
+  //     const response = await fetch(
+  //       baseApi + `api/admin/export-attendance/${session}`,
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           Authorization: "Bearer " + token,
+  //         },
+  //       },
+  //     );
 
-      if (!response.ok) {
-        throw new Error("Failed to download file");
-      }
+  //     if (!response.ok) {
+  //       throw new Error("Failed to download file");
+  //     }
 
-      // Convert response to blob
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+  //     // Convert response to blob
+  //     const blob = await response.blob();
+  //     const url = window.URL.createObjectURL(blob);
 
-      // Use filename from backend headers
-      const disposition = response.headers.get("Content-Disposition");
-      let filename = "attendance.xlsx";
-      if (disposition && disposition.includes("filename=")) {
-        filename = disposition.split("filename=")[1];
-      }
+  //     // Use filename from backend headers
+  //     const disposition = response.headers.get("Content-Disposition");
+  //     let filename = "attendance.xlsx";
+  //     if (disposition && disposition.includes("filename=")) {
+  //       filename = disposition.split("filename=")[1];
+  //     }
 
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+  //     const a = document.createElement("a");
+  //     a.href = url;
+  //     a.download = filename;
+  //     document.body.appendChild(a);
+  //     a.click();
+  //     a.remove();
 
-      window.URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error("Error downloading attendance:", err);
-      alert("Failed to download attendance file");
-    }
-  });
+  //     window.URL.revokeObjectURL(url);
+  //   } catch (err) {
+  //     console.error("Error downloading attendance:", err);
+  //     alert("Failed to download attendance file");
+  //   }
+  // });
 
-  document.getElementById("staffPage").addEventListener("click", () => {
-    console.log("ha");
-    window.location.href = "/staffManagement.html";
-  });
+  // document.getElementById("staffPage").addEventListener("click", () => {
+  //   console.log("ha");
+  //   window.location.href = "/staffManagement.html";
+  // });
 
   document.getElementById("peoplePage").addEventListener("click", () => {
     window.location.href = "/people.html";
@@ -628,6 +628,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   document.getElementById("followPage").addEventListener("click", () => {
     window.location.href = "/GHYYK.html";
+  });
+  document.getElementById("sessionM").addEventListener("click", () => {
+    window.location.href = "/sessionManagement.html";
   });
   document.getElementById("DoubleServicePage").addEventListener("click", () => {
     window.location.href = "/DD.html";
