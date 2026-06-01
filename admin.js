@@ -136,17 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const signOutMobile = document.getElementById("signOutBtnMobile");
 
   function handleSignOut() {
-    // Ask three times for confirmation
-    for (let i = 1; i <= 3; i++) {
-      const confirmed = confirm(
-        `(${i}/3) Have you printed your attendance before you clearing?`,
-      );
-      if (!confirmed) {
-        alert("Sign out cancelled");
-        return;
-      }
-    }
-
     // Only reaches here if user clicked OK all three times
     sessionStorage.removeItem("token");
     localStorage.removeItem("token");
