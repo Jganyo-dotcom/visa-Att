@@ -158,38 +158,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Show modal when link clicked
   forgotLink.addEventListener("click", (e) => {
-    e.preventDefault();
-    forgotModal.style.display = "block"; // show modal
+    window.location.href = "/reset-password.html"; // show modalC:\Users\esthe\prot\visa-Att\reset-password.html
   });
 
   // Handle form submit
-  forgotForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const value = document.getElementById("forgotInput").value;
-    console.log("Forgot password request for:", value);
+  // forgotForm.addEventListener("submit", async (e) => {
+  //   e.preventDefault();
+  //   const value = document.getElementById("forgotInput").value;
+  //   console.log("Forgot password request for:", value);
 
-    try {
-      const response = await fetch(baseApi + "api/forget-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ identifier: value }),
-      });
+  //   try {
+  //     const response = await fetch(baseApi + "api/forget-password", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ identifier: value }),
+  //     });
 
-      const result = await response.json();
-      console.log("Backend response:", result);
+  //     const result = await response.json();
+  //     console.log("Backend response:", result);
 
-      // Show user feedback
-      alert(
-        result.message || "If this account exists, a reset link will be sent.",
-      );
-    } catch (error) {
-      console.error("Error sending forgot password request:", error);
-      alert("Something went wrong. Please try again later.");
-    }
+  //     // Show user feedback
+  //     alert(
+  //       result.message || "If this account exists, a reset link will be sent.",
+  //     );
+  //   } catch (error) {
+  //     console.error("Error sending forgot password request:", error);
+  //     alert("Something went wrong. Please try again later.");
+  //   }
 
-    // Close modal
-    forgotModal.style.display = "none";
-  });
+  //   // Close modal
+  //   forgotModal.style.display = "none";
+  // });
 
   // Close modal when X is clicked
   closeForgot.addEventListener("click", () => {
