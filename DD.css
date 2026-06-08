@@ -161,7 +161,7 @@ footer {
   padding: 3rem 1rem;
   color: #64748b;
   font-size: 0.9rem;
-  background: #fff; /* optional */
+  background: #fff;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -200,20 +200,10 @@ footer a {
   color: white;
 }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .controls {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .search-box {
-    min-width: 100%;
-  }
-}
-
+/* Page Loader Layout Components */
 .loader {
   border: 6px solid #f3f3f3;
-  border-top: 6px solid #2563eb; /* blue spinner */
+  border-top: 6px solid #2563eb;
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -227,5 +217,16 @@ footer a {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-box {
+    min-width: 100%;
   }
 }
