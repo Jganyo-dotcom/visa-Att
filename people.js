@@ -118,27 +118,27 @@ deleteAccountBtn.addEventListener("click", async () => {
   }
 });
 
-const signOut = document.getElementById("signOutBtn");
-signOut.addEventListener("click", handleSignOut);
+// const signOut = document.getElementById("signOutBtn");
+// signOut.addEventListener("click", handleSignOut);
 
-function handleSignOut() {
-  // Ask three times for confirmation
-  for (let i = 1; i <= 3; i++) {
-    const confirmed = confirm(
-      `(${i}/3) Have you printed your attendance before you clearing?`,
-    );
-    if (!confirmed) {
-      alert("Sign out cancelled");
-      return;
-    }
-  }
+// function handleSignOut() {
+//   // Ask three times for confirmation
+//   for (let i = 1; i <= 3; i++) {
+//     const confirmed = confirm(
+//       `(${i}/3) Have you printed your attendance before you clearing?`,
+//     );
+//     if (!confirmed) {
+//       alert("Sign out cancelled");
+//       return;
+//     }
+//   }
 
-  // Only reaches here if user clicked OK all three times
-  sessionStorage.removeItem("token");
-  localStorage.removeItem("token");
-  localStorage.removeItem("user"); // only if you stored user info under this key
-  window.location.href = "/auth.html"; // redirect to login or home
-}
+//   // Only reaches here if user clicked OK all three times
+//   sessionStorage.removeItem("token");
+//   localStorage.removeItem("token");
+//   localStorage.removeItem("user"); // only if you stored user info under this key
+//   window.location.href = "/auth.html"; // redirect to login or home
+// }
 
 const changePasswordBtn = document.getElementById("changePasswordBtn");
 const modal = document.getElementById("changePasswordModal");

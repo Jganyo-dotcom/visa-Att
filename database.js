@@ -298,25 +298,25 @@ document.getElementById("searchInput").addEventListener("input", (e) => {
 //   }
 // });
 
-const signOut = document.getElementById("signOutBtn");
-signOut.addEventListener("click", handleSignOut);
+// const signOut = document.getElementById("signOutBtn");
+// signOut.addEventListener("click", handleSignOut);
 
-function handleSignOut() {
-  // Ask three times for confirmation
-  for (let i = 1; i <= 3; i++) {
-    const confirmed = confirm(`(${i}/3) Are you sure you want to sign out?`);
-    if (!confirmed) {
-      alert("Sign out cancelled");
-      return;
-    }
-  }
+// function handleSignOut() {
+//   // Ask three times for confirmation
+//   for (let i = 1; i <= 3; i++) {
+//     const confirmed = confirm(`(${i}/3) Are you sure you want to sign out?`);
+//     if (!confirmed) {
+//       alert("Sign out cancelled");
+//       return;
+//     }
+//   }
 
   // Only reaches here if user clicked OK all three times
   sessionStorage.removeItem("token");
   localStorage.removeItem("token");
   localStorage.removeItem("user"); // only if you stored user info under this key
   window.location.href = "/auth.html"; // redirect to login or home
-}
+
 
 const changePasswordBtn = document.getElementById("changePasswordBtn");
 const modal = document.getElementById("changePasswordModal");
@@ -341,34 +341,34 @@ window.addEventListener("click", (e) => {
   }
 });
 
-document.getElementById("staffPage").addEventListener("click", () => {
-  console.log("ha");
-  window.location.href = "/staffManagement.html";
-});
+// document.getElementById("staffPage").addEventListener("click", () => {
+//   console.log("ha");
+//   window.location.href = "/staffManagement.html";
+// });
 
-document.getElementById("peoplePage").addEventListener("click", () => {
-  window.location.href = "/people.html";
-});
+// document.getElementById("peoplePage").addEventListener("click", () => {
+//   window.location.href = "/people.html";
+// });
 
-document.getElementById("database").addEventListener("click", () => {
-  window.location.href = "/database.html";
-});
-document.getElementById("mainPage").addEventListener("click", () => {
-  window.location.href = "/admin.html";
-});
-document.getElementById("profilePage").addEventListener("click", () => {
-  window.location.href = "/profile.html";
-});
-document.getElementById("analysisPage").addEventListener("click", () => {
-  window.location.href = "/analysis.html";
-});
+// document.getElementById("database").addEventListener("click", () => {
+//   window.location.href = "/database.html";
+// });
+// document.getElementById("mainPage").addEventListener("click", () => {
+//   window.location.href = "/admin.html";
+// });
+// document.getElementById("profilePage").addEventListener("click", () => {
+//   window.location.href = "/profile.html";
+// });
+// document.getElementById("analysisPage").addEventListener("click", () => {
+//   window.location.href = "/analysis.html";
+// });
 
-document.getElementById("code").addEventListener("click", () => {
-  window.location.href = "/qrcode.html";
-});
-document.getElementById("tend").addEventListener("click", () => {
-  window.location.href = "/Attend.html";
-});
+// document.getElementById("code").addEventListener("click", () => {
+//   window.location.href = "/qrcode.html";
+// });
+// document.getElementById("tend").addEventListener("click", () => {
+//   window.location.href = "/Attend.html";
+// });
 
 // --- Modal Logic ---
 if (user.hasChangedPassword !== true) {
