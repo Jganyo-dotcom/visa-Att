@@ -8,44 +8,86 @@
   </head>
   <body>
     <header>
-      <h1>Attendance App</h1>
-      <p>Session Management Control Panel</p>
+      <div class="header-left">
+        <h1>Attendance App</h1>
+        <p>Session Management Control Panel</p>
+      </div>
+      <!-- Hamburger button explicitly aligned to the right edge of the header -->
+      <button id="hamburgerBtn" class="hamburger" aria-label="Open Navigation">&#9776;</button>
     </header>
 
-    <main>
-      <div class="card" id="sessionCard">
-        <div class="card-header">
-          <h2>Manage Attendance Session</h2>
-          <span class="status-badge" id="statusBadge">Checking Server...</span>
-        </div>
+    <!-- Global Off-Canvas Side Drawer Sidebar -->
+    <div id="sideMenu" class="side-menu">
+      <button id="closeMenuBtn" class="close-btn" aria-label="Close Navigation">
+        &times;
+      </button>
 
-        <div class="card-body">
-          <div class="input-group">
-            <label for="sessionName">Session Title / Identifier</label>
-            <input
-              type="text"
-              id="sessionName"
-              placeholder="e.g., Morning Lecture, Staff Shift..."
-              autocomplete="off"
-            />
+      <button id="mainPage" class="btn-secondary">Dashboard</button>
+      <button id="sessionM" class="btn-secondary">Manage Sessions</button>
+      <button id="peoplePage" class="btn-secondary">Manage Absentees</button>
+      <button id="code" class="btn-secondary">Mark Attendance By Scan</button>
+      <button id="tend" class="btn-secondary">Attendance info</button>
+      <button id="MA" class="btn-secondary">Mark Attendance</button>
+      <button id="database" class="btn-secondary">Database</button>
+      <button id="profilePage" class="btn-secondary">Profile</button>
+      <button id="analysisPage" class="btn-secondary">
+        Analysis Of Attendance
+      </button>
+      <button id="DoubleServicePage" class="btn-secondary">Double Pip</button>
+      <button id="followPage" class="btn-secondary">Filter Attendance</button>
+      <button id="changePasswordBtn" class="btn-secondary">
+        Change Password
+      </button>
+
+      <button id="signOutBtn" class="btn-signout">Sign Out</button>
+      <button id="deleteAccount" class="btn-danger">Delete Account</button>
+    </div>
+
+    <main>
+      <div class="grid">
+        <div class="card" id="sessionCard">
+          <div class="card-header">
+            <h2>Manage Attendance Session</h2>
+            <span class="status-badge" id="statusBadge">Checking Server...</span>
           </div>
 
-          <button
-            id="sessionActionBtn"
-            class="action-btn state-loading"
-            disabled
-            onclick="handleSessionToggle()"
-          >
-            Loading...
-          </button>
+          <div class="card-body">
+            <div class="input-group">
+              <label for="sessionName">Session Title / Identifier</label>
+              <input
+                type="text"
+                id="sessionName"
+                placeholder="e.g., Morning Lecture, Staff Shift..."
+                autocomplete="off"
+              />
+            </div>
+
+            <button
+              id="sessionActionBtn"
+              class="action-btn state-loading"
+              disabled
+              onclick="handleSessionToggle()"
+            >
+              Loading...
+            </button>
+          </div>
         </div>
       </div>
     </main>
 
-    <div id="ios-loader">
-      <div class="loader-container">
+    <!-- Interactive Overlay Modal Structure (Required for your Change Password modal JS target) -->
+    <div id="passwordModal" class="slide-modal">
+      <div class="slide-modal-content">
+        <button id="closeModalBtn" class="close-btn">&times;</button>
+        <h2>Change Password</h2>
+        <!-- Modal body form fields can live here -->
+      </div>
+    </div>
+
+    <div id="ios-loader" class="loader-overlay">
+      <div class="loader">
         <div class="spinner"></div>
-        <p id="loaderText">Processing...</p>
+        <p id="loaderText" class="loading-text">Processing...</p>
       </div>
     </div>
 
@@ -55,9 +97,7 @@
           © 2026 Attendance App. Created by <strong>Elikem</strong>.
         </p>
         <div class="contact-methods">
-          <a href="mailto:elikemejay@gmail.com" class="contact-link"
-            >📧 Email</a
-          >
+          <a href="mailto:elikemejay@gmail.com" class="contact-link">📧 Email</a>
           <span class="divider">|</span>
           <a href="tel:0593320375" class="contact-link">📞 Call</a>
         </div>
@@ -81,6 +121,8 @@
       </div>
     </footer>
 
+    <!-- Script Block containing the clean, fail-safe UI event mechanics -->
+   
     <script src="sessionM.js"></script>
   </body>
 </html>
