@@ -44,7 +44,7 @@ const loaderText = document.getElementById("loaderText");
 const sessionNameInput = document.getElementById("sessionName");
 const actionBtn = document.getElementById("sessionActionBtn");
 const statusBadge = document.getElementById("statusBadge");
-const token = localStorage.getItem("token");
+
 
 // Run immediately when page loads to check live database state
 document.addEventListener("DOMContentLoaded", () => {

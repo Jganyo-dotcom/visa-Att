@@ -286,17 +286,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // });
 
   // Modal Open Trigger Event Listeners
-  if (openBtnDesktop && modal) {
-    openBtnDesktop.addEventListener("click", () => {
-      modal.style.display = "flex";
-    });
-  }
+  // if (openBtnDesktop && modal) {
+  //   openBtnDesktop.addEventListener("click", () => {
+  //     modal.style.display = "flex";
+  //   });
+  // }
 
-  if (closeBtn && modal) {
-    closeBtn.addEventListener("click", () => {
-      modal.style.display = "none";
-    });
-  }
+  // if (closeBtn && modal) {
+  //   closeBtn.addEventListener("click", () => {
+  //     modal.style.display = "none";
+  //   });
+  // }
 
   window.addEventListener("click", (e) => {
     if (user && user.hasChangedPassword === true && e.target === modal) {
