@@ -1,7 +1,7 @@
 //const baseApi = "http://127.0.0.1:4444/";
 const baseApi = "https://attandance-app-1.onrender.com/";
 
-const token = localStorage.getItem("token");
+
 const user = JSON.parse(localStorage.getItem("user"));
 
 if (!token) {
