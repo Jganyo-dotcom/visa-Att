@@ -3,9 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Main Dashboard</title>
+    <title>Main Dashboard | Attendance App</title>
     <link rel="icon" type="image/png" href="/logo.png" />
+    
     <link rel="stylesheet" href="temp.css" />
+    <link rel="stylesheet" href="global-sidebar.css" />
   </head>
   <body>
     <header>
@@ -14,41 +16,9 @@
         <h1 id="welcome">Admin Dashboard</h1>
       </div>
       <div class="header-right">
-        <button
-          id="hamburgerBtn"
-          class="hamburger"
-          aria-label="Open Navigation"
-        >
-          &#9776;
-        </button>
+        <button id="hamburgerBtn" class="hamburger" aria-label="Open Navigation">&#9776;</button>
       </div>
     </header>
-
-    <div id="sideMenu" class="side-menu">
-      <button id="closeMenuBtn" class="close-btn" aria-label="Close Navigation">
-        &times;
-      </button>
-
-      <button id="mainPage" class="btn-secondary">Dashboard</button>
-      <button id="sessionM" class="btn-secondary">Manage Sessions</button>
-      <button id="peoplePage" class="btn-secondary">Manage Absentees</button>
-      <button id="code" class="btn-secondary">Mark Attendance By Scan</button>
-      <button id="tend" class="btn-secondary">Attendance info</button>
-      <button id="MA" class="btn-secondary">Mark Attendance</button>
-      <button id="database" class="btn-secondary">Database</button>
-      <button id="profilePage" class="btn-secondary">Profile</button>
-      <button id="analysisPage" class="btn-secondary">
-        Analysis Of Attendance
-      </button>
-      <button id="DoubleServicePage" class="btn-secondary">Double Pip</button>
-      <button id="followPage" class="btn-secondary">Filter Attendance</button>
-      <button id="changePasswordBtn" class="btn-secondary">
-        Change Password
-      </button>
-
-      <button id="signOutBtn" class="btn-signout">Sign Out</button>
-      <button id="deleteAccount" class="btn-danger">Delete Account</button>
-    </div>
 
     <main class="grid">
       <section>
@@ -77,10 +47,9 @@
             </select>
           </div>
 
-            <div id="loaderrOverlay" class="loader-overlay">
-              <div class="spinner"></div>
-            </div>
-
+          <div id="loaderrOverlay" class="loader-overlay">
+            <div class="spinner"></div>
+          </div>
 
           <div class="form-group">
             <select id="gender" required>
@@ -144,11 +113,9 @@
       </div>
     </footer>
 
-    <div id="changePasswordModal" class="slide-modal">
+    <div id="passwordModal" class="slide-modal">
       <div class="slide-modal-content">
-        <button id="closeModal" class="close-btn" aria-label="Close Modal">
-          &times;
-        </button>
+        <button id="closeModalBtn" class="close-btn" aria-label="Close Modal">&times;</button>
         <h2>Change Password</h2>
         <form id="changePasswordForm">
           <div class="form-group">
@@ -168,6 +135,7 @@
       </div>
     </div>
 
+    <script src="global-sidebar.js"></script>
     <script src="admin.js"></script>
   </body>
 </html>

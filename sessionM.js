@@ -26,7 +26,7 @@ const isLocalDev =
     "tend": "/Attend",
     "MA": "/markAttendace",
     "followPage": "/GHYYK",
-    "sessionM": "/sessionManagement",
+    "mainPage": "/admin",
     "DoubleServicePage": "/DD"
   };
 

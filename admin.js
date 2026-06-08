@@ -2,16 +2,16 @@
 // Production Endpoint Architecture
 const baseApi = "https://attandance-app-1.onrender.com/";
 
-// Detects execution context variables safely
-const isLocalDev = 
-  window.location.hostname === "localhost" || 
-  window.location.hostname === "127.0.0.1" || 
-  window.location.protocol === "file:";
+// // Detects execution context variables safely
+// const isLocalDev = 
+//   window.location.hostname === "localhost" || 
+//   window.location.hostname === "127.0.0.1" || 
+//   window.location.protocol === "file:";
 
-// Global Single Page Application Route Driver Engine
-const navigateTo = (path) => {
-  window.location.href = isLocalDev ? `${path}.html` : path;
-};
+// // Global Single Page Application Route Driver Engine
+// const navigateTo = (path) => {
+//   window.location.href = isLocalDev ? `${path}.html` : path;
+// };
 
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
@@ -385,26 +385,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Central Routing Engine Control Mapping Handlers
-  const routeMappings = {
-    "peoplePage": "/people",
-    "database": "/database",
-    "profilePage": "/profile",
-    "analysisPage": "/analysis",
-    "code": "/qrcode",
-    "tend": "/Attend",
-    "MA": "/markAttendace",
-    "followPage": "/GHYYK",
-    "sessionM": "/sessionManagement",
-    "DoubleServicePage": "/DD"
-  };
+  // // Central Routing Engine Control Mapping Handlers
+  // const routeMappings = {
+  //   "peoplePage": "/people",
+  //   "database": "/database",
+  //   "profilePage": "/profile",
+  //   "analysisPage": "/analysis",
+  //   "code": "/qrcode",
+  //   "tend": "/Attend",
+  //   "MA": "/markAttendace",
+  //   "followPage": "/GHYYK",
+  //   "sessionM": "/sessionManagement",
+  //   "DoubleServicePage": "/DD"
+  // };
 
-  Object.entries(routeMappings).forEach(([elementId, path]) => {
-    const el = document.getElementById(elementId);
-    if (el) {
-      el.addEventListener("click", () => navigateTo(path));
-    }
-  });
+  // Object.entries(routeMappings).forEach(([elementId, path]) => {
+  //   const el = document.getElementById(elementId);
+  //   if (el) {
+  //     el.addEventListener("click", () => navigateTo(path));
+  //   }
+  // });
 });
  // const createSessionBtn = document.getElementById("createSessionBtn");
 

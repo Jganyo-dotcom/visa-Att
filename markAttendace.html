@@ -3,41 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Main Dashboard</title>
+    <title>Main Dashboard | Attendance App</title>
     <link rel="icon" type="image/png" href="/l.png" />
+    
     <link rel="stylesheet" href="t4.css" />
+    <link rel="stylesheet" href="global-sidebar.css" />
   </head>
   <body>
-    <!-- Shared Header -->
     <header>
       <div class="header-left">
         <img src="logo.png" alt="Company Logo" class="logo" />
         <h1 id="welcome">Admin Dashboard</h1>
       </div>
       <div class="header-right">
-        <button id="hamburgerBtn" class="hamburger">&#9776;</button>
+        <button id="hamburgerBtn" class="hamburger" aria-label="Open Navigation">&#9776;</button>
       </div>
     </header>
 
-    <!-- Shared Side Menu -->
-    <div id="sideMenu" class="side-menu">
-      <button id="closeMenuBtn" class="close-btn">&times;</button>
-      <button id="changePasswordBtn" class="btn-secondary">
-        Change Password
-      </button>
-      <button id="mainPage" class="btn-secondary">Dashboard</button>
-      <button id="deleteAccount" class="btn-danger">Delete Account</button>
-      <button id="staffPage" class="btn-secondary">Manage Staff</button>
-      <button id="peoplePage" class="btn-secondary">Manage People</button>
-      <button id="code" class="btn-secondary">Att By Scan</button>
-      <button id="tend" class="btn-secondary">Attendance</button>
-      <button id="database" class="btn-secondary">Database</button>
-      <button id="profilePage" class="btn-secondary">profile</button>
-      <button id="analysisPage" class="btn-secondary">Analysis</button>
-      <button id="signOutBtn" class="btn-signout">Sign Out</button>
-    </div>
-
-    <!-- Page-specific content -->
     <main class="grid">
       <section>
         <h2>👥 Attendance</h2>
@@ -48,7 +30,6 @@
         <p id="attendanceMessage"></p>
       </section>
 
-      <!-- Loader -->
       <div class="loader-overlay" id="loaderrOverlay">
         <div class="loader">
           <div class="spinner"></div>
@@ -57,7 +38,6 @@
       </div>
     </main>
 
-    <!-- Shared Footer -->
     <footer>
       <p>© 2026 Attendance App. Created by <strong>Elikem</strong>.</p>
       <p>
@@ -74,14 +54,14 @@
         <a href="https://github.com/Jganyo-dotcom/" target="_blank">GitHub</a>
       </div>
     </footer>
-    <!-- Change Password Modal -->
-    <div id="changePasswordModal" class="slide-modal">
+
+    <div id="passwordModal" class="slide-modal">
       <div class="slide-modal-content">
-        <span id="closeModal" class="close-btn">&times;</span>
+        <button id="closeModalBtn" class="close-btn">&times;</button>
         <h2>Change Password</h2>
         <form id="changePasswordForm">
           <div class="form-group">
-            <label for="oldPassword">Old Password</label>
+            <label for="currentPassword">Old Password</label>
             <input type="password" id="currentPassword" required />
           </div>
           <div class="form-group">
@@ -96,6 +76,8 @@
         </form>
       </div>
     </div>
+
+    <script src="global-sidebar.js"></script>
     <script src="MA.js"></script>
   </body>
 </html>

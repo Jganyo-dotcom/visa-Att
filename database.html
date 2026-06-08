@@ -4,9 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <title>Manage People</title>
+    <title>Manage People | Attendance App</title>
     <link rel="icon" type="image/png" href="/logo.png" />
+    
+    <!-- Core Page Stylesheet -->
     <link rel="stylesheet" href="database.css" />
+    <!-- 1. Global Component Stylesheet Link -->
+    <link rel="stylesheet" href="global-sidebar.css" />
   </head>
   <body>
     <!-- Shared Header -->
@@ -16,29 +20,13 @@
         <h1 id="welcome">DATABASE</h1>
       </div>
       <div class="header-right">
-        <button id="hamburgerBtn" class="hamburger">&#9776;</button>
+        <!-- 2. Integrated unified right-aligned hamburger navigation button -->
+        <button id="hamburgerBtn" class="hamburger" aria-label="Open Navigation">&#9776;</button>
       </div>
     </header>
 
-    <!-- Shared Side Menu -->
-    <div id="sideMenu" class="side-menu">
-      <button id="closeMenuBtn" class="close-btn">&times;</button>
-      <button id="changePasswordBtn" class="btn-secondary">
-        Change Password
-      </button>
-      <button id="mainPage" class="btn-danger">Dashboard</button>
-      <button id="deleteAccount" class="btn-danger">Delete Account</button>
-      <button id="staffPage" class="btn-secondary">Manage Staff</button>
-      <button id="peoplePage" class="btn-secondary">Manage People</button>
-      <button id="code" class="btn-secondary">Att By Scan</button>
-      <button id="tend" class="btn-secondary">Attendance</button>
-      <button id="database" class="btn-secondary">Database</button>
-      <button id="profilePage" class="btn-secondary">profile</button>
-      <button id="analysisPage" class="btn-secondary">Analysis</button>
-      <button id="signOutBtn" class="btn-signout">Sign Out</button>
-    </div>
+    <!-- Note: The sidebar HTML markup is now generated dynamically via global-sidebar.js -->
 
-    <!-- Page-specific content -->
     <!-- Page-specific content -->
     <main>
       <h2>
@@ -84,14 +72,15 @@
         <a href="https://github.com/Jganyo-dotcom/" target="_blank">GitHub</a>
       </div>
     </footer>
-    <!-- Change Password Modal -->
-    <div id="changePasswordModal" class="slide-modal">
+
+    <!-- Interactive Overlay Modal Structure (Aligned to match global-sidebar.js targets) -->
+    <div id="passwordModal" class="slide-modal">
       <div class="slide-modal-content">
-        <span id="closeModal" class="close-btn">&times;</span>
+        <button id="closeModalBtn" class="close-btn">&times;</button>
         <h2>Change Password</h2>
         <form id="changePasswordForm">
           <div class="form-group">
-            <label for="oldPassword">Old Password</label>
+            <label for="currentPassword">Old Password</label>
             <input type="password" id="currentPassword" required />
           </div>
           <div class="form-group">
@@ -106,6 +95,7 @@
         </form>
       </div>
     </div>
+
     <!-- Report Modal -->
     <div id="reportModal" class="modal">
       <div class="Modal-content">
@@ -144,6 +134,7 @@
       </div>
     </div>
 
+    <!-- QR Modal -->
     <div id="qrModal" class="modal" style="display: none">
       <div class="modal-content">
         <h2>QR Code</h2>
@@ -153,6 +144,7 @@
       </div>
     </div>
 
+    <!-- Update Modal -->
     <div id="updateModal" class="modal" style="display: none">
       <div class="modal-content">
         <span id="closeModall" class="close">&times;</span>
@@ -207,6 +199,9 @@
       </div>
     </div>
 
+    <!-- 3. Dynamic Side-drawer Engine Component Execution script -->
+    <script src="global-sidebar.js"></script>
+    <!-- Core layout page specific logic execution -->
     <script src="database.js"></script>
   </body>
 </html>

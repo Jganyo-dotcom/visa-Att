@@ -3,20 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Attendance Report</title>
+    <title>Attendance Report | Attendance App</title>
     <link rel="icon" type="image/png" href="/logo.png" />
+    
     <link rel="stylesheet" href="GH.CSS" />
+    <link rel="stylesheet" href="global-sidebar.css" />
   </head>
   <body>
-    <!-- Shared Header -->
     <header>
       <div class="header-left">
         <img src="logo.png" alt="Company Logo" class="logo" />
         <h1 id="welcome">Attendance Report Viewer</h1>
       </div>
+      <div class="header-right">
+        <button id="hamburgerBtn" class="hamburger" aria-label="Open Navigation">&#9776;</button>
+      </div>
     </header>
 
-    <!-- Main Content -->
     <main>
       <section class="controls">
         <label for="dayOne">Day One Date:</label>
@@ -43,12 +46,17 @@
 
       <section id="attendanceContainer">
         <div class="attendance-wrapper" id="attendance-wrapper">
-          <!-- Table will be injected here -->
-        </div>
+          </div>
       </section>
     </main>
 
-    <!-- Footer -->
+    <div id="passwordModal" class="slide-modal">
+      <div class="slide-modal-content">
+        <button id="closeModalBtn" class="close-btn">&times;</button>
+        <h2>Change Password</h2>
+        </div>
+    </div>
+
     <footer>
       <p>© 2026 Attendance App. Created by <strong>Elikem</strong>.</p>
       <p>
@@ -66,6 +74,7 @@
       </div>
     </footer>
 
+    <script src="global-sidebar.js"></script>
     <script src="GY.js"></script>
   </body>
 </html>

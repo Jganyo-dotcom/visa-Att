@@ -3,38 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile</title>
+    <title>Profile | Attendance App</title>
     <link rel="icon" type="image/png" href="/logo.png">
+    
     <link rel="stylesheet" href="database.css" />
+    <link rel="stylesheet" href="global-sidebar.css" />
   </head>
   <body>
-    <!-- Shared Header -->
     <header>
       <div class="header-left">
         <img src="logo.png" alt="Company Logo" class="logo" />
         <h1 id="welcome">Admin Profile</h1>
       </div>
       <div class="header-right">
-        <button id="hamburgerBtn" class="hamburger">&#9776;</button>
+        <button id="hamburgerBtn" class="hamburger" aria-label="Open Navigation">&#9776;</button>
       </div>
     </header>
 
-    <!-- Shared Side Menu -->
-    <div id="sideMenu" class="side-menu">
-      <button id="closeMenuBtn" class="close-btn">&times;</button>
-      <button id="changePasswordBtn" class="btn-secondary">
-        Change Password
-      </button>
-      <button id="mainPage" class="btn-danger">Dashboard</button>
-      <button id="deleteAccount" class="btn-danger">Delete Account</button>
-      <button id="staffPage" class="btn-secondary">Manage Staff</button>
-      <button id="peoplePage" class="btn-secondary">Manage People</button>
-      <button id="database" class="btn-secondary">Database</button>
-      <button id="analysisPage" class="btn-secondary">Analysis</button>
-      <button id="signOutBtn" class="btn-signout">Sign Out</button>
-    </div>
-
-    <!-- Page-specific content -->
     <main>
       <section>
         <h2>👤 Update Profile</h2>
@@ -67,7 +52,14 @@
         </form>
       </section>
     </main>
-    <!-- Shared Footer -->
+
+    <div id="passwordModal" class="slide-modal">
+      <div class="slide-modal-content">
+        <button id="closeModalBtn" class="close-btn">&times;</button>
+        <h2>Change Password</h2>
+        </div>
+    </div>
+
     <footer>
       <p>© 2026 Attendance App. Created by <strong>Elikem</strong>.</p>
       <p>
@@ -85,6 +77,7 @@
       </div>
     </footer>
 
+    <script src="global-sidebar.js"></script>
     <script src="profile.js"></script>
   </body>
 </html>

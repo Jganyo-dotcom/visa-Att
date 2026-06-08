@@ -3,11 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manage People</title>
+    <title>Analysis | Attendance App</title>
     <link rel="icon" type="image/png" href="/logo.png" />
-    <link rel="stylesheet" href="analysis.css" />
+    
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Core Page Stylesheet -->
+    <link rel="stylesheet" href="analysis.css" />
+    <!-- 1. Global Component Stylesheet Link -->
+    <link rel="stylesheet" href="global-sidebar.css" />
   </head>
   <body>
     <!-- Shared Header -->
@@ -17,18 +22,12 @@
         <h1 id="welcome">Analysis</h1>
       </div>
       <div class="header-right">
-        <button id="hamburgerBtn" class="hamburger">&#9776;</button>
+        <!-- 2. Integrated unified right-aligned hamburger navigation button -->
+        <button id="hamburgerBtn" class="hamburger" aria-label="Open Navigation">&#9776;</button>
       </div>
     </header>
 
-    <!-- Shared Side Menu -->
-    <div id="sideMenu" class="side-menu">
-      <button id="closeMenuBtn" class="close-btn">&times;</button>
-      <button id="mainPage" class="btn-danger">Dashboard</button>
-      <button id="database" class="btn-secondary">Database</button>
-      <button id="profilePage" class="btn-secondary">Profile</button>
-      <button id="signOutBtn" class="btn-signout">Sign Out</button>
-    </div>
+    <!-- Note: The sidebar HTML markup is now generated dynamically via global-sidebar.js -->
 
     <!-- Page-specific content -->
     <main>
@@ -47,17 +46,25 @@
         <canvas id="dailyBar"></canvas>
       </div>
 
-        <!-- Female chart -->
-        <div style="width: 400px; margin-top: 20px">
-          <canvas id="femalePie"></canvas>
-        </div>
+      <!-- Female chart -->
+      <div style="width: 400px; margin-top: 20px">
+        <canvas id="femalePie"></canvas>
+      </div>
 
-        <!-- Male chart -->
-        <div style="width: 400px; margin-top: 20px">
-          <canvas id="malePie"></canvas>
-        </div>
-
+      <!-- Male chart -->
+      <div style="width: 400px; margin-top: 20px">
+        <canvas id="malePie"></canvas>
+      </div>
     </main>
+
+    <!-- Interactive Overlay Modal Structure (Aligned to match global-sidebar.js targets) -->
+    <div id="passwordModal" class="slide-modal">
+      <div class="slide-modal-content">
+        <button id="closeModalBtn" class="close-btn">&times;</button>
+        <h2>Change Password</h2>
+        <!-- Modal body form fields live here -->
+      </div>
+    </div>
 
     <!-- Shared Footer -->
     <footer>
@@ -76,6 +83,10 @@
         <a href="https://github.com/Jganyo-dotcom/" target="_blank">GitHub</a>
       </div>
     </footer>
+
+    <!-- 3. Dynamic Side-drawer Engine Component Execution script -->
+    <script src="global-sidebar.js"></script>
+    <!-- Core layout page specific logic execution -->
+    <script src="analysis.js"></script>
   </body>
-  <script src="analysis.js"></script>
 </html>
