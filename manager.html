@@ -5,25 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Super Admin Dashboard</title>
     <link rel="stylesheet" href="manager.css" />
-    <link rel="icon" type="image/png" href="/logo.png">
+    <link rel="icon" type="image/png" href="/logo.png" />
   </head>
   <body>
 
-    <!-- Header Block -->
     <header>
       <div class="header-left">
         <img src="logo.png" alt="Company Logo" class="logo" />
         <h1 id="welcome">Super Admin Dashboard</h1>
       </div>
       <div class="header-right">
-        <button id="openChangePassword" class="btn-secondary">Change Password</button>
-        <button id="SignOutBtn" class="btn-signout">Sign Out</button>
+        <div class="desktop-actions">
+          <button id="openChangePassword" class="btn-secondary">Change Password</button>
+          <button id="SignOutBtn" class="btn-signout">Sign Out</button>
+        </div>
+        <button id="mobileMenuBtn" class="hamburger-toggle" aria-label="Toggle Actions Menu">
+          &#9776;
+        </button>
       </div>
     </header>
 
-    <!-- Main Content Area Grid -->
+    <div id="mobileDrawer" class="drawer-overlay">
+      <div class="drawer-content">
+        <div class="drawer-header">
+          <h3>Account Actions</h3>
+          <button id="closeDrawerBtn" class="close-modal">&times;</button>
+        </div>
+        <div class="drawer-body">
+          <button id="openChangePasswordMobile" class="btn-secondary drawer-btn">Change Password</button>
+          <button id="SignOutBtnMobile" class="btn-signout drawer-btn">Sign Out</button>
+        </div>
+      </div>
+    </div>
+
     <main>
-      <!-- Panel 1: Creation Form -->
       <section>
         <h2>➕ Add New Admin</h2>
         <form id="addAdminForm" class="form-card">
@@ -51,7 +66,6 @@
         </form>
       </section>
 
-      <!-- Panel 2: Table Registry -->
       <section>
         <h2>👥 All Admins</h2>
         <div class="table-container">
@@ -71,11 +85,10 @@
       </section>
     </main>
 
-    <!-- Enforced Action Modal -->
     <div id="changePasswordModal" class="modal">
       <div class="modal-content">
         <span id="closeModal" class="close-modal">&times;</span>
-        <h2 style="margin-bottom:1rem;">Change Password</h2>
+        <h2>Change Password</h2>
         <form id="changePasswordForm" class="form-card">
           <div class="form-group">
             <label for="currentPassword">Current Password</label>
@@ -90,7 +103,6 @@
       </div>
     </div>
 
-    <!-- Layout Footer -->
     <footer>
       <p>© 2026 Attendance App. Created by <strong>Elikem</strong>.</p>
       <p>

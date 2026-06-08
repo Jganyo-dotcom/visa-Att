@@ -1,25 +1,27 @@
-/* --- Global Styles & Variables --- */
+/* --- High-End Enterprise Design Tokens --- */
 :root {
-  --bg-primary: #f8fafc;
-  --bg-surface: #ffffff;
-  --text-main: #0f172a;
-  --text-muted: #64748b;
+  --bg-primary: #090d16;
+  --bg-surface: #111827;
+  --bg-surface-elevated: #1f2937;
+  --text-main: #f9fafb;
+  --text-muted: #9ca3af;
   --color-primary: #4f46e5;
   --color-primary-hover: #4338ca;
   --color-danger: #ef4444;
   --color-danger-hover: #dc2626;
-  --border-color: #e2e8f0;
+  --border-color: rgba(255, 255, 255, 0.06);
+  --border-focus: rgba(79, 70, 229, 0.4);
   --radius-md: 8px;
   --radius-lg: 12px;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
@@ -30,41 +32,66 @@ body {
   flex-direction: column;
 }
 
-/* --- Layout Header --- */
+/* --- Layout Header Context Structure --- */
 header {
-  background-color: var(--bg-surface);
+  background: rgba(17, 24, 39, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-color);
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 12px;
 }
 
 .logo {
-  height: 40px;
+  height: 36px;
   width: auto;
   object-fit: contain;
+  border-radius: var(--radius-md);
 }
 
 header h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-main);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
 }
 
 .header-right {
   display: flex;
+  align-items: center;
+}
+
+.desktop-actions {
+  display: flex;
   gap: 0.75rem;
 }
 
-/* --- Main Structure --- */
+/* --- Hamburger Toggle Engine Display UI --- */
+.hamburger-toggle {
+  display: none;
+  background: transparent;
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  padding: 4px 8px;
+  border-radius: var(--radius-md);
+}
+
+.hamburger-toggle:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* --- Responsive Layout Grid Structures --- */
 main {
   flex: 1;
   max-width: 1400px;
@@ -78,7 +105,7 @@ main {
 
 @media (min-width: 992px) {
   main {
-    grid-template-columns: 350px 1fr;
+    grid-template-columns: 380px 1fr;
     align-items: start;
   }
 }
@@ -87,21 +114,21 @@ section {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  box-shadow: var(--shadow-md);
+  padding: 2rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
 }
 
 section h2 {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  margin-bottom: 1.5rem;
-  color: var(--text-main);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* --- Form Design --- */
+/* --- Advanced Dashboard Forms --- */
 .form-card {
   display: flex;
   flex-direction: column;
@@ -121,41 +148,40 @@ section h2 {
 }
 
 .form-group input {
-  padding: 0.75rem;
-  border: 1px solid var(--border-color);
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-md);
   font-size: 0.95rem;
-  background-color: var(--bg-primary);
-  color: var(--text-main);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  background-color: #1f2937;
+  color: #ffffff;
+  outline: none;
+  transition: var(--transition);
 }
 
 .form-group input:focus {
-  outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  box-shadow: 0 0 0 2px var(--border-focus);
 }
 
-/* --- Modern Buttons --- */
+/* --- Component Functional Interactive Buttons --- */
 button {
   cursor: pointer;
-  font-weight: 600;
-  font-size: 0.9rem;
-  padding: 0.625rem 1.25rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 10px 18px;
   border-radius: var(--radius-md);
   border: none;
-  transition: background-color 0.2s, transform 0.1s;
-}
-
-button:active {
-  transform: scale(0.98);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
 }
 
 .btn-primary {
   background-color: var(--color-primary);
   color: white;
   width: 100%;
-  padding: 0.75rem;
+  padding: 12px;
 }
 
 .btn-primary:hover {
@@ -163,42 +189,47 @@ button:active {
 }
 
 .btn-secondary {
-  background-color: var(--bg-primary);
-  color: var(--text-main);
-  border: 1px solid var(--border-color);
+  background-color: transparent;
+  color: var(--text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .btn-secondary:hover {
-  background-color: var(--border-color);
+  color: var(--text-main);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .btn-signout {
   background-color: transparent;
   color: var(--text-muted);
+  border: 1px solid transparent;
 }
 
 .btn-signout:hover {
   color: var(--color-danger);
-  background-color: rgba(239, 68, 68, 0.05);
+  background-color: rgba(239, 68, 68, 0.08);
 }
 
 .btn-danger {
   background-color: rgba(239, 68, 68, 0.1);
   color: var(--color-danger);
-  padding: 0.4rem 0.8rem;
-  font-size: 0.8rem;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .btn-danger:hover {
   background-color: var(--color-danger);
   color: white;
+  border-color: transparent;
 }
 
-/* --- Table Design --- */
+/* --- Enterprise Responsive Table Registry Sheet --- */
 .table-container {
   overflow-x: auto;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
+  background: #111827;
 }
 
 .admin-table {
@@ -209,15 +240,15 @@ button:active {
 }
 
 .admin-table th {
-  background-color: var(--bg-primary);
+  background-color: #1f2937;
   color: var(--text-muted);
-  font-weight: 600;
-  padding: 1rem;
+  font-weight: 500;
+  padding: 14px 16px;
   border-bottom: 1px solid var(--border-color);
 }
 
 .admin-table td {
-  padding: 1rem;
+  padding: 14px 16px;
   border-bottom: 1px solid var(--border-color);
   color: var(--text-main);
 }
@@ -227,63 +258,124 @@ button:active {
 }
 
 .admin-table tr:hover td {
-  background-color: rgba(248, 250, 252, 0.7);
+  background-color: rgba(255, 255, 255, 0.02);
 }
 
-/* --- Modal Base --- */
+/* --- Global Dialog Modals Architecture Layer --- */
 .modal {
-  display: none; 
+  display: none;
   position: fixed;
+  inset: 0;
   z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(4px);
+  background-color: rgba(9, 13, 22, 0.8);
+  backdrop-filter: blur(6px);
   align-items: center;
   justify-content: center;
+  padding: 1rem;
 }
 
 .modal-content {
   background-color: var(--bg-surface);
-  padding: 2rem;
+  border: 1px solid var(--border-color);
+  padding: 2.5rem 2.25rem;
   border-radius: var(--radius-lg);
-  width: 90%;
-  max-width: 400px;
-  box-shadow: var(--shadow-md);
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   position: relative;
+  animation: modalFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-content h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
 }
 
 .close-modal {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 1.5rem;
+  top: 1.25rem;
+  right: 1.25rem;
+  font-size: 1.75rem;
   cursor: pointer;
   color: var(--text-muted);
+  line-height: 1;
+  background: transparent;
+  border: none;
+  padding: 0;
 }
 
-/* --- Footer --- */
-footer {
-  margin-top: auto;
-  background-color: var(--bg-surface);
-  border-top: 1px solid var(--border-color);
-  padding: 1.5rem 2rem;
-  text-align: center;
-  font-size: 0.875rem;
-  color: var(--text-muted);
+.close-modal:hover {
+  color: var(--text-main);
 }
 
-footer p {
-  margin-bottom: 0.5rem;
+/* --- Mobile Drawer Layout Panel --- */
+.drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background-color: rgba(9, 13, 22, 0.7);
+  backdrop-filter: blur(4px);
+  justify-content: flex-end;
 }
 
-footer a {
-  color: var(--color-primary);
-  text-decoration: none;
+.drawer-content {
+  background: var(--bg-surface);
+  width: 280px;
+  height: 100%;
+  box-shadow: -10px 0 25px rgba(0, 0, 0, 0.5);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: drawerSlideIn 0.25s ease-out;
 }
 
-footer a:hover {
-  text-decoration: underline;
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drawer-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.drawer-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* --- Layout Animations Configuration --- */
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes drawerSlideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+/* --- Mobile Breakpoint Optimizations --- */
+@media (max-width: 768px) {
+  .desktop-actions {
+    display: none;
+  }
+  .hamburger-toggle {
+    display: block;
+  }
+  header {
+    padding: 1rem;
+  }
+  main {
+    padding: 0 1rem;
+    margin: 1rem auto;
+  }
+  section {
+    padding: 1.5rem 1.25rem;
+  }
 }
