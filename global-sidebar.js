@@ -93,6 +93,11 @@ document.addEventListener("DOMContentLoaded", () => {
     "DoubleServicePage": "/DD"
   };
 
+  // // Global Single Page Application Route Driver Engine
+const navigateTo = (path) => {
+  window.location.href = isLocalDev ? `${path}.html` : path;
+};
+
   Object.entries(routeMappings).forEach(([elementId, path]) => {
     const el = document.getElementById(elementId);
     if (el) {

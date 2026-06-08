@@ -254,36 +254,36 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const hamburgerBtn = document.getElementById("hamburgerBtn");
-  const sideMenu = document.getElementById("sideMenu");
-  const closeMenuBtn = document.getElementById("closeMenuBtn");
-  const openBtnDesktop = document.getElementById("changePasswordBtn");
+  // const hamburgerBtn = document.getElementById("hamburgerBtn");
+  // const sideMenu = document.getElementById("sideMenu");
+  // const closeMenuBtn = document.getElementById("closeMenuBtn");
+  // const openBtnDesktop = document.getElementById("changePasswordBtn");
 
-  // Off-canvas Side Drawer Drawer Event Binding Logic
-  if (hamburgerBtn && sideMenu) {
-    hamburgerBtn.addEventListener("click", () => {
-      sideMenu.classList.toggle("active");
-      if (sideMenu.classList.contains("active")) {
-        hamburgerBtn.innerHTML = "&times;";
-      } else {
-        hamburgerBtn.innerHTML = "&#9776;";
-      }
-    });
-  }
+  // // Off-canvas Side Drawer Drawer Event Binding Logic
+  // if (hamburgerBtn && sideMenu) {
+  //   hamburgerBtn.addEventListener("click", () => {
+  //     sideMenu.classList.toggle("active");
+  //     if (sideMenu.classList.contains("active")) {
+  //       hamburgerBtn.innerHTML = "&times;";
+  //     } else {
+  //       hamburgerBtn.innerHTML = "&#9776;";
+  //     }
+  //   });
+  // }
 
-  if (closeMenuBtn && sideMenu && hamburgerBtn) {
-    closeMenuBtn.addEventListener("click", () => {
-      sideMenu.classList.remove("active");
-      hamburgerBtn.innerHTML = "&#9776;";
-    });
-  }
+  // if (closeMenuBtn && sideMenu && hamburgerBtn) {
+  //   closeMenuBtn.addEventListener("click", () => {
+  //     sideMenu.classList.remove("active");
+  //     hamburgerBtn.innerHTML = "&#9776;";
+  //   });
+  // }
 
-  window.addEventListener("click", (e) => {
-    if (sideMenu && hamburgerBtn && !sideMenu.contains(e.target) && e.target !== hamburgerBtn) {
-      sideMenu.classList.remove("active");
-      hamburgerBtn.innerHTML = "&#9776;";
-    }
-  });
+  // window.addEventListener("click", (e) => {
+  //   if (sideMenu && hamburgerBtn && !sideMenu.contains(e.target) && e.target !== hamburgerBtn) {
+  //     sideMenu.classList.remove("active");
+  //     hamburgerBtn.innerHTML = "&#9776;";
+  //   }
+  // });
 
   // Modal Open Trigger Event Listeners
   if (openBtnDesktop && modal) {

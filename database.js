@@ -261,42 +261,42 @@ document.getElementById("searchInput").addEventListener("input", (e) => {
   loadAttendance(1, currentSearch); // reset to page 1 when searching
 });
 
-const hamburgerBtn = document.getElementById("hamburgerBtn");
-const sideMenu = document.getElementById("sideMenu");
-const closeMenuBtn = document.getElementById("closeMenuBtn");
+// const hamburgerBtn = document.getElementById("hamburgerBtn");
+// const sideMenu = document.getElementById("sideMenu");
+// const closeMenuBtn = document.getElementById("closeMenuBtn");
 
 // const modal = document.getElementById("changePasswordModal");
-const openBtnDesktop = document.getElementById("changePasswordBtn");
+// const openBtnDesktop = document.getElementById("changePasswordBtn");
 
 // const closeBtn = document.getElementById("closeModal");
 
 // --- Side Menu Logic ---
-hamburgerBtn.addEventListener("click", () => {
-  sideMenu.classList.toggle("active");
+// hamburgerBtn.addEventListener("click", () => {
+//   sideMenu.classList.toggle("active");
 
-  // Toggle hamburger icon ↔ X
-  if (sideMenu.classList.contains("active")) {
-    hamburgerBtn.innerHTML = "&times;"; // X
-  } else {
-    hamburgerBtn.innerHTML = "&#9776;"; // Hamburger
-  }
-});
+//   // Toggle hamburger icon ↔ X
+//   if (sideMenu.classList.contains("active")) {
+//     hamburgerBtn.innerHTML = "&times;"; // X
+//   } else {
+//     hamburgerBtn.innerHTML = "&#9776;"; // Hamburger
+//   }
+// });
 
 // Close menu when clicking the X inside
-if (closeMenuBtn) {
-  closeMenuBtn.addEventListener("click", () => {
-    sideMenu.classList.remove("active");
-    hamburgerBtn.innerHTML = "&#9776;";
-  });
-}
+// if (closeMenuBtn) {
+//   closeMenuBtn.addEventListener("click", () => {
+//     sideMenu.classList.remove("active");
+//     hamburgerBtn.innerHTML = "&#9776;";
+//   });
+// }
 
 // Close menu when clicking outside
-window.addEventListener("click", (e) => {
-  if (!sideMenu.contains(e.target) && e.target !== hamburgerBtn) {
-    sideMenu.classList.remove("active");
-    hamburgerBtn.innerHTML = "&#9776;";
-  }
-});
+// window.addEventListener("click", (e) => {
+//   if (!sideMenu.contains(e.target) && e.target !== hamburgerBtn) {
+//     sideMenu.classList.remove("active");
+//     hamburgerBtn.innerHTML = "&#9776;";
+//   }
+// });
 
 const signOut = document.getElementById("signOutBtn");
 signOut.addEventListener("click", handleSignOut);
