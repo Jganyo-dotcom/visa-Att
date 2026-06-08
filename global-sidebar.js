@@ -72,13 +72,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- App Page Routing Redirection Configurations ---
-  // Adjust these strings if your actual filenames look slightly different
- const isLocalDev = 
-  window.location.hostname === "localhost" || 
-  window.location.hostname === "127.0.0.1" || 
-  window.location.protocol === "file:";
+  const isLocalDev = 
+    window.location.hostname === "localhost" || 
+    window.location.hostname === "127.0.0.1" || 
+    window.location.protocol === "file:";
 
-    // Central Routing Engine Control Mapping Handlers
+  // Central Routing Engine Control Mapping Handlers
   const routeMappings = {
     "peoplePage": "/people",
     "database": "/database",
@@ -89,14 +88,14 @@ document.addEventListener("DOMContentLoaded", () => {
     "MA": "/markAttendace",
     "followPage": "/GHYYK",
     "mainPage": "/admin",
-     "sessionM": "/sessionManagement",
+    "sessionM": "/sessionManagement",
     "DoubleServicePage": "/DD"
   };
 
-  // // Global Single Page Application Route Driver Engine
-const navigateTo = (path) => {
-  window.location.href = isLocalDev ? `${path}.html` : path;
-};
+  // Global Single Page Application Route Driver Engine
+  const navigateTo = (path) => {
+    window.location.href = isLocalDev ? `${path}.html` : path;
+  };
 
   Object.entries(routeMappings).forEach(([elementId, path]) => {
     const el = document.getElementById(elementId);
@@ -105,7 +104,7 @@ const navigateTo = (path) => {
     }
   });
   
-  // Custom placeholders for Auth handling (Hook into your main script if needed)
+  // Custom placeholders for Auth handling
   const signOut = document.getElementById("signOutBtn");
   if (signOut) {
     signOut.addEventListener("click", () => {
@@ -113,41 +112,42 @@ const navigateTo = (path) => {
       // write auth/logout logic or redirect here
     });
   }
-});
 
+  // --- Fixed: Delete Account Handler Moved Inside Lifecycle Wrapper ---
+  const deleteAccountBtn = document.getElementById("deleteAccount");
+  if (deleteAccountBtn) {
+    deleteAccountBtn.addEventListener("click", async () => {
+      const confirmed = confirm(
+        "Are you sure you want to delete your account? This action cannot be undone.",
+      );
+      if (!confirmed) return;
 
-const deleteAccountBtn = document.getElementById("deleteAccount");
+      try {
+        // Ensure baseApi and user are defined globally or imported elsewhere before usage
+        const res = await fetch(baseApi + `api/admin/${user.id}/delete`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("token") || localStorage.getItem("token")}`,
+          },
+        });
 
-deleteAccountBtn.addEventListener("click", async () => {
-  const confirmed = confirm(
-    "Are you sure you want to delete your account? This action cannot be undone.",
-  );
-  if (!confirmed) return;
+        if (res.ok) {
+          // Clear tokens
+          sessionStorage.removeItem("token");
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
 
-  try {
-    // Call backend route
-    const res = await fetch(baseApi + `api/admin/${user.id}/delete`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${sessionStorage.getItem("token") || localStorage.getItem("token")}`,
-      },
+          // Redirect to auth/login page
+          window.location.href = isLocalDev ? "/auth.html" : "/auth";
+        } else {
+          const data = await res.json();
+          alert("Error deleting account: " + data.message);
+        }
+      } catch (err) {
+        console.error("Delete account error:", err);
+        alert("Server error deleting account");
+      }
     });
-
-    if (res.ok) {
-      // Clear tokens
-      sessionStorage.removeItem("token");
-      localStorage.removeItem("token");
-      localStorage.removeItem("user"); // if you stored user info
-
-      // Redirect to auth/login page
-      window.location.href = "/auth.html";
-    } else {
-      const data = await res.json();
-      alert("Error deleting account: " + data.message);
-    }
-  } catch (err) {
-    console.error("Delete account error:", err);
-    alert("Server error deleting account");
   }
 });

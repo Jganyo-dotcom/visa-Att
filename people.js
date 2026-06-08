@@ -140,50 +140,50 @@ if (!token) {
 //   window.location.href = "/auth.html"; // redirect to login or home
 // }
 
-const changePasswordBtn = document.getElementById("changePasswordBtn");
-const modal = document.getElementById("changePasswordModal");
-const closeModal = document.getElementById("closeModal");
+// const changePasswordBtn = document.getElementById("changePasswordBtn");
+// const modal = document.getElementById("changePasswordModal");
+// const closeModal = document.getElementById("closeModal");
 
-if (changePasswordBtn && modal) {
-  changePasswordBtn.addEventListener("click", () => {
-    modal.style.display = "flex"; // show modal
-  });
-}
+// if (changePasswordBtn && modal) {
+//   changePasswordBtn.addEventListener("click", () => {
+//     modal.style.display = "flex"; // show modal
+//   });
+// }
 
-if (closeModal && modal) {
-  closeModal.addEventListener("click", () => {
-    modal.style.display = "none"; // hide modal
-  });
-}
+// if (closeModal && modal) {
+//   closeModal.addEventListener("click", () => {
+//     modal.style.display = "none"; // hide modal
+//   });
+// }
 
-// Optional: close modal when clicking outside content
-window.addEventListener("click", (e) => {
-  if (e.target === modal) {
-    modal.style.display = "none";
-  }
-});
+// // Optional: close modal when clicking outside content
+// window.addEventListener("click", (e) => {
+//   if (e.target === modal) {
+//     modal.style.display = "none";
+//   }
+// });
 
-document.getElementById("staffPage").addEventListener("click", () => {
-  console.log("ha");
-  window.location.href = "/staffManagement.html";
-});
+// document.getElementById("staffPage").addEventListener("click", () => {
+//   console.log("ha");
+//   window.location.href = "/staffManagement.html";
+// });
 
-document.getElementById("peoplePage").addEventListener("click", () => {
-  window.location.href = "/people.html";
-});
+// document.getElementById("peoplePage").addEventListener("click", () => {
+//   window.location.href = "/people.html";
+// });
 
-document.getElementById("database").addEventListener("click", () => {
-  window.location.href = "/database.html";
-});
-document.getElementById("mainPage").addEventListener("click", () => {
-  window.location.href = "/admin.html";
-});
-document.getElementById("profilePage").addEventListener("click", () => {
-  window.location.href = "/profile.html";
-});
-document.getElementById("analysisPage").addEventListener("click", () => {
-  window.location.href = "/analysis.html";
-});
+// document.getElementById("database").addEventListener("click", () => {
+//   window.location.href = "/database.html";
+// });
+// document.getElementById("mainPage").addEventListener("click", () => {
+//   window.location.href = "/admin.html";
+// });
+// document.getElementById("profilePage").addEventListener("click", () => {
+//   window.location.href = "/profile.html";
+// });
+// document.getElementById("analysisPage").addEventListener("click", () => {
+//   window.location.href = "/analysis.html";
+// });
 
 document
   .getElementById("searchInputonAbsent")
