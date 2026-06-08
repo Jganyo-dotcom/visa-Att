@@ -1,6 +1,6 @@
 //const baseApi = "http://127.0.0.1:4444";
 const baseApi = "https://attandance-app-1.onrender.com";
-
+const token = localStorage.getItem("token");
 // Local State Engine Tracker
 let isSessionActive = false;
 let sessionId;
