@@ -5,11 +5,37 @@ const baseApi = "https://attandance-app-1.onrender.com";
 let isSessionActive = false;
 let sessionId;
 
+// Global Single Page Application Route Driver Engine
+const navigateTo = (path) => {
+  window.location.href = isLocalDev ? `${path}.html` : path;
+};
+
 // Detects execution context variables safely
 const isLocalDev = 
   window.location.hostname === "localhost" || 
   window.location.hostname === "127.0.0.1" || 
   window.location.protocol === "file:";
+
+    // Central Routing Engine Control Mapping Handlers
+  const routeMappings = {
+    "peoplePage": "/people",
+    "database": "/database",
+    "profilePage": "/profile",
+    "analysisPage": "/analysis",
+    "code": "/qrcode",
+    "tend": "/Attend",
+    "MA": "/markAttendace",
+    "followPage": "/GHYYK",
+    "sessionM": "/sessionManagement",
+    "DoubleServicePage": "/DD"
+  };
+
+  Object.entries(routeMappings).forEach(([elementId, path]) => {
+    const el = document.getElementById(elementId);
+    if (el) {
+      el.addEventListener("click", () => navigateTo(path));
+    }
+  });
 
 
 // DOM Cache Elements
