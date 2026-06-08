@@ -453,33 +453,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // --- Side Menu Logic ---
-  hamburgerBtn.addEventListener("click", () => {
-    sideMenu.classList.toggle("active");
+  // // --- Side Menu Logic ---
+  // hamburgerBtn.addEventListener("click", () => {
+  //   sideMenu.classList.toggle("active");
 
-    // Toggle hamburger icon ↔ X
-    if (sideMenu.classList.contains("active")) {
-      hamburgerBtn.innerHTML = "&times;"; // X
-    } else {
-      hamburgerBtn.innerHTML = "&#9776;"; // Hamburger
-    }
-  });
+  //   // Toggle hamburger icon ↔ X
+  //   if (sideMenu.classList.contains("active")) {
+  //     hamburgerBtn.innerHTML = "&times;"; // X
+  //   } else {
+  //     hamburgerBtn.innerHTML = "&#9776;"; // Hamburger
+  //   }
+  // });
 
-  // Close menu when clicking the X inside
-  if (closeMenuBtn) {
-    closeMenuBtn.addEventListener("click", () => {
-      sideMenu.classList.remove("active");
-      hamburgerBtn.innerHTML = "&#9776;";
-    });
-  }
+  // // Close menu when clicking the X inside
+  // if (closeMenuBtn) {
+  //   closeMenuBtn.addEventListener("click", () => {
+  //     sideMenu.classList.remove("active");
+  //     hamburgerBtn.innerHTML = "&#9776;";
+  //   });
+  // }
 
-  // Close menu when clicking outside
-  window.addEventListener("click", (e) => {
-    if (!sideMenu.contains(e.target) && e.target !== hamburgerBtn) {
-      sideMenu.classList.remove("active");
-      hamburgerBtn.innerHTML = "&#9776;";
-    }
-  });
+  // // Close menu when clicking outside
+  // window.addEventListener("click", (e) => {
+  //   if (!sideMenu.contains(e.target) && e.target !== hamburgerBtn) {
+  //     sideMenu.classList.remove("active");
+  //     hamburgerBtn.innerHTML = "&#9776;";
+  //   }
+  // });
 
   async function UndoStayed(personId, btn) {
     const session = localStorage.getItem("sessionId");
@@ -507,31 +507,31 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.remove();
   }
 
-  document.getElementById("staffPage").addEventListener("click", () => {
-    console.log("ha");
-    window.location.href = "/staffManagement.html";
-  });
+//   document.getElementById("staffPage").addEventListener("click", () => {
+//     console.log("ha");
+//     window.location.href = "/staffManagement.html";
+//   });
 
-  document.getElementById("peoplePage").addEventListener("click", () => {
-    window.location.href = "/people.html";
-  });
-  document.getElementById("mainPage").addEventListener("click", () => {
-    window.location.href = "/admin.html";
-  });
+//   document.getElementById("peoplePage").addEventListener("click", () => {
+//     window.location.href = "/people.html";
+//   });
+//   document.getElementById("mainPage").addEventListener("click", () => {
+//     window.location.href = "/admin.html";
+//   });
 
-  document.getElementById("database").addEventListener("click", () => {
-    window.location.href = "/database.html";
-  });
-  document.getElementById("profilePage").addEventListener("click", () => {
-    window.location.href = "/profile.html";
-  });
-  document.getElementById("analysisPage").addEventListener("click", () => {
-    window.location.href = "/analysis.html";
-  });
-  document.getElementById("code").addEventListener("click", () => {
-    window.location.href = "/qrcode.html";
-  });
-  document.getElementById("tend").addEventListener("click", () => {
-    window.location.href = "/Attend.html";
-  });
+//   document.getElementById("database").addEventListener("click", () => {
+//     window.location.href = "/database.html";
+//   });
+//   document.getElementById("profilePage").addEventListener("click", () => {
+//     window.location.href = "/profile.html";
+//   });
+//   document.getElementById("analysisPage").addEventListener("click", () => {
+//     window.location.href = "/analysis.html";
+//   });
+//   document.getElementById("code").addEventListener("click", () => {
+//     window.location.href = "/qrcode.html";
+//   });
+//   document.getElementById("tend").addEventListener("click", () => {
+//     window.location.href = "/Attend.html";
+//   });
 });

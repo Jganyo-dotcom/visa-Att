@@ -10,38 +10,38 @@ if (!token) {
 }
 
 // Side menu toggle
-const hamburgerBtn = document.getElementById("hamburgerBtn");
-const sideMenu = document.getElementById("sideMenu");
-const closeMenuBtn = document.getElementById("closeMenuBtn");
+// const hamburgerBtn = document.getElementById("hamburgerBtn");
+// const sideMenu = document.getElementById("sideMenu");
+// const closeMenuBtn = document.getElementById("closeMenuBtn");
 
-// const closeBtn = document.getElementById("closeModal");
+// // const closeBtn = document.getElementById("closeModal");
 
-// --- Side Menu Logic ---
-hamburgerBtn.addEventListener("click", () => {
-  if (user.role !== "Admin") {
-    document.getElementById("mainPage").style.display = "none";
-    document.getElementById("staffPage").style.display = "none";
-    document.getElementById("peoplePage").style.display = "none";
-    document.getElementById("database").style.display = "none";
-    document.getElementById("analysisPage").style.display = "none";
-  }
-  sideMenu.classList.toggle("active");
+// // --- Side Menu Logic ---
+// hamburgerBtn.addEventListener("click", () => {
+//   if (user.role !== "Admin") {
+//     document.getElementById("mainPage").style.display = "none";
+//     document.getElementById("staffPage").style.display = "none";
+//     document.getElementById("peoplePage").style.display = "none";
+//     document.getElementById("database").style.display = "none";
+//     document.getElementById("analysisPage").style.display = "none";
+//   }
+//   sideMenu.classList.toggle("active");
 
-  // Toggle hamburger icon ↔ X
-  if (sideMenu.classList.contains("active")) {
-    hamburgerBtn.innerHTML = "&times;"; // X
-  } else {
-    hamburgerBtn.innerHTML = "&#9776;"; // Hamburger
-  }
-});
+//   // Toggle hamburger icon ↔ X
+//   if (sideMenu.classList.contains("active")) {
+//     hamburgerBtn.innerHTML = "&times;"; // X
+//   } else {
+//     hamburgerBtn.innerHTML = "&#9776;"; // Hamburger
+//   }
+// });
 
-// Close menu when clicking the X inside
-if (closeMenuBtn) {
-  closeMenuBtn.addEventListener("click", () => {
-    sideMenu.classList.remove("active");
-    hamburgerBtn.innerHTML = "&#9776;";
-  });
-}
+// // Close menu when clicking the X inside
+// if (closeMenuBtn) {
+//   closeMenuBtn.addEventListener("click", () => {
+//     sideMenu.classList.remove("active");
+//     hamburgerBtn.innerHTML = "&#9776;";
+//   });
+// }
 
 // updating pro
 

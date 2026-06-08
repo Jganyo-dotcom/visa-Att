@@ -12,7 +12,7 @@ if (!token) {
 }
 
 // const modal = document.getElementById("changePasswordModal");
-const openBtnDesktop = document.getElementById("changePasswordBtn");
+// const openBtnDesktop = document.getElementById("changePasswordBtn");
 
 // const closeBtn = document.getElementById("closeModal");
 
@@ -44,15 +44,15 @@ const openBtnDesktop = document.getElementById("changePasswordBtn");
 //   }
 // });
 
-document.getElementById("database").addEventListener("click", () => {
-  window.location.href = "/database.html";
-});
-document.getElementById("mainPage").addEventListener("click", () => {
-  window.location.href = "/admin.html";
-});
-document.getElementById("profilePage").addEventListener("click", () => {
-  window.location.href = "/profile.html";
-});
+// document.getElementById("database").addEventListener("click", () => {
+//   window.location.href = "/database.html";
+// });
+// document.getElementById("mainPage").addEventListener("click", () => {
+//   window.location.href = "/admin.html";
+// });
+// document.getElementById("profilePage").addEventListener("click", () => {
+//   window.location.href = "/profile.html";
+// });
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
