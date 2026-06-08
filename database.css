@@ -29,7 +29,7 @@ body {
   line-height: 1.6;
 }
 
-/* Header */
+/* Header Elements */
 header {
   display: flex;
   justify-content: space-between;
@@ -47,7 +47,7 @@ header {
 
 .stats {
   display: flex;
-  gap: 1.5rem; /* spacing between items */
+  gap: 1.5rem;
   font-size: 1rem;
   font-weight: 600;
   margin-top: 0.5rem;
@@ -57,91 +57,14 @@ header {
   background: #f4f4f4;
   padding: 4px 10px;
   border-radius: 6px;
+  color: #333;
 }
 
 header h1 {
   font-size: 1.5rem;
 }
 
-/* Side menu */
-.side-menu {
-  position: fixed;
-  top: 0;
-  left: -250px;
-  width: 250px;
-  height: 100%;
-  background-color: #f9f9f9;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  transition: left 0.3s ease;
-  z-index: 1000;
-}
-
-.side-menu.active {
-  left: 0;
-}
-
-.side-menu .close-btn {
-  font-size: 28px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  align-self: flex-end;
-}
-
-/* Buttons */
-.btn-signout,
-.btn-danger,
-.btn-secondary,
-.btn-primary {
-  border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s ease;
-}
-
-.btn-signout {
-  background: #e74c3c;
-  color: #fff;
-}
-.btn-signout:hover {
-  background: #c0392b;
-}
-
-.btn-danger {
-  background: #e74c3c;
-  color: #fff;
-}
-.btn-danger:hover {
-  background: #c0392b;
-}
-
-.btn-secondary {
-  background: #3498db;
-  color: #fff;
-}
-.btn-secondary:hover {
-  background: #2980b9;
-}
-
-.btn-primary {
-  background: #3498db;
-  color: #fff;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.btn-primary:hover {
-  background: #2980b9;
-}
-
-/* Main content */
+/* Core Main Structural Layouts */
 main {
   flex: 1 0 auto;
   padding: 30px;
@@ -153,7 +76,7 @@ main h2 {
   color: #2c3e50;
 }
 
-/* Attendance controls */
+/* Attendance control panels */
 .attendance-controls {
   display: flex;
   gap: 10px;
@@ -176,11 +99,12 @@ main h2 {
   cursor: pointer;
   font-weight: bold;
 }
+
 .attendance-controls button:hover {
   background: #2980b9;
 }
 
-/* Table wrapper for responsive scroll */
+/* Responsive Table Components */
 .table-container {
   width: 100%;
   overflow-x: auto;
@@ -189,7 +113,7 @@ main h2 {
 
 .attendance-table {
   width: 100%;
-  min-width: 700px; /* force scroll on small screens */
+  min-width: 700px;
   border-collapse: collapse;
   background: #fff;
   border-radius: 8px;
@@ -217,11 +141,12 @@ main h2 {
   background-color: #eaf2f8;
 }
 
-/* Pagination */
+/* Pagination Control Layouts */
 #attendancePagination {
   margin-top: 15px;
   text-align: center;
 }
+
 #attendancePagination button {
   margin: 0 5px;
   padding: 6px 12px;
@@ -231,17 +156,18 @@ main h2 {
   color: #fff;
   cursor: pointer;
 }
+
 #attendancePagination button.active-page {
   background: #2c3e50;
 }
 
-/* Footer */
+/* Page Footer Elements */
 footer {
   background: #2c3e50;
   color: #fff;
   text-align: center;
   padding: 20px;
-  margin-top: 0;
+  margin-top: auto;
 }
 
 footer a {
@@ -249,6 +175,7 @@ footer a {
   text-decoration: none;
   margin: 0 5px;
 }
+
 footer a:hover {
   text-decoration: underline;
 }
@@ -257,87 +184,93 @@ footer a:hover {
   margin-top: 10px;
 }
 
-/* Modal (slide-up) */
-/* .slide-modal {
-  display: none;
-  position: fixed;
-  z-index: 2000;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.slide-modal-content {
-  background-color: #fff;
-  width: 100%;
-  max-width: 500px;
-  border-radius: 12px 12px 0 0;
-  padding: 25px;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
-  animation: slideUp 0.4s ease;
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.slide-modal .close-btn {
-  float: right;
-  font-size: 28px;
-  cursor: pointer;
-  color: #2c3e50;
-} */
-
-/* Form styling */
+/* Form layouts inside interactive popups */
 .form-group {
   margin-bottom: 15px;
 }
+
 .form-group label {
   display: block;
   margin-bottom: 6px;
   font-weight: bold;
   color: #2c3e50;
 }
-.form-group input {
+
+.form-group input,
+.form-group select,
+#updateForm select {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
+  font-family: inherit;
+  background-color: #fff;
 }
 
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 15px;
+}
 
+/* Action button variations */
+.btn {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
 
+.btn-primary {
+  background: #007bff;
+  color: #fff;
+}
 
+.btn-primary:hover {
+  background: #0056b3;
+}
 
-/* Close button */
-.close {
+.btn-secondary {
+  background: #6c757d;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+}
+
+.btn-danger {
+  background: #dc3545;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background: #bd2130;
+}
+
+/* Close Control Anchors */
+.close, .close-btn {
   color: #aaa;
   float: right;
   font-size: 24px;
   font-weight: bold;
   cursor: pointer;
+  background: none;
+  border: none;
 }
 
-.close:hover {
+.close:hover, .close-btn:hover {
   color: #000;
 }
 
-/* Form styling */
+/* Specialized Update Profile Form configurations */
 #updateForm label {
   display: block;
   margin-top: 10px;
   font-weight: bold;
+  color: #2c3e50;
 }
 
 #updateForm input {
@@ -357,24 +290,67 @@ footer a:hover {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-weight: bold;
 }
 
 #updateForm button:hover {
   background-color: #2980b9;
 }
 
-/* Smooth fade-in animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Processing indicator element targets */
+.loader {
+  text-align: center;
+  margin: 10px 0;
+  font-style: italic;
+  color: #666;
 }
 
+.report-result {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.modal-footer, .Modal-footer {
+  text-align: right;
+  margin-top: 20px;
+}
+
+/* ==========================================================================
+   LOCAL MODAL LAYOUT RULES (Case-Insensitive Target Alignment)
+   ========================================================================== */
+
+.modal, .Modal {
+  display: none;
+  position: fixed;
+  z-index: 2000; /* Stays clean under sidebar overlay layers */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  overflow-y: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content, .Modal-content {
+  background: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+.Modal-title {
+  margin-bottom: 15px;
+  text-align: center;
+  color: #2c3e50;
+}
+
+/* Mobile-responsive grid alignments */
 .attendancetable {
   width: 100%;
   border-collapse: collapse;
@@ -403,9 +379,7 @@ footer a:hover {
   background-color: #f1f1f1;
 }
 
-/* Responsive design */
 @media (max-width: 600px) {
-  /* Use the correct class name: .attendancetable */
   .attendancetable,
   .attendancetable thead,
   .attendancetable tbody,
@@ -417,7 +391,7 @@ footer a:hover {
   }
 
   .attendancetable thead {
-    display: none; /* Hide the header row entirely on small screens */
+    display: none;
   }
 
   .attendancetable tr {
@@ -454,74 +428,14 @@ footer a:hover {
   }
 }
 
-.Modal {
-  display: none;
-  position: fixed;
-  z-index: 999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  overflow: auto;
-}
-
-.Modal-content {
-  background: #fff;
-  margin: 5% auto;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 500px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-.Modal-title {
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.button-group {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
-
-.btn {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background: #007bff;
-  color: #fff;
-}
-.btn-secondary {
-  background: #6c757d;
-  color: #fff;
-}
-.btn-danger {
-  background: #dc3545;
-  color: #fff;
-}
-
-.loader {
-  text-align: center;
-  margin: 10px 0;
-  font-style: italic;
-}
-
-.report-result {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.Modal-footer {
-  text-align: right;
-  margin-top: 20px;
+/* Localized Keyframe Layout Staging */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
