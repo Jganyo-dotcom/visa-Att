@@ -82,41 +82,41 @@ if (!token) {
 
 // Close when clicking outside modal
 
-const deleteAccountBtn = document.getElementById("deleteAccount");
+// const deleteAccountBtn = document.getElementById("deleteAccount");
 
-deleteAccountBtn.addEventListener("click", async () => {
-  const confirmed = confirm(
-    "Are you sure you want to delete your account? This action cannot be undone.",
-  );
-  if (!confirmed) return;
+// deleteAccountBtn.addEventListener("click", async () => {
+//   const confirmed = confirm(
+//     "Are you sure you want to delete your account? This action cannot be undone.",
+//   );
+//   if (!confirmed) return;
 
-  try {
-    // Call backend route
-    const res = await fetch(baseApi + `api/admin/${user.id}/delete`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${sessionStorage.getItem("token") || localStorage.getItem("token")}`,
-      },
-    });
+//   try {
+//     // Call backend route
+//     const res = await fetch(baseApi + `api/admin/${user.id}/delete`, {
+//       method: "DELETE",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${sessionStorage.getItem("token") || localStorage.getItem("token")}`,
+//       },
+//     });
 
-    if (res.ok) {
-      // Clear tokens
-      sessionStorage.removeItem("token");
-      localStorage.removeItem("token");
-      localStorage.removeItem("user"); // if you stored user info
+//     if (res.ok) {
+//       // Clear tokens
+//       sessionStorage.removeItem("token");
+//       localStorage.removeItem("token");
+//       localStorage.removeItem("user"); // if you stored user info
 
-      // Redirect to auth/login page
-      window.location.href = "/auth.html";
-    } else {
-      const data = await res.json();
-      alert("Error deleting account: " + data.message);
-    }
-  } catch (err) {
-    console.error("Delete account error:", err);
-    alert("Server error deleting account");
-  }
-});
+//       // Redirect to auth/login page
+//       window.location.href = "/auth.html";
+//     } else {
+//       const data = await res.json();
+//       alert("Error deleting account: " + data.message);
+//     }
+//   } catch (err) {
+//     console.error("Delete account error:", err);
+//     alert("Server error deleting account");
+//   }
+// });
 
 // const signOut = document.getElementById("signOutBtn");
 // signOut.addEventListener("click", handleSignOut);
