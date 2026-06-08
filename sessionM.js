@@ -5,6 +5,13 @@ const baseApi = "https://attandance-app-1.onrender.com";
 let isSessionActive = false;
 let sessionId;
 
+// Detects execution context variables safely
+const isLocalDev = 
+  window.location.hostname === "localhost" || 
+  window.location.hostname === "127.0.0.1" || 
+  window.location.protocol === "file:";
+
+
 // DOM Cache Elements
 const loader = document.getElementById("ios-loader");
 const loaderText = document.getElementById("loaderText");
