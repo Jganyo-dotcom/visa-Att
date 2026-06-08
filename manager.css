@@ -34,99 +34,98 @@ body {
 header {
   background-color: var(--bg-surface);
   border-bottom: 1px solid var(--border-color);
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
   box-shadow: var(--shadow-sm);
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .logo {
-  height: 40px;
+  height: 36px;
   width: auto;
   object-fit: contain;
 }
 
 header h1 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-main);
 }
 
 .header-right {
   display: flex;
-  gap: 0.75rem;
+  width: 100%;
+  gap: 0.5rem;
 }
 
-/* --- Main Structure --- */
+.header-right button {
+  flex: 1;
+  text-align: center;
+  padding: 0.6rem 0.5rem;
+  font-size: 0.85rem;
+}
+
+/* --- Main Layout Adaptive Grid --- */
 main {
   flex: 1;
   max-width: 1400px;
   width: 100%;
-  margin: 2rem auto;
-  padding: 0 2rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-}
-
-@media (min-width: 992px) {
-  main {
-    grid-template-columns: 350px 1fr;
-    align-items: start;
-  }
+  margin: 1rem auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 section {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 1.5rem;
+  padding: 1.25rem;
   box-shadow: var(--shadow-md);
 }
 
 section h2 {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 600;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   color: var(--text-main);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 
 /* --- Form Design --- */
 .form-card {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
 .form-group label {
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   font-weight: 500;
   color: var(--text-muted);
 }
 
 .form-group input {
-  padding: 0.75rem;
+  padding: 0.7rem;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   font-size: 0.95rem;
   background-color: var(--bg-primary);
   color: var(--text-main);
+  width: 100%;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -136,7 +135,7 @@ section h2 {
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
-/* --- Modern Buttons --- */
+/* --- Functional Layout Buttons --- */
 button {
   cursor: pointer;
   font-weight: 600;
@@ -175,11 +174,13 @@ button:active {
 .btn-signout {
   background-color: transparent;
   color: var(--text-muted);
+  border: 1px solid var(--border-color);
 }
 
 .btn-signout:hover {
   color: var(--color-danger);
   background-color: rgba(239, 68, 68, 0.05);
+  border-color: var(--color-danger);
 }
 
 .btn-danger {
@@ -194,43 +195,51 @@ button:active {
   color: white;
 }
 
-/* --- Table Design --- */
+.btn-danger-filled {
+  background-color: var(--color-danger);
+  color: white;
+}
+
+.btn-danger-filled:hover {
+  background-color: var(--color-danger-hover);
+}
+
+/* --- Fluid Table Scroller Container --- */
 .table-container {
   overflow-x: auto;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
+  background-color: var(--bg-surface);
+  -webkit-overflow-scrolling: touch;
 }
 
 .admin-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  min-width: 600px; /* Forces safety horizontal swipe on compact phones */
 }
 
 .admin-table th {
   background-color: var(--bg-primary);
   color: var(--text-muted);
   font-weight: 600;
-  padding: 1rem;
+  padding: 0.85rem;
   border-bottom: 1px solid var(--border-color);
 }
 
 .admin-table td {
-  padding: 1rem;
+  padding: 0.85rem;
   border-bottom: 1px solid var(--border-color);
   color: var(--text-main);
-}
-
-.admin-table tr:last-child td {
-  border-bottom: none;
 }
 
 .admin-table tr:hover td {
   background-color: rgba(248, 250, 252, 0.7);
 }
 
-/* --- Modal Base --- */
+/* --- Layout Modal Engine --- */
 .modal {
   display: none; 
   position: fixed;
@@ -243,16 +252,39 @@ button:active {
   backdrop-filter: blur(4px);
   align-items: center;
   justify-content: center;
+  padding: 1rem;
 }
 
 .modal-content {
   background-color: var(--bg-surface);
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: var(--radius-lg);
-  width: 90%;
+  width: 100%;
   max-width: 400px;
   box-shadow: var(--shadow-md);
   position: relative;
+}
+
+.modal-content h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.modal-content p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+
+.modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modal-actions button {
+  width: 100%;
 }
 
 .close-modal {
@@ -262,16 +294,109 @@ button:active {
   font-size: 1.5rem;
   cursor: pointer;
   color: var(--text-muted);
+  line-height: 1;
 }
 
-/* --- Footer --- */
+.text-center {
+  text-align: center;
+}
+
+/* --- Loader Elements --- */
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--border-color);
+  border-bottom-color: var(--color-primary);
+  border-radius: 50%;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* --- Desktop Layout Breakpoints (Tablets & Large Screen Displays) --- */
+@media (min-width: 768px) {
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  .header-right {
+    width: auto;
+    gap: 0.75rem;
+  }
+
+  .header-right button {
+    flex: none;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  main {
+    margin: 2rem auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    align-items: start;
+    gap: 2rem;
+  }
+
+  section {
+    padding: 1.5rem;
+  }
+
+  .admin-table {
+    font-size: 0.95rem;
+  }
+
+  .admin-table th, .admin-table td {
+    padding: 1rem;
+  }
+
+  .modal-content {
+    padding: 2rem;
+  }
+
+  .modal-actions {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+  }
+
+  .modal-actions button {
+    width: auto;
+  }
+}
+
+/* --- Shared Layout Footer --- */
 footer {
   margin-top: auto;
   background-color: var(--bg-surface);
   border-top: 1px solid var(--border-color);
-  padding: 1.5rem 2rem;
+  padding: 1.5rem;
   text-align: center;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
 }
 

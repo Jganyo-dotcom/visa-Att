@@ -9,6 +9,11 @@
   </head>
   <body>
 
+    <!-- Global Loading Overlay -->
+    <div id="loaderrOverlay" class="loader-overlay" style="display: none;">
+      <div class="spinner"></div>
+    </div>
+
     <!-- Header Block -->
     <header>
       <div class="header-left">
@@ -17,14 +22,14 @@
       </div>
       <div class="header-right">
         <button id="openChangePassword" class="btn-secondary">Change Password</button>
-        <button id="SignOutBtn" class="btn-signout">Sign Out</button>
+        <button id="openSignOutModal" class="btn-signout">Sign Out</button>
       </div>
     </header>
 
     <!-- Main Content Area Grid -->
     <main>
       <!-- Panel 1: Creation Form -->
-      <section>
+      <section class="panel-form">
         <h2>➕ Add New Admin</h2>
         <form id="addAdminForm" class="form-card">
           <div class="form-group">
@@ -52,7 +57,7 @@
       </section>
 
       <!-- Panel 2: Table Registry -->
-      <section>
+      <section class="panel-table">
         <h2>👥 All Admins</h2>
         <div class="table-container">
           <table class="admin-table">
@@ -71,11 +76,11 @@
       </section>
     </main>
 
-    <!-- Enforced Action Modal -->
+    <!-- Change Password Modal -->
     <div id="changePasswordModal" class="modal">
       <div class="modal-content">
         <span id="closeModal" class="close-modal">&times;</span>
-        <h2 style="margin-bottom:1rem;">Change Password</h2>
+        <h2>Change Password</h2>
         <form id="changePasswordForm" class="form-card">
           <div class="form-group">
             <label for="currentPassword">Current Password</label>
@@ -87,6 +92,18 @@
           </div>
           <button type="submit" class="btn-primary">Update Password</button>
         </form>
+      </div>
+    </div>
+
+    <!-- Sign Out Confirmation Modal -->
+    <div id="signOutModal" class="modal">
+      <div class="modal-content text-center">
+        <h2>Sign Out</h2>
+        <p>Are you sure you want to log out of your super admin dashboard session?</p>
+        <div class="modal-actions">
+          <button id="confirmSignOutBtn" class="btn-danger-filled">Sign Out</button>
+          <button id="closeSignOutModal" class="btn-secondary">Cancel</button>
+        </div>
       </div>
     </div>
 
