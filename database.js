@@ -127,12 +127,7 @@ document.getElementById("updateForm").addEventListener("submit", async (e) => {
   submitBtn.textContent = "Updating...";
   submitBtn.disabled = true;
 
-  const token = localStorage.getItem("token");
-  if (!token) {
-    alert("Not authorized!");
-    window.location.href = "auth.html";
-    return;
-  }
+
 
   // Build updatedUser object
   const updatedUser = {
@@ -200,7 +195,7 @@ document.getElementById("updateForm").addEventListener("submit", async (e) => {
 
 async function deleteUser(id, name) {
   try {
-    const token = localStorage.getItem("token");
+
     if (!token) {
       alert("Not authorized!");
       window.location.href = "auth.html";
@@ -311,35 +306,31 @@ document.getElementById("searchInput").addEventListener("input", (e) => {
 //     }
 //   }
 
-  // Only reaches here if user clicked OK all three times
-  sessionStorage.removeItem("token");
-  localStorage.removeItem("token");
-  localStorage.removeItem("user"); // only if you stored user info under this key
-  window.location.href = "/auth.html"; // redirect to login or home
 
 
-const changePasswordBtn = document.getElementById("changePasswordBtn");
-const modal = document.getElementById("changePasswordModal");
-const closeModal = document.getElementById("closeModal");
 
-if (changePasswordBtn && modal) {
-  changePasswordBtn.addEventListener("click", () => {
-    modal.style.display = "flex"; // show modal
-  });
-}
+// const changePasswordBtn = document.getElementById("changePasswordBtn");
+// const modal = document.getElementById("changePasswordModal");
+// const closeModal = document.getElementById("closeModal");
 
-if (closeModal && modal) {
-  closeModal.addEventListener("click", () => {
-    modal.style.display = "none"; // hide modal
-  });
-}
+// if (changePasswordBtn && modal) {
+//   changePasswordBtn.addEventListener("click", () => {
+//     modal.style.display = "flex"; // show modal
+//   });
+// }
 
-// Optional: close modal when clicking outside content
-window.addEventListener("click", (e) => {
-  if (e.target === modal) {
-    modal.style.display = "none";
-  }
-});
+// if (closeModal && modal) {
+//   closeModal.addEventListener("click", () => {
+//     modal.style.display = "none"; // hide modal
+//   });
+// }
+
+// // Optional: close modal when clicking outside content
+// window.addEventListener("click", (e) => {
+//   if (e.target === modal) {
+//     modal.style.display = "none";
+//   }
+// });
 
 // document.getElementById("staffPage").addEventListener("click", () => {
 //   console.log("ha");
@@ -370,21 +361,21 @@ window.addEventListener("click", (e) => {
 //   window.location.href = "/Attend.html";
 // });
 
-// --- Modal Logic ---
-if (user.hasChangedPassword !== true) {
-  console.log("User must change password:", user);
-  modal.style.display = "flex"; // force modal open
-  if (closeBtn) closeBtn.style.display = "none"; // hide close button
-} else {
-  modal.style.display = "none";
-}
+// // --- Modal Logic ---
+// if (user.hasChangedPassword !== true) {
+//   console.log("User must change password:", user);
+//   modal.style.display = "flex"; // force modal open
+//   if (closeBtn) closeBtn.style.display = "none"; // hide close button
+// } else {
+//   modal.style.display = "none";
+// }
 
 // Open modal from desktop button
-if (openBtnDesktop) {
-  openBtnDesktop.addEventListener("click", () => {
-    modal.style.display = "flex";
-  });
-}
+// if (openBtnDesktop) {
+//   openBtnDesktop.addEventListener("click", () => {
+//     modal.style.display = "flex";
+//   });
+// }
 
 // Close modal
 // if (closeBtn) {
@@ -394,97 +385,97 @@ if (openBtnDesktop) {
 // }
 
 // Close modal when clicking outside, but only if user has already changed password
-window.addEventListener("click", (e) => {
-  if (user.hasChangedPassword === true && e.target === modal) {
-    modal.style.display = "none";
-  }
-});
+// window.addEventListener("click", (e) => {
+//   if (user.hasChangedPassword === true && e.target === modal) {
+//     modal.style.display = "none";
+//   }
+// });
 
-const formm = document.getElementById("changePasswordForm");
+// const formm = document.getElementById("changePasswordForm");
 
-// Close when clicking outside modal
+// // Close when clicking outside modal
 
-const deleteAccountBtn = document.getElementById("deleteAccount");
+// const deleteAccountBtn = document.getElementById("deleteAccount");
 
-deleteAccountBtn.addEventListener("click", async () => {
-  const confirmed = confirm(
-    "Are you sure you want to delete your account? This action cannot be undone.",
-  );
-  if (!confirmed) return;
+// deleteAccountBtn.addEventListener("click", async () => {
+//   const confirmed = confirm(
+//     "Are you sure you want to delete your account? This action cannot be undone.",
+//   );
+//   if (!confirmed) return;
 
-  try {
-    // Call backend route
-    const res = await fetch(baseApi + `api/admin/${user.id}/delete`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${sessionStorage.getItem("token") || localStorage.getItem("token")}`,
-      },
-    });
+//   try {
+//     // Call backend route
+//     const res = await fetch(baseApi + `api/admin/${user.id}/delete`, {
+//       method: "DELETE",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${sessionStorage.getItem("token") || localStorage.getItem("token")}`,
+//       },
+//     });
 
-    if (res.ok) {
-      // Clear tokens
-      sessionStorage.removeItem("token");
-      localStorage.removeItem("token");
-      localStorage.removeItem("user"); // if you stored user info
+//     if (res.ok) {
+//       // Clear tokens
+//       sessionStorage.removeItem("token");
+//       localStorage.removeItem("token");
+//       localStorage.removeItem("user"); // if you stored user info
 
-      // Redirect to auth/login page
-      window.location.href = "/auth.html";
-    } else {
-      const data = await res.json();
-      alert("Error deleting account: " + data.message);
-    }
-  } catch (err) {
-    console.error("Delete account error:", err);
-    alert("Server error deleting account");
-  }
-});
+//       // Redirect to auth/login page
+//       window.location.href = "/auth.html";
+//     } else {
+//       const data = await res.json();
+//       alert("Error deleting account: " + data.message);
+//     }
+//   } catch (err) {
+//     console.error("Delete account error:", err);
+//     alert("Server error deleting account");
+//   }
+// });
 
-formm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+// formm.addEventListener("submit", async (e) => {
+//   e.preventDefault();
 
-  const currentPassword = document.getElementById("currentPassword").value;
-  const newPassword = document.getElementById("newPassword").value;
-  const confirmPassword = document.getElementById("newPassword").value;
+//   const currentPassword = document.getElementById("currentPassword").value;
+//   const newPassword = document.getElementById("newPassword").value;
+//   const confirmPassword = document.getElementById("newPassword").value;
 
-  // get the submit button
-  const submitBtn = formm.querySelector("button[type='submit']");
-  const originalText = submitBtn.textContent;
-  submitBtn.textContent = "Changing...";
-  submitBtn.disabled = true;
+//   // get the submit button
+//   const submitBtn = formm.querySelector("button[type='submit']");
+//   const originalText = submitBtn.textContent;
+//   submitBtn.textContent = "Changing...";
+//   submitBtn.disabled = true;
 
-  try {
-    const token = localStorage.getItem("token"); // assuming you store JWT in localStorage
-    const response = await fetch(
-      baseApi + `api/admin/change-password/${user.id}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ currentPassword, newPassword, confirmPassword }),
-      },
-    );
+//   try {
+//     const token = localStorage.getItem("token"); // assuming you store JWT in localStorage
+//     const response = await fetch(
+//       baseApi + `api/admin/change-password/${user.id}`,
+//       {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${token}`,
+//         },
+//         body: JSON.stringify({ currentPassword, newPassword, confirmPassword }),
+//       },
+//     );
 
-    const data = await response.json();
+//     const data = await response.json();
 
-    if (response.ok) {
-      alert("Password updated successfully!");
-      modal.style.display = "none";
-      handleSignOut();
-    } else {
-      alert(data.message || "Error updating password");
-    }
-  } catch (err) {
-    console.error(err);
-    alert("Something went wrong");
-  } finally {
-    // reset button state
-    submitBtn.textContent = originalText;
-    submitBtn.disabled = false;
-  }
-});
+//     if (response.ok) {
+//       alert("Password updated successfully!");
+//       modal.style.display = "none";
+//       handleSignOut();
+//     } else {
+//       alert(data.message || "Error updating password");
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     alert("Something went wrong");
+//   } finally {
+//     // reset button state
+//     submitBtn.textContent = originalText;
+//     submitBtn.disabled = false;
+//   }
+// });
 
 const container = document.getElementById("attendanceList");
 container.innerHTML = "";
