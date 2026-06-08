@@ -453,3 +453,39 @@ footer a:hover {
     padding: 1.75rem 1.25rem;
   }
 }
+
+/* Full-screen background dim with a modern blur effect */
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.6); /* Modern dark slate tint */
+  backdrop-filter: blur(8px); /* Soft glassmorphism blur */
+  display: none; /* Controlled by your JS */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensures it sits on top of everything */
+}
+
+/* Beautiful animated gradient spinner */
+.spinner {
+  width: 64px;
+  height: 64px;
+  border: 6px solid rgba(255, 255, 255, 0.1);
+  border-top: 6px solid #3b82f6; /* Vibrant modern blue */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); /* Soft outer glow */
+}
+
+/* Rotation animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

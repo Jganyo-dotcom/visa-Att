@@ -1,6 +1,17 @@
 //const baseApi = "http://127.0.0.1:4444/";
 const baseApi = "https://attandance-app-1.onrender.com/";
 
+ // Detects if running locally (e.g., localhost, 127.0.0.1, or file://)
+  const isLocalDev = 
+    window.location.hostname === "localhost" || 
+    window.location.hostname === "127.0.0.1" || 
+    window.location.protocol === "file:";
+
+  // Helper function to handle clean paths vs fallback extensions
+  const navigateTo = (path) => {
+    window.location.href = isLocalDev ? `${path}.html` : path;
+  };
+  
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
 document.addEventListener("DOMContentLoaded", () => {
@@ -593,35 +604,19 @@ document.addEventListener("DOMContentLoaded", () => {
   //   window.location.href = "/staffManagement.html";
   // });
 
-  document.getElementById("peoplePage").addEventListener("click", () => {
-    window.location.href = "/people.html";
-  });
 
-  document.getElementById("database").addEventListener("click", () => {
-    window.location.href = "/database.html";
-  });
-  document.getElementById("profilePage").addEventListener("click", () => {
-    window.location.href = "/profile.html";
-  });
-  document.getElementById("analysisPage").addEventListener("click", () => {
-    window.location.href = "/analysis.html";
-  });
-  document.getElementById("code").addEventListener("click", () => {
-    window.location.href = "/qrcode.html";
-  });
-  document.getElementById("tend").addEventListener("click", () => {
-    window.location.href = "/Attend.html";
-  });
-  document.getElementById("MA").addEventListener("click", () => {
-    window.location.href = "/markAttendace.html";
-  });
-  document.getElementById("followPage").addEventListener("click", () => {
-    window.location.href = "/GHYYK.html";
-  });
-  document.getElementById("sessionM").addEventListener("click", () => {
-    window.location.href = "/sessionManagement.html";
-  });
-  document.getElementById("DoubleServicePage").addEventListener("click", () => {
-    window.location.href = "/DD.html";
-  });
+
+
+  // Optimized click event listeners using the helper function
+  document.getElementById("peoplePage").addEventListener("click", () => navigateTo("/people"));
+  document.getElementById("database").addEventListener("click", () => navigateTo("/database"));
+  document.getElementById("profilePage").addEventListener("click", () => navigateTo("/profile"));
+  document.getElementById("analysisPage").addEventListener("click", () => navigateTo("/analysis"));
+  document.getElementById("code").addEventListener("click", () => navigateTo("/qrcode"));
+  document.getElementById("tend").addEventListener("click", () => navigateTo("/Attend"));
+  document.getElementById("MA").addEventListener("click", () => navigateTo("/markAttendace"));
+  document.getElementById("followPage").addEventListener("click", () => navigateTo("/GHYYK"));
+  document.getElementById("sessionM").addEventListener("click", () => navigateTo("/sessionManagement"));
+  document.getElementById("DoubleServicePage").addEventListener("click", () => navigateTo("/DD"));
 });
+
