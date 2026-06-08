@@ -1,20 +1,30 @@
 //const baseApi = "http://127.0.0.1:4444/";
+// Production Endpoint Architecture
 const baseApi = "https://attandance-app-1.onrender.com/";
 
- // Detects if running locally (e.g., localhost, 127.0.0.1, or file://)
-  const isLocalDev = 
-    window.location.hostname === "localhost" || 
-    window.location.hostname === "127.0.0.1" || 
-    window.location.protocol === "file:";
+// Detects execution context variables safely
+const isLocalDev = 
+  window.location.hostname === "localhost" || 
+  window.location.hostname === "127.0.0.1" || 
+  window.location.protocol === "file:";
 
-  // Helper function to handle clean paths vs fallback extensions
-  const navigateTo = (path) => {
-    window.location.href = isLocalDev ? `${path}.html` : path;
-  };
-  
+// Global Single Page Application Route Driver Engine
+const navigateTo = (path) => {
+  window.location.href = isLocalDev ? `${path}.html` : path;
+};
+
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
+
 document.addEventListener("DOMContentLoaded", () => {
+  // Graceful Authorization Shield Check Exception
+  if (!token || !user) {
+    alert("Not authorized!");
+    window.location.href = "auth.html";
+    return;
+  }
+
+  // Enforce Specific Structural Organization Logic Settings
   if (user.org === "Teens") {
     const visaLevelsEl = document.getElementById("VisaLevels");
     if (visaLevelsEl) {
@@ -23,46 +33,45 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  if (!token) {
-    alert("Not authorized!");
-    window.location.href = "auth.html";
-  }
+  const modal = document.getElementById("changePasswordModal");
+  const closeBtn = document.getElementById("closeModal");
 
+  // Global Check: Verify Temporary Account Credentials States
   if (user.hasChangedPassword !== true) {
-    const modal = document.getElementById("changePasswordModal");
-    const closeBtn = document.getElementById("closeModal");
-
     if (modal && closeBtn) {
-      modal.style.display = "block"; // or "block" depending on your CSS
+      modal.style.display = "flex";
       closeBtn.style.display = "none";
     }
   } else {
-    const modal = document.getElementById("changePasswordModal");
     if (modal) {
       modal.style.display = "none";
     }
   }
 
+  // Loader Controls
   function showLoader() {
-    document.getElementById("loaderrOverlay").style.display = "flex";
+    const overlay = document.getElementById("loaderrOverlay");
+    if (overlay) overlay.style.display = "flex";
   }
 
   function hideLoader() {
-    document.getElementById("loaderrOverlay").style.display = "none";
+    const overlay = document.getElementById("loaderrOverlay");
+    if (overlay) overlay.style.display = "none";
   }
 
-  document.getElementById("welcome").innerHTML = `Welcome ${user.username}`;
-  console.log("loaded");
+  // Render User Context Profile Layout Identity Data Safely
+  const welcomeEl = document.getElementById("welcome");
+  if (welcomeEl) {
+    welcomeEl.innerHTML = `Welcome ${user.username}`;
+  }
+  console.log("Dashboard system modules loaded cleanly.");
 
-  // expose approveUser if you rely on inline onclick
-
-  // window.deleteUser = deleteUser;
   if (document.getElementById("refreshit")) {
     const refreshBtn = document.getElementById("refreshit");
     refreshBtn.addEventListener("click", Refresh);
   }
 
-  // Fetch locked accounts
+  // Asynchronous Fetch Blocks Engine logic for locked accounts
   async function loadLocked() {
     try {
       const res = await fetch(baseApi + "api/admin/blocked/accounts", {
@@ -76,39 +85,36 @@ document.addEventListener("DOMContentLoaded", () => {
       const result = await res.json();
 
       if (!res.ok) {
-        console.error("Error:", result);
+        console.error("Error payload validation failed:", result);
         return;
       }
 
       const list = document.getElementById("lockedList");
-      if (!list) {
-        console.error("No element with id 'lockedList'");
-        return;
-      }
+      if (!list) return;
       list.innerHTML = "";
 
-      // ✅ Use result.data
-      result.data.forEach((u) => {
-        const li = document.createElement("li");
-        li.textContent = `${u.name} (${u.username}, ${u.email})`;
+      if (result && result.data) {
+        result.data.forEach((u) => {
+          const li = document.createElement("li");
+          li.textContent = `${u.name} (${u.username}, ${u.email})`;
 
-        const btn = document.createElement("button");
-        btn.textContent = "Unblock";
-        btn.className = "unblock";
-        btn.addEventListener("click", () => unblockUser(u._id));
+          const btn = document.createElement("button");
+          btn.textContent = "Unblock";
+          btn.className = "unblock";
+          btn.addEventListener("click", () => unblockUser(u._id));
 
-        li.appendChild(btn);
-        list.appendChild(li);
-      });
+          li.appendChild(btn);
+          list.appendChild(li);
+        });
+      }
     } catch (err) {
-      console.error("Error loading locked accounts:", err);
+      console.error("Error loading locked accounts architecture:", err);
     }
   }
 
-  // Unblock user
+  // Unblock Selected Member Action Context Function Logic
   async function unblockUser(id) {
     try {
-      const token = localStorage.getItem("token");
       if (!token) {
         alert("Not authorized!");
         window.location.href = "auth.html";
@@ -116,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const res = await fetch(baseApi + `api/admin/unblock/${id}`, {
-        method: "GET", // backend expects GET
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
@@ -127,18 +133,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!res.ok) {
         alert(data.message || "Failed to unblock user");
-        console.error("Error unblocking user:", data);
+        console.error("Error processing parameters configuration:", data);
         return;
       }
 
       if (data.message) {
-        alert(data.message); // show backend feedback
+        alert(data.message);
       }
 
-      // reload locked accounts list
       loadLocked();
     } catch (err) {
-      console.error("Network error unblocking user:", err);
+      console.error("Network interface exceptions caught:", err);
       alert("Network error!");
     }
   }
@@ -147,33 +152,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const signOutMobile = document.getElementById("signOutBtnMobile");
 
   function handleSignOut() {
-    // Only reaches here if user clicked OK all three times
     sessionStorage.removeItem("token");
     localStorage.removeItem("token");
-    localStorage.removeItem("user"); // only if you stored user info under this key
-    window.location.href = "/auth.html"; // redirect to login or home
+    localStorage.removeItem("user");
+    window.location.href = "/auth.html";
   }
 
-  if (signOutDesktop) {
-    signOutDesktop.addEventListener("click", handleSignOut);
-  }
+  if (signOutDesktop) signOutDesktop.addEventListener("click", handleSignOut);
+  if (signOutMobile) signOutMobile.addEventListener("click", handleSignOut);
 
-  if (signOutMobile) {
-    signOutMobile.addEventListener("click", handleSignOut);
-  }
-
-  // deleteStaff.js
-
+  // Administrative Delete Action Command Orchestrator logic
   async function deleteStaff(staffId, btn) {
     try {
-      // Get token from localStorage (or wherever you store it after login)
-      const token = localStorage.getItem("token");
-
       const response = await fetch(baseApi + `api/admin/delete/${staffId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // attach token
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -183,42 +178,41 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // If successful, remove the staff item from the UI
-      btn.parentElement.remove();
+      if (btn && btn.parentElement) {
+        btn.parentElement.remove();
+      }
       alert("Staff deleted successfully");
     } catch (err) {
-      console.error("Error deleting staff:", err);
+      console.error("Error modifying data tracking metrics:", err);
       alert("Something went wrong while deleting staff");
     }
   }
 
-  // Mark all present
-
   function capitalise(str) {
+    if (!str) return "";
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 
+  // Primary Creation Form Handlers
   const form = document.getElementById("createPersonForm");
 
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const token = localStorage.getItem("token");
+      
       if (!token) {
         alert("Not authorized!");
         window.location.href = "auth.html";
         return;
       }
 
-      // Read contact inside the submit handler
-
       const person = {
         name: capitalise(document.getElementById("name").value),
         department: capitalise(document.getElementById("department").value),
         gender: document.getElementById("gender").value,
       };
+      
       const contact = document.getElementById("contact").value.trim();
-
       if (contact.length > 0) {
         person.contact = contact;
       }
@@ -240,17 +234,21 @@ document.addEventListener("DOMContentLoaded", () => {
           },
           body: JSON.stringify(person),
         });
+        
         const data = await res.json();
         hideLoader();
+        
         if (!res.ok) {
           alert(data.message || data.error || "Failed to create person");
-          console.error("Error:", data);
+          console.error("Payload error feedback context received:", data);
           return;
         }
+        
         alert(data.message || "Person created successfully!");
         form.reset();
       } catch (err) {
-        console.error("Network error:", err);
+        hideLoader();
+        console.error("Network handling stack execution issues detected:", err);
         alert("Network error!");
       }
     });
@@ -259,154 +257,156 @@ document.addEventListener("DOMContentLoaded", () => {
   const hamburgerBtn = document.getElementById("hamburgerBtn");
   const sideMenu = document.getElementById("sideMenu");
   const closeMenuBtn = document.getElementById("closeMenuBtn");
-
-  const modal = document.getElementById("changePasswordModal");
   const openBtnDesktop = document.getElementById("changePasswordBtn");
 
-  const closeBtn = document.getElementById("closeModal");
+  // Off-canvas Side Drawer Drawer Event Binding Logic
+  if (hamburgerBtn && sideMenu) {
+    hamburgerBtn.addEventListener("click", () => {
+      sideMenu.classList.toggle("active");
+      if (sideMenu.classList.contains("active")) {
+        hamburgerBtn.innerHTML = "&times;";
+      } else {
+        hamburgerBtn.innerHTML = "&#9776;";
+      }
+    });
+  }
 
-  // --- Side Menu Logic ---
-  hamburgerBtn.addEventListener("click", () => {
-    sideMenu.classList.toggle("active");
-
-    // Toggle hamburger icon ↔ X
-    if (sideMenu.classList.contains("active")) {
-      hamburgerBtn.innerHTML = "&times;"; // X
-    } else {
-      hamburgerBtn.innerHTML = "&#9776;"; // Hamburger
-    }
-  });
-
-  // Close menu when clicking the X inside
-  if (closeMenuBtn) {
+  if (closeMenuBtn && sideMenu && hamburgerBtn) {
     closeMenuBtn.addEventListener("click", () => {
       sideMenu.classList.remove("active");
       hamburgerBtn.innerHTML = "&#9776;";
     });
   }
 
-  // Close menu when clicking outside
   window.addEventListener("click", (e) => {
-    if (!sideMenu.contains(e.target) && e.target !== hamburgerBtn) {
+    if (sideMenu && hamburgerBtn && !sideMenu.contains(e.target) && e.target !== hamburgerBtn) {
       sideMenu.classList.remove("active");
       hamburgerBtn.innerHTML = "&#9776;";
     }
   });
 
-  // --- Modal Logic ---
-  if (user.hasChangedPassword !== true) {
-    console.log("User must change password:", user);
-    modal.style.display = "flex"; // force modal open
-    if (closeBtn) closeBtn.style.display = "none"; // hide close button
-  } else {
-    modal.style.display = "none";
-  }
-
-  // Open modal from desktop button
-  if (openBtnDesktop) {
+  // Modal Open Trigger Event Listeners
+  if (openBtnDesktop && modal) {
     openBtnDesktop.addEventListener("click", () => {
       modal.style.display = "flex";
     });
   }
 
-  // Close modal
-  if (closeBtn) {
+  if (closeBtn && modal) {
     closeBtn.addEventListener("click", () => {
       modal.style.display = "none";
     });
   }
 
-  // Close modal when clicking outside, but only if user has already changed password
   window.addEventListener("click", (e) => {
-    if (user.hasChangedPassword === true && e.target === modal) {
+    if (user && user.hasChangedPassword === true && e.target === modal) {
       modal.style.display = "none";
     }
   });
 
-  const formm = document.getElementById("changePasswordForm");
-
-  // Close when clicking outside modal
-
+  // Account Self-Destruct Operations Handler Block logic
   const deleteAccountBtn = document.getElementById("deleteAccount");
+  if (deleteAccountBtn) {
+    deleteAccountBtn.addEventListener("click", async () => {
+      const confirmed = confirm(
+        "Are you sure you want to delete your account? This action cannot be undone.",
+      );
+      if (!confirmed) return;
 
-  deleteAccountBtn.addEventListener("click", async () => {
-    const confirmed = confirm(
-      "Are you sure you want to delete your account? This action cannot be undone.",
-    );
-    if (!confirmed) return;
-
-    try {
-      // Call backend route
-      const res = await fetch(baseApi + `api/admin/${user.id}/delete`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("token") || localStorage.getItem("token")}`,
-        },
-      });
-
-      if (res.ok) {
-        // Clear tokens
-        sessionStorage.removeItem("token");
-        localStorage.removeItem("token");
-        localStorage.removeItem("user"); // if you stored user info
-
-        // Redirect to auth/login page
-        window.location.href = "/auth.html";
-      } else {
-        const data = await res.json();
-        alert("Error deleting account: " + data.message);
-      }
-    } catch (err) {
-      console.error("Delete account error:", err);
-      alert("Server error deleting account");
-    }
-  });
-
-  formm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const currentPassword = document.getElementById("currentPassword").value;
-    const newPassword = document.getElementById("newPassword").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
-
-    try {
-      const token = localStorage.getItem("token"); // assuming you store JWT in localStorage
-      showLoader();
-      const response = await fetch(
-        baseApi + `api/admin/change-password/${user.id}`,
-        {
-          method: "POST",
+      try {
+        const activeToken = sessionStorage.getItem("token") || localStorage.getItem("token");
+        const res = await fetch(baseApi + `api/admin/${user.id}/delete`, {
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${activeToken}`,
           },
-          body: JSON.stringify({
-            currentPassword,
-            newPassword,
-            confirmPassword,
-          }),
-        },
-      );
+        });
 
-      const data = await response.json();
-      hideLoader();
-      if (response.ok) {
-        alert("Password updated successfully!");
-        modal.style.display = "none";
-        handleSignOut();
-      } else {
-        hideLoader();
-        alert(data.message || data.error || "Error updating password");
+        if (res.ok) {
+          sessionStorage.removeItem("token");
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          window.location.href = "/auth.html";
+        } else {
+          const data = await res.json();
+          alert("Error deleting account: " + data.message);
+        }
+      } catch (err) {
+        console.error("Delete target security context execution error:", err);
+        alert("Server error deleting account");
       }
-    } catch (err) {
-      hideLoader();
-      console.error(err);
-      alert("Something went wrong");
+    });
+  }
+
+  // Password Modification Management form handling logic
+  const formm = document.getElementById("changePasswordForm");
+  if (formm) {
+    formm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const currentPassword = document.getElementById("currentPassword").value;
+      const newPassword = document.getElementById("newPassword").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      try {
+        showLoader();
+        const response = await fetch(
+          baseApi + `api/admin/change-password/${user.id}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              currentPassword,
+              newPassword,
+              confirmPassword,
+            }),
+          },
+        );
+
+        const data = await response.json();
+        hideLoader();
+        
+        if (response.ok) {
+          alert("Password updated successfully!");
+          if (modal) modal.style.display = "none";
+          handleSignOut();
+        } else {
+          alert(data.message || data.error || "Error updating password");
+        }
+      } catch (err) {
+        hideLoader();
+        console.error("Auth change lifecycle fault verification details:", err);
+        alert("Something went wrong");
+      }
+    });
+  }
+
+  // Central Routing Engine Control Mapping Handlers
+  const routeMappings = {
+    "peoplePage": "/people",
+    "database": "/database",
+    "profilePage": "/profile",
+    "analysisPage": "/analysis",
+    "code": "/qrcode",
+    "tend": "/Attend",
+    "MA": "/markAttendace",
+    "followPage": "/GHYYK",
+    "sessionM": "/sessionManagement",
+    "DoubleServicePage": "/DD"
+  };
+
+  Object.entries(routeMappings).forEach(([elementId, path]) => {
+    const el = document.getElementById(elementId);
+    if (el) {
+      el.addEventListener("click", () => navigateTo(path));
     }
   });
-
-  // const createSessionBtn = document.getElementById("createSessionBtn");
+});
+ // const createSessionBtn = document.getElementById("createSessionBtn");
 
   // // initialize button state based on localStorage
   // if (localStorage.getItem("sessionId")) {
@@ -604,19 +604,4 @@ document.addEventListener("DOMContentLoaded", () => {
   //   window.location.href = "/staffManagement.html";
   // });
 
-
-
-
-  // Optimized click event listeners using the helper function
-  document.getElementById("peoplePage").addEventListener("click", () => navigateTo("/people"));
-  document.getElementById("database").addEventListener("click", () => navigateTo("/database"));
-  document.getElementById("profilePage").addEventListener("click", () => navigateTo("/profile"));
-  document.getElementById("analysisPage").addEventListener("click", () => navigateTo("/analysis"));
-  document.getElementById("code").addEventListener("click", () => navigateTo("/qrcode"));
-  document.getElementById("tend").addEventListener("click", () => navigateTo("/Attend"));
-  document.getElementById("MA").addEventListener("click", () => navigateTo("/markAttendace"));
-  document.getElementById("followPage").addEventListener("click", () => navigateTo("/GHYYK"));
-  document.getElementById("sessionM").addEventListener("click", () => navigateTo("/sessionManagement"));
-  document.getElementById("DoubleServicePage").addEventListener("click", () => navigateTo("/DD"));
-});
 
