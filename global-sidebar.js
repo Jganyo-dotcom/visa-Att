@@ -5,21 +5,24 @@ document.addEventListener("DOMContentLoaded", () => {
   sidebar.className = "side-menu";
   sidebar.innerHTML = `
     <button id="closeMenuBtn" class="close-btn" aria-label="Close Navigation">&times;</button>
-    <button id="mainPage" class="btn-secondary">Dashboard</button>
-    <button id="sessionM" class="btn-secondary">Manage Sessions</button>
-    <button id="peoplePage" class="btn-secondary">Manage Absentees</button>
-    <button id="code" class="btn-secondary">Mark Attendance By Scan</button>
-    <button id="tend" class="btn-secondary">Attendance info</button>
-    <button id="MA" class="btn-secondary">Mark Attendance</button>
-    <button id="database" class="btn-secondary">Database</button>
-    <button id="profilePage" class="btn-secondary">Profile</button>
-    <button id="analysisPage" class="btn-secondary">Analysis Of Attendance</button>
-    <button id="DoubleServicePage" class="btn-secondary">Double Pip</button>
-    <button id="followPage" class="btn-secondary">Filter Attendance</button>
-    <button id="changePasswordBtn" class="btn-secondary">Change Password</button>
-    
-    <button id="signOutBtn" class="btn-signout">Sign Out</button>
-    <button id="deleteAccount" class="btn-danger">Delete Account</button>
+
+<button id="mainPage" class="btn-secondary">📊 Dashboard</button>
+
+
+<button id="sessionM" class="btn-secondary">⏳ Manage Sessions</button>
+<button id="MA" class="btn-secondary">📝 Mark Attendance</button>
+<button id="code" class="btn-secondary">📷 Mark Attendance By Scan</button>
+<button id="DoubleServicePage" class="btn-secondary">🔄 Double Pip</button>
+
+<button id="tend" class="btn-secondary">ℹ️ Attendance Info</button>
+<button id="followPage" class="btn-secondary">🔍 Filter Attendance</button>
+<button id="analysisPage" class="btn-secondary">📈 Analysis Of Attendance</button>
+<button id="peoplePage" class="btn-secondary">🚫 Manage Absentees</button>
+<button id="database" class="btn-secondary">🗄️ Database Records</button>
+<button id="profilePage" class="btn-secondary">⚙️ Settings & Profile</button>
+<button id="changePasswordBtn" class="btn-secondary">🔑 Change Password</button>
+<button id="signOutBtn" class="btn-signout">🚪 Sign Out</button>
+<button id="deleteAccount" class="btn-danger">⚠️ Delete Account</button>
   `;
 
   // 2. Inject it cleanly right at the top of the body execution stack
