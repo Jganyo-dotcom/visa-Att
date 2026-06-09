@@ -8,7 +8,7 @@ if (!token) {
 
 let user = JSON.parse(localStorage.getItem("user"));
 
-// Capture DOM Modal references
+/* --- Capture DOM Structural Components --- */
 const pwdModal = document.getElementById("changePasswordModal");
 const closePwdBtn = document.getElementById("closeModal");
 const openPwdBtn = document.getElementById("openChangePassword");
@@ -18,7 +18,7 @@ const openSignOutBtn = document.getElementById("openSignOutModal");
 const closeSignOutBtn = document.getElementById("closeSignOutModal");
 const confirmSignOutBtn = document.getElementById("confirmSignOutBtn");
 
-// New: Mobile Menu Drawer DOM Elements
+// Mobile Menu Drawer Elements
 const mobileMenuBtn = document.getElementById("mobileMenuBtn");
 const mobileDrawer = document.getElementById("mobileDrawer");
 const closeDrawer = document.getElementById("closeDrawer");
@@ -26,19 +26,21 @@ const drawerUpdateDetailsBtn = document.getElementById("drawerUpdateDetailsBtn")
 const drawerChangePasswordBtn = document.getElementById("drawerChangePasswordBtn");
 const drawerSignOutBtn = document.getElementById("drawerSignOutBtn");
 
-// New: Profile Details Modal DOM Elements
+// Profile Configuration Modals & Action Controls
 const updateDetailsModal = document.getElementById("updateDetailsModal");
 const closeDetailsModalBtn = document.getElementById("closeDetailsModal");
 const updateDetailsForm = document.getElementById("updateDetailsForm");
+const openUpdateDetailsBtn = document.getElementById("openUpdateDetails"); // Connected desktop hook
 
 /* --- Hydrate Base Admin State Profiles --- */
 function setupProfileFields() {
   if (!user) return;
-  // Dynamic header setup string mapping
+  
+  // Dynamic header welcome text interpolation
   const welcomeText = document.getElementById("welcome");
   if (welcomeText) welcomeText.textContent = `Super Admin Panel (${user.name || "Manager"})`;
 
-  // Hydrate the fields inside the dynamic profile update configuration modal
+  // Hydrate input fields inside profile modification configurations modal
   const pName = document.getElementById("profileName");
   const pUser = document.getElementById("profileUsername");
   const pEmail = document.getElementById("profileEmail");
@@ -47,7 +49,6 @@ function setupProfileFields() {
   if (pUser) pUser.value = user.username || "";
   if (pEmail) pEmail.value = user.email || "";
 }
-setupProfileFields();
 
 /* --- Global Loader Utilities --- */
 function showLoader() {
@@ -75,8 +76,9 @@ const hideMobileDrawer = () => {
 
 if (closeDrawer) closeDrawer.addEventListener("click", hideMobileDrawer);
 
-/* --- Synchronized Overlay Control Core Mapping --- */
-// Open Change Password Modal
+/* --- Synchronized Overlay Control Layer Mapping --- */
+
+// Open Change Password Window Matrix
 const triggerPasswordModalOpen = () => {
   hideMobileDrawer();
   pwdModal.style.display = "flex";
@@ -90,7 +92,7 @@ if (closePwdBtn) {
   });
 }
 
-// Open Sign Out Modal
+// Open Sign Out Checkpoint Confirmation Modal
 const triggerSignOutModalOpen = () => {
   hideMobileDrawer();
   signOutModal.style.display = "flex";
@@ -104,12 +106,13 @@ if (closeSignOutBtn) {
   });
 }
 
-// Open Update Profile Details Modal
+// Open Update Profile Details Configuration Modal
 const triggerUpdateModalOpen = () => {
   hideMobileDrawer();
-  setupProfileFields(); // Refresh modal inputs with latest cached local state values
+  setupProfileFields(); // Synchronize inputs with latest browser memory cache values
   updateDetailsModal.style.display = "flex";
 };
+if (openUpdateDetailsBtn) openUpdateDetailsBtn.addEventListener("click", triggerUpdateModalOpen);
 if (drawerUpdateDetailsBtn) drawerUpdateDetailsBtn.addEventListener("click", triggerUpdateModalOpen);
 
 if (closeDetailsModalBtn) {
@@ -126,7 +129,9 @@ window.addEventListener("click", (e) => {
   if (e.target === mobileDrawer) hideMobileDrawer();
 });
 
-/* --- Remote REST Actions --- */
+/* --- Remote REST API Actions Network Mapping --- */
+
+// Fetch Admin Registry Records Matrix
 async function loadAdmins() {
   showLoader();
   try {
@@ -138,7 +143,7 @@ async function loadAdmins() {
       },
     });
 
-    if (!res.ok) throw new Error("Failed to load admins");
+    if (!res.ok) throw new Error("Failed to load admin tracking database references.");
 
     const data = await res.json();
     const list = document.getElementById("adminList");
@@ -152,13 +157,13 @@ async function loadAdmins() {
         <td>${admin.email}</td>
         <td>${admin.org}</td>
         <td>
-          <button class="btn-danger" onclick="transform('${admin._id}','${admin.name}')">
-            Delete
+          <button class="btn-secondary" style="font-size: 0.8rem; padding: 0.4rem 0.8rem;" onclick="transform('${admin._id}','${admin.name}')">
+            🔄 Transform
           </button>
         </td>
         <td>
           <button class="btn-danger" onclick="deleteAdmin('${admin._id}','${admin.name}')">
-            Delete
+            ❌ Delete
           </button>
         </td>
       `;
@@ -166,13 +171,13 @@ async function loadAdmins() {
     });
   } catch (err) {
     console.error(err);
-    alert("Error loading admins");
+    alert("Error fetching remote administrators database matrix metadata.");
   } finally {
     hideLoader();
   }
 }
 
-// Add new admin
+// Provision and Append New Admin
 document.getElementById("addAdminForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   showLoader();
@@ -199,10 +204,10 @@ document.getElementById("addAdminForm").addEventListener("submit", async (e) => 
       e.target.reset();
     } else {
       const err = await res.json();
-      alert(err.error || "Error adding admin");
+      alert(err.error || "Error adding admin account payload.");
     }
   } catch (error) {
-    alert("Network communication error.");
+    alert("Network communication timeout error mapping account configuration matrices.");
   } finally {
     hideLoader();
   }
@@ -226,7 +231,6 @@ if (updateDetailsForm) {
     submitBtn.disabled = true;
 
     try {
-      // Accessing backend route template matrix mapping arrays cleanly
       const res = await fetch(`${baseApi}api/update/me/${user.id || user._id}`, {
         method: "PATCH",
         headers: {
@@ -242,11 +246,11 @@ if (updateDetailsForm) {
         throw new Error(data.message || "Failed to update profile settings.");
       }
 
-      // Merge data update directly back into memory cache structure 
+      // Merge data update directly back into browser cache memory data store
       user = { ...user, ...updatedFields };
       localStorage.setItem("user", JSON.stringify(user));
 
-      // Refresh headers and form representations
+      // Refresh layouts and labels across interfaces instantly
       setupProfileFields();
       updateDetailsModal.style.display = "none";
       alert("🎉 Profile metadata structural updates synced in-place completely!");
@@ -260,18 +264,6 @@ if (updateDetailsForm) {
       hideLoader();
     }
   });
-}
-
-/* --- Sign Out Workflow --- */
-if (confirmSignOutBtn) {
-  confirmSignOutBtn.addEventListener("click", handleSignOut);
-}
-
-function handleSignOut() {
-  sessionStorage.removeItem("token");
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
-  window.location.href = "auth.html";
 }
 
 /* --- Password Form Handler --- */
@@ -302,15 +294,15 @@ formm.addEventListener("submit", async (e) => {
     const data = await response.json();
 
     if (response.ok) {
-      alert("Password updated successfully!");
+      alert("Password updated successfully! Safety session tracking requirements dictate re-authentication.");
       pwdModal.style.display = "none";
       handleSignOut();
     } else {
-      alert(data.message || "Error updating password");
+      alert(data.message || "Error updating target security records parameters.");
     }
   } catch (err) {
     console.error(err);
-    alert("Something went wrong");
+    alert("Something went wrong verifying validation arrays.");
   } finally {
     submitBtn.textContent = originalText;
     submitBtn.disabled = false;
@@ -318,10 +310,10 @@ formm.addEventListener("submit", async (e) => {
   }
 });
 
-/* --- Delete Action --- */
+/* --- Remote Record Removal Deletion Endpoint Vector --- */
 async function deleteAdmin(id, name) {
   try {
-    const confirmed = confirm(`Are you sure you want to delete ${name}?`);
+    const confirmed = confirm(`Are you sure you want to completely remove account access parameters for ${name}?`);
     if (!confirmed) return;
 
     showLoader();
@@ -336,7 +328,7 @@ async function deleteAdmin(id, name) {
     const data = await res.json();
 
     if (!res.ok) {
-      alert(data.message || "Failed to delete user");
+      alert(data.message || "Failed to delete target user configuration entries.");
       return;
     }
 
@@ -346,23 +338,20 @@ async function deleteAdmin(id, name) {
     }
   } catch (err) {
     console.error("Network error deleting user:", err);
-    alert("Network error!");
+    alert("Network communication trace verification failure!");
   } finally {
     hideLoader();
   }
 }
 
-/* --- Transform Admin Password Status Action --- */
+/* --- Force Security Reset Status Transformation Trigger --- */
 async function transform(id, name) {
   try {
-    // 1. Prompt the Super Admin for authorization confirmation
-    const confirmed = confirm(`Are you sure you want to force an account status reset for ${name}? This turns 'hasChangedPassword' back to FALSE and requires them to change it upon next login.`);
+    const confirmed = confirm(`Are you sure you want to force an account status reset for ${name}? This turns 'hasChangedPassword' back to FALSE and requires them to create new credentials upon next login.`);
     if (!confirmed) return;
 
-    // 2. Activate UI feedback layer
     showLoader();
 
-    // 3. Dispatch data update fetch request payload to your server instance mapping
     const res = await fetch(`${baseApi}api/update/me/${id}`, {
       method: "PATCH",
       headers: {
@@ -376,26 +365,33 @@ async function transform(id, name) {
 
     const data = await res.json();
 
-    // 4. Handle failed transmission responses safely
     if (!res.ok) {
       throw new Error(data.message || `Failed to reset credential parameters for ${name}.`);
     }
 
-    // 5. Notify success and reload the admin registry live table matrix map data
-    alert(`🔒 Security lock restored for ${name}! Account status set back to temporary password restriction.`);
-    
-    if (typeof loadAdmins === "function") {
-      loadAdmins();
-    }
+    alert(`🔒 Security restrictions applied for ${name}! Password update check set back to temporary mode execution.`);
+    loadAdmins();
 
   } catch (err) {
     console.error("Critical error transforming account state metadata:", err);
-    alert(err.message || "A network communication tracking array fault has occurred processing your request.");
+    alert(err.message || "A network communication logging tracking fault has occurred processing your request.");
   } finally {
-    // 6. Clean up loading presentation canvas layers
     hideLoader();
   }
 }
 
-// Initial entry trigger execution
+/* --- Clear Session Sign Out Engine --- */
+if (confirmSignOutBtn) {
+  confirmSignOutBtn.addEventListener("click", handleSignOut);
+}
+
+function handleSignOut() {
+  sessionStorage.removeItem("token");
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  window.location.href = "auth.html";
+}
+
+/* --- Execution Kickoff Lifecycles --- */
+setupProfileFields();
 loadAdmins();
