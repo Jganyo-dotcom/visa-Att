@@ -1,4 +1,6 @@
-/* Reset defaults */
+/* ==========================================================================
+   1. CORE GENERAL RESETS
+   ========================================================================== */
 *,
 *::before,
 *::after {
@@ -29,7 +31,9 @@ body {
   line-height: 1.6;
 }
 
-/* Header */
+/* ==========================================================================
+   2. HEADER & LAYOUT INTERFACE ELEMENTS
+   ========================================================================== */
 header {
   display: flex;
   justify-content: space-between;
@@ -53,69 +57,9 @@ header {
   cursor: pointer;
 }
 
-/* Side Menu */
-/* Side menu */
-.side-menu {
-  position: fixed;
-  top: 0;
-  left: -250px;
-  width: 250px;
-  height: 100%;
-  background-color: #f9f9f9;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  transition: left 0.3s ease;
-  z-index: 1000;
-}
-
-.side-menu.active {
-  left: 0;
-}
-
-.side-menu .close-btn {
-  font-size: 28px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  align-self: flex-end;
-}
-
-.close-btn {
-  font-size: 28px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  align-self: flex-end;
-}
-
-.btn-secondary,
-.btn-danger,
-.btn-signout {
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-secondary {
-  background: #6c757d;
-  color: white;
-}
-
-.btn-danger {
-  background: #dc3545;
-  color: white;
-}
-
-.btn-signout {
-  background: #007bff;
-  color: white;
-}
-
-/* Main content */
+/* ==========================================================================
+   3. MAIN WORKSPACE CONTAINER LAYOUT
+   ========================================================================== */
 main {
   flex: 1;
   padding: 40px 20px;
@@ -130,6 +74,7 @@ main h2 {
   margin-bottom: 20px;
 }
 
+/* Styled text banner/card component block */
 main h1 {
   font-size: 28px;
   color: #555;
@@ -140,12 +85,15 @@ main h1 {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* ==========================================================================
+   4. SYSTEM FOOTER
+   ========================================================================== */
 footer {
   background: #2c3e50;
   color: #fff;
   text-align: center;
   padding: 20px;
-  margin-top: 0;
+  margin-top: auto; /* Ensures footer sits flat at bottom */
 }
 
 footer a {
@@ -153,6 +101,7 @@ footer a {
   text-decoration: none;
   margin: 0 5px;
 }
+
 footer a:hover {
   text-decoration: underline;
 }
@@ -161,7 +110,9 @@ footer a:hover {
   margin-top: 10px;
 }
 
-/* Responsive */
+/* ==========================================================================
+   5. VIEWPORT RESPONSIVITY BREAKPOINTS
+   ========================================================================== */
 @media (max-width: 600px) {
   main h1 {
     font-size: 22px;

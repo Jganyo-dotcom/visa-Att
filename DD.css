@@ -14,14 +14,22 @@
     sans-serif;
 }
 
+/* Enforces body to fill full viewport height and layout children vertically */
+html,
 body {
+  min-height: 100vh;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
   background-color: #f8fafc;
   color: #1e293b;
   line-height: 1.6;
 }
 
 /* ==========================================================================
-   2. HEADER & NAVIGATION LAYOUT (Fixed Hamburger Positioning)
+   2. HEADER & NAVIGATION LAYOUT
    ========================================================================== */
 header {
   background: #ffffff;
@@ -29,7 +37,7 @@ header {
   border-bottom: 1px solid #e2e8f0;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Fix: Separates brand (left) and menu (right) */
+  justify-content: space-between;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
@@ -55,7 +63,6 @@ header h1 {
   align-items: center;
 }
 
-/* Dedicated Hamburger Icon Interface Rules */
 .hamburger {
   background: none;
   border: none;
@@ -69,7 +76,7 @@ header h1 {
 }
 
 .hamburger:hover {
-  color: #2563eb; /* Matches primary interactive brand blue */
+  color: #2563eb;
 }
 
 .hamburger:active {
@@ -80,6 +87,8 @@ header h1 {
    3. STRUCTURAL CONTENT CONTAINERS
    ========================================================================== */
 main {
+  flex: 1 0 auto; /* FIX: Dynamically expands to push the footer down */
+  width: 100%;
   max-width: 1000px;
   margin: 2rem auto;
   padding: 0 1rem;
@@ -166,7 +175,7 @@ input:focus,
 
 .report-wrapper {
   padding: 1rem;
-  overflow-x: auto; /* Gracefully scroll tables horizontally on small screens */
+  overflow-x: auto;
 }
 
 table {
@@ -218,7 +227,7 @@ tr:hover {
 }
 
 /* ==========================================================================
-   7. FOOTER & LINK EMBEDS
+   7. CLEAN STICKY FOOTER SYSTEM (No Floating Overlays)
    ========================================================================== */
 footer {
   text-align: center;
@@ -227,8 +236,8 @@ footer {
   font-size: 0.9rem;
   background: #ffffff;
   border-top: 1px solid #e2e8f0;
-  margin-top: auto; /* Keeps footer pinned downward cleanly */
   width: 100%;
+  margin-top: auto; /* FIX: Automatically anchors to the baseline of layout */
 }
 
 footer strong {
@@ -282,6 +291,10 @@ footer a:hover {
   }
   
   header {
-    padding: 1rem 4%; /* Gives a little more real estate to mobile views */
+    padding: 1rem 4%;
+  }
+  
+  main {
+    margin: 1rem auto;
   }
 }
