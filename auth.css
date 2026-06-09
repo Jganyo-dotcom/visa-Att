@@ -211,10 +211,22 @@ a {
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  font-size: 18px;
+  
+  /* ==========================================================================
+     ADDED FOR PRODUCTION SVG ALIGNMENT
+     ========================================================================== */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
   color: #666;
+  transition: color 0.2s ease; /* Adds a smooth transition on hover */
 }
 
+/* Optional: Make the eye icon look interactive when hovered */
+.toggle-password:hover {
+  color: #3498db; 
+}
 .form-message {
   margin-top: 10px;
   font-size: 0.9rem;
