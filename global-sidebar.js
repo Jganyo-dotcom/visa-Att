@@ -108,13 +108,28 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   
   // Custom placeholders for Auth handling
-  const signOut = document.getElementById("signOutBtn");
-  if (signOut) {
-    signOut.addEventListener("click", () => {
-      console.log("Signing out user...");
-      // write auth/logout logic or redirect here
-    });
-  }
+const signOut = document.getElementById("signOutBtn");
+if (signOut) {
+  signOut.addEventListener("click", () => {
+    console.log("Signing out user...");
+    
+    // 1. Provide immediate visual feedback to the user
+    signOut.textContent = "🚪 Signing Out...";
+    signOut.disabled = true;
+
+    // 2. Clear out all auth credentials from local storage
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("sessionId"); 
+    
+    // If you want to purge everything at once, use: localStorage.clear();
+
+    // 3. Optional: Add a short, smooth delay so the user sees the transition
+    setTimeout(() => {
+      window.location.href = "auth.html";
+    }, 400); 
+  });
+}
 
   // --- Fixed: Delete Account Handler Moved Inside Lifecycle Wrapper ---
   const deleteAccountBtn = document.getElementById("deleteAccount");

@@ -148,18 +148,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  const signOutDesktop = document.getElementById("signOutBtn");
-  const signOutMobile = document.getElementById("signOutBtnMobile");
+  // const signOutDesktop = document.getElementById("signOutBtn");
+  // const signOutMobile = document.getElementById("signOutBtnMobile");
 
-  function handleSignOut() {
-    sessionStorage.removeItem("token");
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    window.location.href = "/auth.html";
-  }
+  // function handleSignOut() {
+  //   sessionStorage.removeItem("token");
+  //   localStorage.removeItem("token");
+  //   localStorage.removeItem("user");
+  //   window.location.href = "/auth.html";
+  // }
 
-  if (signOutDesktop) signOutDesktop.addEventListener("click", handleSignOut);
-  if (signOutMobile) signOutMobile.addEventListener("click", handleSignOut);
+  // if (signOutDesktop) signOutDesktop.addEventListener("click", handleSignOut);
+  // if (signOutMobile) signOutMobile.addEventListener("click", handleSignOut);
 
   // Administrative Delete Action Command Orchestrator logic
   async function deleteStaff(staffId, btn) {
