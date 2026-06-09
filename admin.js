@@ -1,17 +1,8 @@
 //const baseApi = "http://127.0.0.1:4444/";
-// Production Endpoint Architecture
+
 const baseApi = "https://attandance-app-1.onrender.com/";
 
-// // Detects execution context variables safely
-// const isLocalDev = 
-//   window.location.hostname === "localhost" || 
-//   window.location.hostname === "127.0.0.1" || 
-//   window.location.protocol === "file:";
 
-// // Global Single Page Application Route Driver Engine
-// const navigateTo = (path) => {
-//   window.location.href = isLocalDev ? `${path}.html` : path;
-// };
 
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
@@ -33,20 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  const modal = document.getElementById("changePasswordModal");
-  const closeBtn = document.getElementById("closeModal");
 
-  // Global Check: Verify Temporary Account Credentials States
-  if (user.hasChangedPassword !== true) {
-    if (modal && closeBtn) {
-      modal.style.display = "flex";
-      closeBtn.style.display = "none";
-    }
-  } else {
-    if (modal) {
-      modal.style.display = "none";
-    }
-  }
 
   // Loader Controls
   function showLoader() {

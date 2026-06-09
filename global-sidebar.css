@@ -1,4 +1,6 @@
-/* --- Global Side Menu Drawer Structure --- */
+/* ==========================================================================
+   1. GLOBAL SIDE MENU DRAWER STRUCTURE
+   ========================================================================== */
 .side-menu {
   position: fixed;
   top: 0;
@@ -41,7 +43,9 @@
   color: #ff007f; /* Vibrant neon pink on close hover */
 }
 
-/* --- Sidebar Menu Button Typography --- */
+/* ==========================================================================
+   2. SIDEBAR MENU NAVIGATION BUTTONS
+   ========================================================================== */
 .side-menu .btn-secondary {
   background: transparent;
   border: none;
@@ -66,8 +70,9 @@
   padding-left: 22px; /* Smooth indent bounce */
 }
 
-.side-menu .btn-signout {
-  background: transparent;
+/* Base style layout configurations for destructive system items */
+.side-menu .btn-signout,
+.side-menu .btn-danger {
   cursor: pointer;
   font-weight: 700;
   font-size: 0.95rem;
@@ -75,12 +80,16 @@
   align-items: center;
   justify-content: center;
   padding: 13px 24px;
-  border: 1px solid rgba(255, 0, 127, 0.3);
-  color: #ff4d94;
-  margin-top: auto; /* Pushes account functions to the bottom */
   border-radius: 12px;
   width: 100%;
   transition: all 0.3s ease;
+}
+
+.side-menu .btn-signout {
+  background: transparent;
+  border: 1px solid rgba(255, 0, 127, 0.3);
+  color: #ff4d94;
+  margin-top: auto; /* Pushes account functions to the bottom of the stack */
 }
 
 .side-menu .btn-signout:hover {
@@ -92,18 +101,8 @@
 
 .side-menu .btn-danger {
   background: rgba(255, 0, 127, 0.15);
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 0.95rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 13px 24px;
   color: #ff007f;
   border: 1px solid rgba(255, 0, 127, 0.3);
-  border-radius: 12px;
-  width: 100%;
-  transition: all 0.3s ease;
 }
 
 .side-menu .btn-danger:hover {
@@ -111,4 +110,25 @@
   color: white;
   border-color: transparent;
   box-shadow: 0 6px 16px rgba(255, 0, 127, 0.4);
+}
+
+/* ==========================================================================
+   3. SECURITY INTERCEPTOR OVERLAY MODIFICATIONS
+   ========================================================================== */
+.force-security-lock {
+  background-color: rgba(15, 23, 42, 0.96) !important; /* Deep obsidian background shadow */
+  backdrop-filter: blur(12px) !important; /* Frosting screen blur layer effect */
+  pointer-events: auto !important;
+  z-index: 999999 !important; /* Force positions object over alternative components */
+}
+
+.force-security-lock .slide-modal-content {
+  border-radius: 16px 16px 0 0 !important;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5) !important;
+  animation: slideInUpGlobal 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+@keyframes slideInUpGlobal {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
 }
