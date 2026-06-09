@@ -9,26 +9,41 @@
   </head>
   <body>
 
-    <!-- Global Loading Overlay -->
     <div id="loaderrOverlay" class="loader-overlay" style="display: none;">
       <div class="spinner"></div>
     </div>
 
-    <!-- Header Block -->
     <header>
       <div class="header-left">
+        <button id="mobileMenuBtn" class="hamburger-btn" aria-label="Toggle Navigation Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
         <img src="logo.png" alt="Company Logo" class="logo" />
         <h1 id="welcome">Super Admin Dashboard</h1>
       </div>
-      <div class="header-right">
+      <div class="header-right desktop-actions">
         <button id="openChangePassword" class="btn-secondary">Change Password</button>
         <button id="openSignOutModal" class="btn-signout">Sign Out</button>
       </div>
     </header>
 
-    <!-- Main Content Area Grid -->
+    <div id="mobileDrawer" class="drawer-overlay">
+      <div class="drawer-content">
+        <div class="drawer-header">
+          <h3>Menu Control Panel</h3>
+          <span id="closeDrawer" class="close-drawer">&times;</span>
+        </div>
+        <div class="drawer-body">
+          <button id="drawerUpdateDetailsBtn" class="drawer-nav-link">📝 Update My Details</button>
+          <button id="drawerChangePasswordBtn" class="drawer-nav-link">🔑 Change Account Password</button>
+          <button id="drawerSignOutBtn" class="drawer-nav-link text-danger-nav">🚪 Terminate Session (Sign Out)</button>
+        </div>
+      </div>
+    </div>
+
     <main>
-      <!-- Panel 1: Creation Form -->
       <section class="panel-form">
         <h2>➕ Add New Admin</h2>
         <form id="addAdminForm" class="form-card">
@@ -56,7 +71,6 @@
         </form>
       </section>
 
-      <!-- Panel 2: Table Registry -->
       <section class="panel-table">
         <h2>👥 All Admins</h2>
         <div class="table-container">
@@ -76,8 +90,7 @@
       </section>
     </main>
 
-    <!-- Change Password Modal -->
-    <!-- <div id="changePasswordModal" class="modal">
+    <div id="changePasswordModal" class="modal">
       <div class="modal-content">
         <span id="closeModal" class="close-modal">&times;</span>
         <h2>Change Password</h2>
@@ -93,9 +106,31 @@
           <button type="submit" class="btn-primary">Update Password</button>
         </form>
       </div>
-    </div> -->
+    </div>
 
-    <!-- Sign Out Confirmation Modal -->
+    <div id="updateDetailsModal" class="modal">
+      <div class="modal-content">
+        <span id="closeDetailsModal" class="close-modal">&times;</span>
+        <h2>Profile Configurations</h2>
+        <p style="font-size: 0.85rem; margin-bottom: 1rem; color: var(--text-muted);">Modify your super admin credentials below without logging out.</p>
+        <form id="updateDetailsForm" class="form-card">
+          <div class="form-group">
+            <label for="profileName">Display Name</label>
+            <input type="text" id="profileName" required />
+          </div>
+          <div class="form-group">
+            <label for="profileUsername">System Username</label>
+            <input type="text" id="profileUsername" required />
+          </div>
+          <div class="form-group">
+            <label for="profileEmail">Email Reference</label>
+            <input type="email" id="profileEmail" required />
+          </div>
+          <button type="submit" class="btn-primary">Save Profile Data</button>
+        </form>
+      </div>
+    </div>
+
     <div id="signOutModal" class="modal">
       <div class="modal-content text-center">
         <h2>Sign Out</h2>
@@ -107,7 +142,6 @@
       </div>
     </div>
 
-    <!-- Layout Footer -->
     <footer>
       <p>© 2026 Attendance App. Created by <strong>Elikem</strong>.</p>
       <p>
