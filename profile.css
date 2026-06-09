@@ -1,0 +1,362 @@
+/* ==========================================================================
+   1. CORE COMPONENT INTERFACES & RESETS
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body, h1, h2, p, ul {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  min-height: 100vh;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f9;
+  color: #333;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   2. SITE HEADER BAR & ELEMENTS
+   ========================================================================== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #2c3e50;
+  color: #fff;
+  padding: 15px 30px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+  height: 40px;
+  margin-right: 15px;
+}
+
+header h1 {
+  font-size: 1.5rem;
+}
+
+.hamburger {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   3. PROFILE PICTURE / AVATAR LAYER STYLING
+   ========================================================================== */
+.avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.avatar-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  background: #e2e8f0;
+  border: 4px solid #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+.avatar-wrapper:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.avatar-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(44, 62, 80, 0.75);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.avatar-wrapper:hover .avatar-overlay {
+  opacity: 1;
+}
+
+.avatar-hint {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   4. CENTRAL PRODUCTION CARDS & FORM DESIGN
+   ========================================================================== */
+main {
+  flex: 1 0 auto;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.profile-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 550px;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.profile-card h2 {
+  color: #2c3e50;
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #f4f6f9;
+  padding-bottom: 10px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #333;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+
+.form-group input[readonly] {
+  background-color: #f1f5f9;
+  border-color: #e2e8f0;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 25px;
+  gap: 15px;
+}
+
+.btn-primary {
+  background: #3498db;
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.95rem;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn-primary:hover {
+  background: #2980b9;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-primary:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #3498db;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.btn-link:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   5. INTERACTIVE ACCESSIBLE DRAWER MODALS (Slide-Up)
+   ========================================================================== */
+.slide-modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.slide-modal-content {
+  background-color: #fff;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 16px 16px 0 0;
+  padding: 30px;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  animation: slideInUp 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.modal-subtitle {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 20px;
+}
+
+.close-btn {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: #334155;
+}
+
+/* ==========================================================================
+   6. GRAPHICS & TRANSITION HARDWARE ANIMATIONS Suite
+   ========================================================================== */
+.animate-fade-in {
+  animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-slide-up {
+  animation: slideUpMain 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUpMain {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* ==========================================================================
+   7. SYSTEM FOOTER
+   ========================================================================== */
+footer {
+  background: #2c3e50;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto;
+}
+
+footer a {
+  color: #1abc9c;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+.social-links {
+  margin-top: 10px;
+}
+
+/* ==========================================================================
+   8. RESPONSIVE LAYOUT STATES
+   ========================================================================== */
+@media (max-width: 600px) {
+  main {
+    padding: 20px 15px;
+  }
+  
+  .profile-card {
+    padding: 20px;
+  }
+  
+  .form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+  
+  .btn-link {
+    text-align: center;
+    padding: 10px 0;
+  }
+}

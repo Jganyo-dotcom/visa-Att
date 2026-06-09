@@ -1,153 +1,217 @@
-//const baseApi = "http://127.0.0.1:4444/";
 const baseApi = "https://attandance-app-1.onrender.com/";
+const DEFAULT_AVATAR = "http://googleusercontent.com/image_collection/image_retrieval/2446120568034360762_0";
 
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
 
-if (!token) {
-  alert("Not authorized!");
+if (!token || !user) {
+  alert("Session expired or unauthorized! Returning to Login.");
   window.location.href = "auth.html";
 }
 
-// Side menu toggle
-// const hamburgerBtn = document.getElementById("hamburgerBtn");
-// const sideMenu = document.getElementById("sideMenu");
-// const closeMenuBtn = document.getElementById("closeMenuBtn");
+// Frame DOM node targets
+const passwordModal = document.getElementById("passwordModal");
+const openModalBtn = document.getElementById("openPasswordModalBtn");
+const closeModalBtn = document.getElementById("closeModalBtn");
+const changePasswordForm = document.getElementById("changePasswordForm");
 
-// // const closeBtn = document.getElementById("closeModal");
+// Avatar selection targets
+const avatarWrapper = document.getElementById("avatarWrapper");
+const avatarFileInput = document.getElementById("avatarFileInput");
+const avatarPreview = document.getElementById("avatarPreview");
 
-// // --- Side Menu Logic ---
-// hamburgerBtn.addEventListener("click", () => {
-//   if (user.role !== "Admin") {
-//     document.getElementById("mainPage").style.display = "none";
-//     document.getElementById("staffPage").style.display = "none";
-//     document.getElementById("peoplePage").style.display = "none";
-//     document.getElementById("database").style.display = "none";
-//     document.getElementById("analysisPage").style.display = "none";
-//   }
-//   sideMenu.classList.toggle("active");
+// Tracks current chosen base64 image data payload block 
+let selectedAvatarBase64 = null;
 
-//   // Toggle hamburger icon ↔ X
-//   if (sideMenu.classList.contains("active")) {
-//     hamburgerBtn.innerHTML = "&times;"; // X
-//   } else {
-//     hamburgerBtn.innerHTML = "&#9776;"; // Hamburger
-//   }
-// });
-
-// // Close menu when clicking the X inside
-// if (closeMenuBtn) {
-//   closeMenuBtn.addEventListener("click", () => {
-//     sideMenu.classList.remove("active");
-//     hamburgerBtn.innerHTML = "&#9776;";
-//   });
-// }
-
-// updating pro
-
-function UpdateUser(user) {
-  document.getElementById("adminName").value = user.name;
-  document.getElementById("adminUsername").value = user.username;
-  document.getElementById("adminEmail").value = user.email;
-  document.getElementById("adminOrg").value = user.org;
-  document.getElementById("adminRole").value = user.role;
+/**
+ * Hydrates UI field components using stored session cache definitions
+ * @param {Object} userData Stored context token maps parsed out of storage
+ */
+function populateUserProfile(userData) {
+  if (!userData) return;
+  document.getElementById("adminName").value = userData.name || "";
+  document.getElementById("adminUsername").value = userData.username || "";
+  document.getElementById("adminEmail").value = userData.email || "";
+  document.getElementById("adminOrg").value = userData.org || "N/A";
+  document.getElementById("adminRole").value = userData.role || "Admin";
+  
+  // Custom fallback picture pipeline execution
+  if (userData.avatarUrl && userData.avatarUrl.trim() !== "") {
+    avatarPreview.src = userData.avatarUrl;
+  } else {
+    avatarPreview.src = DEFAULT_AVATAR;
+  }
 }
 
-UpdateUser(user);
+// Initialize interface profile maps
+populateUserProfile(user);
 
-document
-  .getElementById("updateAdminForm")
-  .addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const session = localStorage.getItem("sessionId");
-    if (session) {
-      alert("print and close session before Editing profile");
-      return;
-    }
+/* ==========================================================================
+   A. AVATAR UPLOAD HANDLING (Local Selection Canvas Pipeline)
+   ========================================================================== */
+avatarWrapper.addEventListener("click", () => {
+  avatarFileInput.click();
+});
 
-    const submitBtn = e.target.querySelector("button[type='submit']");
-    submitBtn.textContent = "Updating...";
-    submitBtn.disabled = true;
+avatarFileInput.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
 
-    const token = localStorage.getItem("token");
-    if (!token) {
-      alert("Not authorized!");
-      window.location.href = "auth.html";
-      return;
-    }
-
-    // Build updatedUser object
-    const updatedUser = {
-      name: document.getElementById("adminName").value,
-      username: document.getElementById("adminUsername").value,
-      email: document.getElementById("adminEmail").value,
-    };
-
-    // Only include level if org is Visa
-
-    try {
-      const res = await fetch(baseApi + `api/update/me/${user.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify(updatedUser),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message || "Failed to update user");
-        console.error("Error updating user:", data);
-      } else {
-        handleSignOut();
-        alert(data.message || "User updated successfully!");
-      }
-    } catch (err) {
-      console.error("Network error updating user:", err);
-      alert("Network error!");
-    } finally {
-      submitBtn.textContent = "Save Changes";
-      submitBtn.disabled = false;
-    }
-  });
-
-// Update profile form
-
-// Sign out
-function handleSignOut() {
-  // Ask three times for confirmation
-  for (let i = 1; i <= 3; i++) {
-    const confirmed = confirm(`(${i}/3) Are you sure you want to sign out?`);
-    if (!confirmed) {
-      alert("Sign out cancelled");
-      return;
-    }
+  // Maximum file restriction checking size matrix constraints (2MB max)
+  if (file.size > 2 * 1024 * 1024) {
+    alert("Upload Limit Exceeded: Please choose a file image under 2MB size.");
+    avatarFileInput.value = "";
+    return;
   }
 
-  // Only reaches here if user clicked OK all three times
-  sessionStorage.removeItem("token");
-  localStorage.removeItem("token");
-  localStorage.removeItem("user"); // only if you stored user info under this key
-  window.location.href = "/auth.html"; // redirect to login or home
-}
-
-document.getElementById("staffPage").addEventListener("click", () => {
-  console.log("ha");
-  window.location.href = "/staffManagement.html";
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    // Sync viewport graphics container node
+    avatarPreview.src = event.target.result;
+    // Store image base64 cache references
+    selectedAvatarBase64 = event.target.result;
+  };
+  reader.readAsDataURL(file);
 });
 
-document.getElementById("peoplePage").addEventListener("click", () => {
-  window.location.href = "/people.html";
+/* ==========================================================================
+   B. PROFILE INFO UPDATE ACTIONS
+   ========================================================================== */
+document.getElementById("updateAdminForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  
+  const session = localStorage.getItem("sessionId");
+  if (session) {
+    alert("Please close active attendance sessions before modifying configuration metadata.");
+    return;
+  }
+
+  const submitBtn = e.target.querySelector("button[type='submit']");
+  const originalText = submitBtn.textContent;
+  
+  submitBtn.textContent = "Saving Profile...";
+  submitBtn.disabled = true;
+
+  // Assembly structure logic maps mapping out backend variables 
+  const updatedUser = {
+    name: document.getElementById("adminName").value.trim(),
+    username: document.getElementById("adminUsername").value.trim(),
+    email: document.getElementById("adminEmail").value.trim(),
+  };
+
+  // If a profile image has been modified, provide the payload link key structure
+  if (selectedAvatarBase64) {
+    updatedUser.avatarUrl = selectedAvatarBase64;
+  }
+
+  try {
+    const res = await fetch(`${baseApi}api/update/me/${user.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+      body: JSON.stringify(updatedUser),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to modify dashboard data.");
+    }
+
+    alert("Profile configurations modified completely! Please sign in again.");
+    
+    if (typeof handleSignOut === "function") {
+      handleSignOut();
+    } else {
+      localStorage.clear();
+      window.location.href = "auth.html";
+    }
+
+  } catch (err) {
+    console.error("Profile modification layout structural failure:", err);
+    alert(err.message || "A tracking network error processing requests has occurred.");
+  } finally {
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
+  }
 });
 
-document.getElementById("database").addEventListener("click", () => {
-  window.location.href = "/database.html";
+/* ==========================================================================
+   C. SLIDING ACCOUNT PASSWORD UPDATES
+   ========================================================================== */
+openModalBtn.addEventListener("click", () => {
+  passwordModal.style.display = "flex";
+  document.body.style.overflow = "hidden";
 });
-document.getElementById("mainPage").addEventListener("click", () => {
-  window.location.href = "/admin.html";
+
+const closeDrawerModal = () => {
+  passwordModal.style.display = "none";
+  document.body.style.overflow = "";
+  changePasswordForm.reset();
+};
+
+closeModalBtn.addEventListener("click", closeDrawerModal);
+
+window.addEventListener("click", (e) => {
+  if (e.target === passwordModal) {
+    closeDrawerModal();
+  }
 });
-// document.getElementById("profilePage").addEventListener("click", () => {
-//   window.location.href = "/profile.html";
-// });
+
+changePasswordForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const currentPassword = document.getElementById("currentPassword").value;
+  const newPassword = document.getElementById("newPassword").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+
+  if (newPassword !== confirmPassword) {
+    alert("Validation Mismatch: New password choices do not match.");
+    return;
+  }
+
+  if (newPassword.length < 6) {
+    alert("Security Notice: Password definitions must be at least 6 characters long.");
+    return;
+  }
+
+  const submitBtn = changePasswordForm.querySelector("button[type='submit']");
+  submitBtn.textContent = "Updating Credentials...";
+  submitBtn.disabled = true;
+
+  try {
+    const response = await fetch(`${baseApi}api/admin/change-password/${user.id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        currentPassword,
+        newPassword,
+        confirmPassword,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to process authorization credential overhaul updates.");
+    }
+
+    alert("Credentials successfully synchronized! Re-authenticating system session.");
+    closeDrawerModal();
+
+    localStorage.clear();
+    window.location.href = "auth.html";
+
+  } catch (err) {
+    console.error("Credential network validation error details:", err);
+    alert(err.message || "System error modifications handling server validation arrays.");
+  } finally {
+    submitBtn.textContent = "Update Password";
+    submitBtn.disabled = false;
+  }
+});
