@@ -150,48 +150,48 @@ function handleSignOut() {
 }
 
 /* --- Password Form Handler --- */
-const formm = document.getElementById("changePasswordForm");
-formm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  showLoader();
+// const formm = document.getElementById("changePasswordForm");
+// formm.addEventListener("submit", async (e) => {
+//   e.preventDefault();
+//   showLoader();
 
-  const currentPassword = document.getElementById("currentPassword").value;
-  const newPassword = document.getElementById("newPassword").value;
+//   const currentPassword = document.getElementById("currentPassword").value;
+//   const newPassword = document.getElementById("newPassword").value;
 
-  const submitBtn = formm.querySelector("button[type='submit']");
-  const originalText = submitBtn.textContent;
-  submitBtn.textContent = "Changing...";
-  submitBtn.disabled = true;
+//   const submitBtn = formm.querySelector("button[type='submit']");
+//   const originalText = submitBtn.textContent;
+//   submitBtn.textContent = "Changing...";
+//   submitBtn.disabled = true;
 
-  try {
-    const response = await fetch(baseApi + `api/admin/change-password/${user.id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ currentPassword, newPassword, confirmPassword: newPassword }),
-      }
-    );
+//   try {
+//     const response = await fetch(baseApi + `api/admin/change-password/${user.id}`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${token}`,
+//         },
+//         body: JSON.stringify({ currentPassword, newPassword, confirmPassword: newPassword }),
+//       }
+//     );
 
-    const data = await response.json();
+//     const data = await response.json();
 
-    if (response.ok) {
-      alert("Password updated successfully!");
-      pwdModal.style.display = "none";
-      handleSignOut();
-    } else {
-      alert(data.message || "Error updating password");
-    }
-  } catch (err) {
-    console.error(err);
-    alert("Something went wrong");
-  } finally {
-    submitBtn.textContent = originalText;
-    submitBtn.disabled = false;
-    hideLoader();
-  }
-});
+//     if (response.ok) {
+//       alert("Password updated successfully!");
+//       pwdModal.style.display = "none";
+//       handleSignOut();
+//     } else {
+//       alert(data.message || "Error updating password");
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     alert("Something went wrong");
+//   } finally {
+//     submitBtn.textContent = originalText;
+//     submitBtn.disabled = false;
+//     hideLoader();
+//   }
+// });
 
 /* --- Delete Action --- */
 async function deleteAdmin(id, name) {
