@@ -254,39 +254,39 @@ deleteAccountBtn.addEventListener("click", async () => {
 formm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const currentPassword = document.getElementById("currentPassword").value;
-  const newPassword = document.getElementById("newPassword").value;
+  // const currentPassword = document.getElementById("currentPassword").value;
+  // const newPassword = document.getElementById("newPassword").value;
 
-  try {
-    const token = localStorage.getItem("token"); // assuming you store JWT in localStorage
-    showLoader();
-    const response = await fetch(
-      baseApi + `api/admin/change-password/${user.id}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ currentPassword, newPassword }),
-      },
-    );
+  // try {
+  //   const token = localStorage.getItem("token"); // assuming you store JWT in localStorage
+  //   showLoader();
+  //   const response = await fetch(
+  //     baseApi + `api/admin/change-password/${user.id}`,
+  //     {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify({ currentPassword, newPassword }),
+  //     },
+  //   );
 
-    const data = await response.json();
-    hideLoader();
-    if (response.ok) {
-      alert("Password updated successfully!");
-      modal.style.display = "none";
-      handleSignOut();
-    } else {
-      hideLoader();
-      alert(data.message || "Error updating password");
-    }
-  } catch (err) {
-    hideLoader();
-    console.error(err);
-    alert("Something went wrong");
-  }
+  //   const data = await response.json();
+  //   hideLoader();
+  //   if (response.ok) {
+  //     alert("Password updated successfully!");
+  //     modal.style.display = "none";
+  //     handleSignOut();
+  //   } else {
+  //     hideLoader();
+  //     alert(data.message || "Error updating password");
+  //   }
+  // } catch (err) {
+  //   hideLoader();
+  //   console.error(err);
+  //   alert("Something went wrong");
+  // }
 });
 
 async function loadStaffAccounts() {

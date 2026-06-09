@@ -8,10 +8,10 @@ if (!token) {
 
 const user = JSON.parse(localStorage.getItem("user"));
 
-// Capture DOM Modal references
-const pwdModal = document.getElementById("changePasswordModal");
-const closePwdBtn = document.getElementById("closeModal");
-const openPwdBtn = document.getElementById("openChangePassword");
+// // Capture DOM Modal references
+// const pwdModal = document.getElementById("changePasswordModal");
+// const closePwdBtn = document.getElementById("closeModal");
+// const openPwdBtn = document.getElementById("openChangePassword");
 
 const signOutModal = document.getElementById("signOutModal");
 const openSignOutBtn = document.getElementById("openSignOutModal");

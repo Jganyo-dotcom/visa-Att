@@ -340,50 +340,50 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Password Modification Management form handling logic
-  const formm = document.getElementById("changePasswordForm");
-  if (formm) {
-    formm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+  // const formm = document.getElementById("changePasswordForm");
+  // if (formm) {
+  //   formm.addEventListener("submit", async (e) => {
+  //     e.preventDefault();
 
-      const currentPassword = document.getElementById("currentPassword").value;
-      const newPassword = document.getElementById("newPassword").value;
-      const confirmPassword = document.getElementById("confirmPassword").value;
+  //     const currentPassword = document.getElementById("currentPassword").value;
+  //     const newPassword = document.getElementById("newPassword").value;
+  //     const confirmPassword = document.getElementById("confirmPassword").value;
 
-      try {
-        showLoader();
-        const response = await fetch(
-          baseApi + `api/admin/change-password/${user.id}`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              currentPassword,
-              newPassword,
-              confirmPassword,
-            }),
-          },
-        );
+  //     try {
+  //       showLoader();
+  //       const response = await fetch(
+  //         baseApi + `api/admin/change-password/${user.id}`,
+  //         {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //           body: JSON.stringify({
+  //             currentPassword,
+  //             newPassword,
+  //             confirmPassword,
+  //           }),
+  //         },
+  //       );
 
-        const data = await response.json();
-        hideLoader();
+  //       const data = await response.json();
+  //       hideLoader();
         
-        if (response.ok) {
-          alert("Password updated successfully!");
-          if (modal) modal.style.display = "none";
-          handleSignOut();
-        } else {
-          alert(data.message || data.error || "Error updating password");
-        }
-      } catch (err) {
-        hideLoader();
-        console.error("Auth change lifecycle fault verification details:", err);
-        alert("Something went wrong");
-      }
-    });
-  }
+  //       if (response.ok) {
+  //         alert("Password updated successfully!");
+  //         if (modal) modal.style.display = "none";
+  //         handleSignOut();
+  //       } else {
+  //         alert(data.message || data.error || "Error updating password");
+  //       }
+  //     } catch (err) {
+  //       hideLoader();
+  //       console.error("Auth change lifecycle fault verification details:", err);
+  //       alert("Something went wrong");
+  //     }
+  //   });
+  // }
 
   // // Central Routing Engine Control Mapping Handlers
   // const routeMappings = {
