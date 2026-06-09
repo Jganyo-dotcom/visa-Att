@@ -352,7 +352,7 @@ async function transform(id, name) {
 
     showLoader();
 
-    const res = await fetch(`${baseApi}api/update/me/${id}`, {
+    const res = await fetch(`${baseApi}api/admin/change-status/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
