@@ -29,36 +29,36 @@ function hideLoader() {
   if (loader) loader.style.display = "none";
 }
 
-/* --- Password Enforcement View Configuration --- */
-if (user && user.hasChangedPassword !== true) {
-  if (pwdModal && closePwdBtn) {
-    pwdModal.style.display = "flex";
-    closePwdBtn.style.display = "none";
-  }
-} else {
-  if (pwdModal) pwdModal.style.display = "none";
-}
+// /* --- Password Enforcement View Configuration --- */
+// if (user && user.hasChangedPassword !== true) {
+//   if (pwdModal && closePwdBtn) {
+//     pwdModal.style.display = "flex";
+//     closePwdBtn.style.display = "none";
+//   }
+// } else {
+//   if (pwdModal) pwdModal.style.display = "none";
+// }
 
-/* --- Modal View Event Triggers --- */
-if (openPwdBtn && pwdModal) {
-  openPwdBtn.addEventListener('click', () => pwdModal.style.display = "flex");
-}
-if (closePwdBtn && pwdModal) {
-  closePwdBtn.addEventListener('click', () => pwdModal.style.display = "none");
-}
+// /* --- Modal View Event Triggers --- */
+// if (openPwdBtn && pwdModal) {
+//   openPwdBtn.addEventListener('click', () => pwdModal.style.display = "flex");
+// }
+// if (closePwdBtn && pwdModal) {
+//   closePwdBtn.addEventListener('click', () => pwdModal.style.display = "none");
+// }
 
-if (openSignOutBtn && signOutModal) {
-  openSignOutBtn.addEventListener('click', () => signOutModal.style.display = "flex");
-}
-if (closeSignOutBtn && signOutModal) {
-  closeSignOutBtn.addEventListener('click', () => signOutModal.style.display = "none");
-}
+// if (openSignOutBtn && signOutModal) {
+//   openSignOutBtn.addEventListener('click', () => signOutModal.style.display = "flex");
+// }
+// if (closeSignOutBtn && signOutModal) {
+//   closeSignOutBtn.addEventListener('click', () => signOutModal.style.display = "none");
+// }
 
-// Close modals instantly if user clicks black space background overlay
-window.addEventListener('click', (e) => {
-  if (e.target === pwdModal && user && user.hasChangedPassword === true) pwdModal.style.display = "none";
-  if (e.target === signOutModal) signOutModal.style.display = "none";
-});
+// // Close modals instantly if user clicks black space background overlay
+// window.addEventListener('click', (e) => {
+//   if (e.target === pwdModal && user && user.hasChangedPassword === true) pwdModal.style.display = "none";
+//   if (e.target === signOutModal) signOutModal.style.display = "none";
+// });
 
 /* --- Remote REST Actions --- */
 async function loadAdmins() {
