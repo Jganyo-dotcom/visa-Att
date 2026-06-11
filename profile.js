@@ -233,8 +233,16 @@ if (changePasswordForm) {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error ||data.message|| "Failed to process authorization credential overhaul updates.");
-      }
+  // Extract the most useful message from the server response
+  const errorMsg = data.message || data.error || "Failed to process authorization credential overhaul updates.";
+  
+  // Show it directly to the user
+  alert(`❌ ${errorMsg}`);
+  
+  // Stop execution so the success code doesn't run
+  return;
+}
+
 
       // --- NO LOGOUT. SECURE USER STATUS TO COMPLETED ---
       user.hasChangedPassword = true;
