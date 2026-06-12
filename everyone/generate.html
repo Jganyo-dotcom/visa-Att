@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attendance Link QR Generator</title>
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --bg-surface: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --color-primary: #4f46e5;
+      --color-primary-hover: #4338ca;
+      --border-color: #cbd5e1;
+      --radius-md: 8px;
+      --radius-lg: 16px;
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .qr-container {
+      background-color: var(--bg-surface);
+      width: 100%;
+      max-width: 440px;
+      padding: 2.5rem 2rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+      text-align: center;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .qr-header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .qr-header p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .qr-display-zone {
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+      border: 2px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      background-color: #f8fafc;
+      padding: 1rem;
+    }
+
+    .qr-display-zone.active {
+      border-style: solid;
+      border-color: rgba(79, 70, 229, 0.15);
+      background-color: #ffffff;
+    }
+
+    .qr-image {
+      max-width: 220px;
+      width: 100%;
+      height: auto;
+      display: none;
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    .placeholder-text {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      max-width: 240px;
+      line-height: 1.4;
+    }
+
+    .url-badge {
+      display: none;
+      background-color: #f1f5f9;
+      color: var(--color-primary);
+      font-size: 0.8rem;
+      padding: 0.5rem;
+      border-radius: var(--radius-md);
+      margin-top: 1rem;
+      word-break: break-all;
+      border: 1px solid var(--border-color);
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    .btn {
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-md);
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    .btn:active { transform: scale(0.98); }
+
+    .btn-primary {
+      background-color: var(--color-primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover { background-color: var(--color-primary-hover); }
+
+    .actions-grid {
+      display: none;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin-top: 1rem;
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    .btn-action {
+      background-color: #f1f5f9;
+      color: var(--text-main);
+      font-size: 0.8rem;
+      padding: 0.6rem 0.25rem;
+      border: 1px solid var(--border-color);
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .btn-action:hover { background-color: #e2e8f0; }
+    .btn-action svg { width: 18px; height: 18px; }
+
+    .loader-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: var(--radius-lg);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid #e2e8f0;
+      border-bottom-color: var(--color-primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 1rem;
+    }
+
+    .loader-text { font-size: 0.95rem; font-weight: 600; }
+
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media print {
+      body * { visibility: hidden; }
+      .qr-container, .qr-container *, .qr-image { visibility: visible; }
+      body { background: none; }
+      .qr-container { position: absolute; left: 50%; top: 30%; transform: translate(-50%, -30%); box-shadow: none; border: none; }
+      .btn, .actions-grid, .qr-header p { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="qr-container">
+    <div id="qrLoader" class="loader-overlay">
+      <div class="spinner"></div>
+      <div class="loader-text">Generating QR Code...</div>
+    </div>
+
+    <div class="qr-header">
+      <h1>Attendance QR Generator</h1>
+      <p>Generate a scannable QR code linking directly to your public attendance register.</p>
+    </div>
+
+    <div id="qrDisplayZone" class="qr-display-zone">
+      <p id="placeholderText" class="placeholder-text">Click the button below to generate your direct attendance link QR code asset.</p>
+      <img id="qrImageDisplay" src="" alt="Attendance QR Code" class="qr-image" />
+    </div>
+
+    <div id="urlBadge" class="url-badge"></div>
+
+    <div style="margin-top: 1.5rem;">
+      <button id="generateBtn" class="btn btn-primary">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7C4.547 9.547 4.5 10.768 4.5 12s.047 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.092-1.209.138-2.43.138-3.662z" />
+        </svg>
+        Generate QR Code
+      </button>
+    </div>
+
+    <div id="actionsGrid" class="actions-grid">
+      <button id="printBtn" class="btn btn-action">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.8A8.004 8.004 0 1021 12h-3m-1.21-3.79a4.003 4.003 0 00-4.14 0M12 3v13.5m0 0l-3-3m3 3l3-3"/></svg>
+        Print
+      </button>
+      <button id="shareBtn" class="btn btn-action">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186l5.566-2.783m-5.566 2.783l5.566 2.783m0 0a2.25 2.25 0 103.933-2.186 2.25 2.25 0 00-3.933 2.186z"/></svg>
+        Share
+      </button>
+      <button id="saveBtn" class="btn btn-action">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+        Save
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Pointing directly to your primary live Render base URL
+    const baseApi = "https://attandance-app-1.onrender.com/";
+
+    let qrBase64String = "";
+    const targetUrl = "https://elikemtech.netlify.app/everyone/public-attendance";
+
+    const generateBtn = document.getElementById("generateBtn");
+    const qrLoader = document.getElementById("qrLoader");
+    const qrDisplayZone = document.getElementById("qrDisplayZone");
+    const placeholderText = document.getElementById("placeholderText");
+    const qrImageDisplay = document.getElementById("qrImageDisplay");
+    const urlBadge = document.getElementById("urlBadge");
+    const actionsGrid = document.getElementById("actionsGrid");
+
+    generateBtn.addEventListener("click", async () => {
+      // Open the loader animation
+      qrLoader.style.display = "flex";
+
+      try {
+        const response = await fetch(`${baseApi}api/admin/generate-qr`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) throw new Error(data.error || "Generation failed.");
+
+        // Capture data string
+        qrBase64String = data.qrImage;
+
+        // Change frontend views
+        placeholderText.style.display = "none";
+        qrImageDisplay.src = qrBase64String;
+        qrImageDisplay.style.display = "block";
+        qrDisplayZone.classList.add("active");
+        
+        urlBadge.textContent = targetUrl;
+        urlBadge.style.display = "block";
+        actionsGrid.style.display = "grid";
+
+      } catch (err) {
+        console.error(err);
+        alert(err.message || "An error occurred generating your QR code.");
+      } finally {
+        // Hide loader animation
+        qrLoader.style.display = "none";
+      }
+    });
+
+    // Action Utilities (Print, Share, Save)
+    document.getElementById("printBtn").addEventListener("click", () => window.print());
+
+    document.getElementById("shareBtn").addEventListener("click", async () => {
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: 'Public Attendance Link', url: targetUrl });
+        } catch (err) { if(err.name !== "AbortError") console.error(err); }
+      } else {
+        await navigator.clipboard.writeText(targetUrl);
+        alert("📋 Public URL link copied directly to your clipboard!");
+      }
+    });
+
+    document.getElementById("saveBtn").addEventListener("click", () => {
+      if (!qrBase64String) return;
+      const downloadAnchor = document.createElement("a");
+      downloadAnchor.href = qrBase64String;
+      downloadAnchor.download = "public-attendance-qr.png";
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      document.body.removeChild(downloadAnchor);
+    });
+  </script>
+</body>
+</html>
