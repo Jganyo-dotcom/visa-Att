@@ -1,5 +1,5 @@
 // Global Endpoint Configuration
-const API_BASE_URL = "https://attandance-app-1.onrender.com";
+const API_BASE_URL = "https://attandance-app-1.onrender.com/api";
 
 // System State Manager Toggle Utility for Loader Spinner
 function toggleLoader(show) {
