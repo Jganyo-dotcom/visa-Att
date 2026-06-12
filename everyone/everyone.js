@@ -18,6 +18,9 @@ function toggleLoader(show) {
 /**
  * PIN Access Control & Input Triggers
  */
+
+document.querySelector("#orgSelect").addEventListener("change", handleOrgChange);
+
 function handleOrgChange() {
   const org = document.getElementById("orgSelect").value;
   const drawer = document.getElementById("authCodeWrapper");
