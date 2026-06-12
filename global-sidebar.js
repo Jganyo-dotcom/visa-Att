@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     <button id="MA" class="btn-secondary">📝 Mark Attendance</button>
     <button id="approveAttendance" class="btn-secondary">📝Pending Attendance</button>
     <button id="code" class="btn-secondary">📷 Mark Attendance By Scan</button>
+    <button id="qrCodePage" class="btn-secondary">📷 Generage code</button>
     <button id="DoubleServicePage" class="btn-secondary">🔄 Double Pip</button>
     <button id="tend" class="btn-secondary">ℹ️ Attendance Info</button>
     <button id="followPage" class="btn-secondary">🔍 Filter Attendance</button>
@@ -163,7 +164,8 @@ document.addEventListener("DOMContentLoaded", () => {
     sessionM: "/sessionManagement",
     DoubleServicePage: "/DD",
     approveAttendance:"/confirmation/c",
-    "pendingA":"/c"
+    "pendingA":"/c",
+    "qrCodePage":"/everyone/generate"
   };
 
   const navigateTo = (path) => {
