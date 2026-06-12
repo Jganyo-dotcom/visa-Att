@@ -13,6 +13,7 @@
       --color-primary: #4f46e5;
       --color-primary-hover: #4338ca;
       --border-color: #cbd5e1;
+      --radius-sm: 6px;
       --radius-md: 8px;
       --radius-lg: 16px;
       --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -30,9 +31,73 @@
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
+      flex-direction: column; /* Allows sticky header to sit on top */
+    }
+
+    /* --- Navigation Header --- */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      height: 38px;
+      width: auto;
+      object-fit: contain;
+      border-radius: var(--radius-sm);
+    }
+
+    #welcome {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.025em;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .hamburger {
+      background: #f1f5f9;
+      border: 1px solid var(--border-color);
+      font-size: 1.35rem;
+      color: var(--color-primary);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      line-height: 1;
+    }
+
+    .hamburger:hover {
+      background: var(--color-primary);
+      color: #ffffff;
+      border-color: var(--color-primary);
+    }
+
+    /* --- Main Screen View Layout --- */
+    .main-content {
+      flex: 1;
+      display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem;
+      padding: 2rem 1.5rem;
     }
 
     .qr-container {
@@ -106,6 +171,7 @@
       animation: fadeIn 0.4s ease-out forwards;
     }
 
+    /* --- Universal Layout Button Matrix --- */
     .btn {
       cursor: pointer;
       font-weight: 600;
@@ -148,62 +214,10 @@
       gap: 0.25rem;
     }
 
-    .hamburger {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(0, 242, 254, 0.3);
-  font-size: 1.5rem;
-  color: var(--primary);
-  padding: 10px;
-  border-radius: var(--radius-sm);
-}
-
-/* --- Layout --- */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.25rem 5%;
-  background: rgba(6, 9, 19, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.logo {
-  height: 38px;
-  width: auto;
-  object-fit: contain;
-  border-radius: var(--radius-sm);
-  box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
-}
-
-#welcome {
-  font-size: 1.4rem;
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  background: linear-gradient(135deg, #ffffff, var(--primary));
-  -webkit-text-fill-color: transparent;
-}
-
-.hamburger:hover {
-  background: rgba(0, 242, 254, 0.1);
-  color: #ffffff;
-}
-
-
     .btn-action:hover { background-color: #e2e8f0; }
     .btn-action svg { width: 18px; height: 18px; }
 
+    /* --- UI Dynamic Feedback Loader Components --- */
     .loader-overlay {
       position: absolute;
       top: 0;
@@ -236,75 +250,75 @@ header {
 
     @media print {
       body * { visibility: hidden; }
+      header { display: none !important; }
       .qr-container, .qr-container *, .qr-image { visibility: visible; }
       body { background: none; }
       .qr-container { position: absolute; left: 50%; top: 30%; transform: translate(-50%, -30%); box-shadow: none; border: none; }
       .btn, .actions-grid, .qr-header p { display: none !important; }
     }
   </style>
-
-  <div class="header-right">
-        <button id="hamburgerBtn" class="hamburger" aria-label="Open Navigation">&#9776;</button>
-      </div>
+  <link rel="stylesheet" href="global-sidebar.css"
 </head>
 <body>
-<header>
-      <div class="header-left">
-        <img src="logo.png" alt="Company Logo" class="logo" />
-        <h1 id="welcome">Admin Dashboard</h1>
+
+  <header>
+    <div class="header-left">
+      <img src="../logo.png"Company Logo" class="logo" />
+      <h1 id="welcome">Admin Dashboard</h1>
+    </div>
+    <div class="header-right">
+      <button id="hamburgerBtn" class="hamburger" aria-label="Open Navigation">&#9776;</button>
+    </div>
+  </header>
+
+  <div class="main-content">
+    <div class="qr-container">
+      <div id="qrLoader" class="loader-overlay">
+        <div class="spinner"></div>
+        <div class="loader-text">Generating QR Code...</div>
       </div>
-      <div class="header-right">
-        <button id="hamburgerBtn" class="hamburger" aria-label="Open Navigation">&#9776;</button>
+
+      <div class="qr-header">
+        <h1>Attendance QR Generator</h1>
+        <p>Generate a scannable QR code linking directly to your public attendance register.</p>
       </div>
-    </header>
 
-  <div class="qr-container">
-    <div id="qrLoader" class="loader-overlay">
-      <div class="spinner"></div>
-      <div class="loader-text">Generating QR Code...</div>
-    </div>
+      <div id="qrDisplayZone" class="qr-display-zone">
+        <p id="placeholderText" class="placeholder-text">Click the button below to generate your direct attendance link QR code asset.</p>
+        <img id="qrImageDisplay" src="" alt="Attendance QR Code" class="qr-image" />
+      </div>
 
-    <div class="qr-header">
-      <h1>Attendance QR Generator</h1>
-      <p>Generate a scannable QR code linking directly to your public attendance register.</p>
-    </div>
+      <div id="urlBadge" class="url-badge"></div>
 
-    <div id="qrDisplayZone" class="qr-display-zone">
-      <p id="placeholderText" class="placeholder-text">Click the button below to generate your direct attendance link QR code asset.</p>
-      <img id="qrImageDisplay" src="" alt="Attendance QR Code" class="qr-image" />
-    </div>
+      <div style="margin-top: 1.5rem;">
+        <button id="generateBtn" class="btn btn-primary">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7C4.547 9.547 4.5 10.768 4.5 12s.047 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.092-1.209.138-2.43.138-3.662z" />
+          </svg>
+          Generate QR Code
+        </button>
+      </div>
 
-    <div id="urlBadge" class="url-badge"></div>
-
-    <div style="margin-top: 1.5rem;">
-      <button id="generateBtn" class="btn btn-primary">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7C4.547 9.547 4.5 10.768 4.5 12s.047 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.092-1.209.138-2.43.138-3.662z" />
-        </svg>
-        Generate QR Code
-      </button>
-    </div>
-
-    <div id="actionsGrid" class="actions-grid">
-      <button id="printBtn" class="btn btn-action">
-        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.8A8.004 8.004 0 1021 12h-3m-1.21-3.79a4.003 4.003 0 00-4.14 0M12 3v13.5m0 0l-3-3m3 3l3-3"/></svg>
-        Print
-      </button>
-      <button id="shareBtn" class="btn btn-action">
-        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186l5.566-2.783m-5.566 2.783l5.566 2.783m0 0a2.25 2.25 0 103.933-2.186 2.25 2.25 0 00-3.933 2.186z"/></svg>
-        Share
-      </button>
-      <button id="saveBtn" class="btn btn-action">
-        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
-        Save
-      </button>
+      <div id="actionsGrid" class="actions-grid">
+        <button id="printBtn" class="btn btn-action">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.8A8.004 8.004 0 1021 12h-3m-1.21-3.79a4.003 4.003 0 00-4.14 0M12 3v13.5m0 0l-3-3m3 3l3-3"/></svg>
+          Print
+        </button>
+        <button id="shareBtn" class="btn btn-action">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186l5.566-2.783m-5.566 2.783l5.566 2.783m0 0a2.25 2.25 0 103.933-2.186 2.25 2.25 0 00-3.933 2.186z"/></svg>
+          Share
+        </button>
+        <button id="saveBtn" class="btn btn-action">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+          Save
+        </button>
+      </div>
     </div>
   </div>
-
+<script src="global-sidebar.js"></script>
   <script>
-    // Pointing directly to your primary live Render base URL
     const baseApi = "https://attandance-app-1.onrender.com/";
-    const token =localStorage.getItem("token")
+    const token = localStorage.getItem("token");
 
     let qrBase64String = "";
     const targetUrl = "https://elikemtech.netlify.app/everyone/public-attendance";
@@ -318,24 +332,23 @@ header {
     const actionsGrid = document.getElementById("actionsGrid");
 
     generateBtn.addEventListener("click", async () => {
-      // Open the loader animation
       qrLoader.style.display = "flex";
 
       try {
         const response = await fetch(`${baseApi}api/admin/generate-qr`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-           Authorization: "Bearer " + token,
+          headers: { 
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+          }
         });
 
         const data = await response.json();
 
         if (!response.ok) throw new Error(data.error || "Generation failed.");
 
-        // Capture data string
         qrBase64String = data.qrImage;
 
-        // Change frontend views
         placeholderText.style.display = "none";
         qrImageDisplay.src = qrBase64String;
         qrImageDisplay.style.display = "block";
@@ -349,7 +362,6 @@ header {
         console.error(err);
         alert(err.message || "An error occurred generating your QR code.");
       } finally {
-        // Hide loader animation
         qrLoader.style.display = "none";
       }
     });
@@ -378,5 +390,6 @@ header {
       document.body.removeChild(downloadAnchor);
     });
   </script>
+
 </body>
 </html>
