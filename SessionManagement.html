@@ -4,26 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Session Management | Attendance App</title>
-    
     <link rel="stylesheet" href="sessionM.css" />
     <link rel="stylesheet" href="global-sidebar.css" />
   </head>
   <body>
-    
     <header>
       <div class="header-left">
         <h1>Attendance App</h1>
         <p>Session Management Control Panel</p>
       </div>
-      <button id="hamburgerBtn" class="hamburger" aria-label="Open Navigation">&#9776;</button>
+      <button id="hamburgerBtn" class="hamburger" aria-label="Open Navigation">
+        &#9776;
+      </button>
     </header>
 
     <main>
-      <div class="grid">
-        <div class="card" id="sessionCard">
+      <div class="grid-layout">
+        <div class="glass-card" id="sessionCard">
           <div class="card-header">
             <h2>Manage Attendance Session</h2>
-            <span class="status-badge" id="statusBadge">Checking Server...</span>
+            <span class="status-badge" id="statusBadge"
+              >Checking Server...</span
+            >
           </div>
 
           <div class="card-body">
@@ -45,6 +47,23 @@
             >
               Loading...
             </button>
+
+            <div class="form-divider"></div>
+
+            <div class="security-action-zone">
+              <button
+                id="generateCodeBtn"
+                class="action-btn-secondary"
+                onclick="generateAccessCode()"
+              >
+                Generate Access Code
+              </button>
+              <div class="display-box">
+                <p id="generatedCodeDisplay" class="code-display">
+                  No code generated yet.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -54,13 +73,13 @@
       <div class="slide-modal-content">
         <button id="closeModalBtn" class="close-btn">&times;</button>
         <h2>Change Password</h2>
-        </div>
+      </div>
     </div>
 
-    <div id="ios-loader" class="loader-overlay">
-      <div class="loader">
-        <div class="spinner"></div>
-        <p id="loaderText" class="loading-text">Processing...</p>
+    <div id="ios-loader" class="loader-overlay-fixed">
+      <div class="loader-container">
+        <div class="spinner-neon"></div>
+        <p id="loaderText">Processing transaction...</p>
       </div>
     </div>
 
@@ -70,7 +89,9 @@
           © 2026 Attendance App. Created by <strong>Elikem</strong>.
         </p>
         <div class="contact-methods">
-          <a href="mailto:elikemejay@gmail.com" class="contact-link">📧 Email</a>
+          <a href="mailto:elikemejay@gmail.com" class="contact-link"
+            >📧 Email</a
+          >
           <span class="divider">|</span>
           <a href="tel:0593320375" class="contact-link">📞 Call</a>
         </div>

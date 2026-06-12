@@ -16,9 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
     <button id="followPage" class="btn-secondary">🔍 Filter Attendance</button>
     <button id="analysisPage" class="btn-secondary">📈 Analysis Of Attendance</button>
     <button id="peoplePage" class="btn-secondary">🚫 Manage Absentees</button>
+    <button id="pendingA" class="btn-secondary">🔑Pending Approvals</button>
     <button id="database" class="btn-secondary">🗄️ Database Records</button>
     <button id="profilePage" class="btn-secondary">⚙️ Settings & Profile</button>
-    <button id="changePasswordBtn" class="btn-secondary">🔑 Change Password</button>
     <button id="signOutBtn" class="btn-signout">🚪 Sign Out</button>
     <button id="deleteAccount" class="btn-danger">⚠️ Delete Account</button>
   `;
@@ -40,9 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const globalUser = globalUserStr ? JSON.parse(globalUserStr) : null;
 
   // Environment Hostname Engine Configuration Maps
-  const isLocalDev = 
-    window.location.hostname === "localhost" || 
-    window.location.hostname === "127.0.0.1" || 
+  const isLocalDev =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1" ||
     window.location.protocol === "file:";
 
   /* ==========================================================================
@@ -53,7 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // SCENARIO A: User is browsing outside the settings workspace profile loop
     if (!currentFilename.includes("profile")) {
-      alert("🔐 Security Notice:\n\nYou must update your temporary password before accessing the system dashboard.\n\nNavigating to your settings panel now...");
+      alert(
+        "🔐 Security Notice:\n\nYou must update your temporary password before accessing the system dashboard.\n\nNavigating to your settings panel now...",
+      );
       window.location.href = isLocalDev ? "profile.html" : "/profile";
       return;
     }
@@ -78,22 +80,31 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Intercept outside frame click events
-    window.addEventListener("click", (e) => {
-      if (e.target === lockOverlay) {
-        e.stopPropagation();
-        e.preventDefault();
-      }
-    }, true);
+    window.addEventListener(
+      "click",
+      (e) => {
+        if (e.target === lockOverlay) {
+          e.stopPropagation();
+          e.preventDefault();
+        }
+      },
+      true,
+    );
   }
 
   /* ==========================================================================
      4. STANDARD SIDEBAR INTERFACE DRAWING ACTIONS
      ========================================================================== */
-  if (hamburgerBtn && (!globalUser || globalUser.hasChangedPassword !== false)) {
+  if (
+    hamburgerBtn &&
+    (!globalUser || globalUser.hasChangedPassword !== false)
+  ) {
     hamburgerBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       sidebar.classList.toggle("active");
-      hamburgerBtn.innerHTML = sidebar.classList.contains("active") ? "&times;" : "&#9776;";
+      hamburgerBtn.innerHTML = sidebar.classList.contains("active")
+        ? "&times;"
+        : "&#9776;";
     });
   }
 
@@ -105,14 +116,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   window.addEventListener("click", (e) => {
-    if (sidebar.classList.contains("active") && hamburgerBtn && !sidebar.contains(e.target) && e.target !== hamburgerBtn) {
+    if (
+      sidebar.classList.contains("active") &&
+      hamburgerBtn &&
+      !sidebar.contains(e.target) &&
+      e.target !== hamburgerBtn
+    ) {
       sidebar.classList.remove("active");
       hamburgerBtn.innerHTML = "&#9776;";
     }
   });
 
   // Dynamic system password context hooks
-  if (changePasswordBtn && modal && (!globalUser || globalUser.hasChangedPassword !== false)) {
+  if (
+    changePasswordBtn &&
+    modal &&
+    (!globalUser || globalUser.hasChangedPassword !== false)
+  ) {
     changePasswordBtn.addEventListener("click", () => {
       modal.style.display = "flex"; // Updated from 'grid' to match professional slide layout styles
       sidebar.classList.remove("active");
@@ -130,17 +150,18 @@ document.addEventListener("DOMContentLoaded", () => {
      5. SITE LOCATION NAVIGATION ROUTING MAPS
      ========================================================================== */
   const routeMappings = {
-    "peoplePage": "/people",
-    "database": "/database",
-    "profilePage": "/profile",
-    "analysisPage": "/analysis",
-    "code": "/qrcode",
-    "tend": "/Attend",
-    "MA": "/markAttendace",
-    "followPage": "/GHYYK",
-    "mainPage": "/admin",
-    "sessionM": "/sessionManagement",
-    "DoubleServicePage": "/DD"
+    peoplePage: "/people",
+    database: "/database",
+    profilePage: "/profile",
+    analysisPage: "/analysis",
+    code: "/qrcode",
+    tend: "/Attend",
+    MA: "/markAttendace",
+    followPage: "/GHYYK",
+    mainPage: "/admin",
+    sessionM: "/sessionManagement",
+    DoubleServicePage: "/DD",
+    "pendingA":"/c"
   };
 
   const navigateTo = (path) => {
@@ -177,7 +198,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const deleteAccountBtn = document.getElementById("deleteAccount");
   if (deleteAccountBtn && globalUser) {
     deleteAccountBtn.addEventListener("click", async () => {
-      const confirmed = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+      const confirmed = confirm(
+        "Are you sure you want to delete your account? This action cannot be undone.",
+      );
       if (!confirmed) return;
 
       try {
@@ -186,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${sessionStorage.getItem("token") || localStorage.getItem("token")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("token") || localStorage.getItem("token")}`,
           },
         });
 
@@ -197,7 +220,10 @@ document.addEventListener("DOMContentLoaded", () => {
           window.location.href = isLocalDev ? "auth.html" : "/auth";
         } else {
           const data = await res.json();
-          alert("Error deleting account: " + (data.message || "Unauthorized access parameters"));
+          alert(
+            "Error deleting account: " +
+              (data.message || "Unauthorized access parameters"),
+          );
         }
       } catch (err) {
         console.error("Delete account error:", err);

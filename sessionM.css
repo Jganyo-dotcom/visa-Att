@@ -1,17 +1,18 @@
-/* 🎨 Design Tokens */
+/* ==========================================================================
+   🎨 DESIGN TOKENS & MASTER CONFIGURATION
+   ========================================================================== */
 :root {
-  --primary: #3b82f6;
-  --success: #10b981;
-  --success-hover: #059669;
-  --danger: #ef4444;
-  --danger-hover: #dc2626;
-  --text-main: #f8fafc;
+  --primary-glow: #00f2fe;
+  --success-neon: #10b981;
+  --danger-neon: #ff007f;
+  --bg-dark-surface: #060913;
+  --card-glass-bg: rgba(15, 23, 42, 0.65);
+  --border-neon-soft: rgba(0, 242, 254, 0.15);
+  --border-glass-default: rgba(255, 255, 255, 0.06);
+  --text-primary: #f8fafc;
   --text-muted: #94a3b8;
-  --card-bg: rgba(30, 41, 59, 0.7);
-  --card-border: rgba(255, 255, 255, 0.08);
 }
 
-/* 🔧 Global Reset */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -20,232 +21,254 @@
 
 body {
   font-family:
-    "Segoe UI",
-    -apple-system,
-    BlinkMacSystemFont,
-    Roboto,
-    sans-serif;
-  background: var(--bg-gradient);
-  color: var(--text-main);
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-dark-surface);
+  color: var(--text-primary);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
 }
 
-/* 📌 Header */
-header {
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--card-border);
-  padding: 1.5rem;
-  text-align: center;
-}
-
-header h1 {
-  font-size: 1.8rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  background: linear-gradient(to right, var(--primary), #60a5fa);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-header p {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  margin-top: 0.2rem;
-}
-
-/* 📌 Main Layout */
+/* ==========================================================================
+   📌 CONTENT GRID WRAPPER
+   ========================================================================== */
 main {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 3rem 1rem; /* extra breathing room */
+  padding: 40px 16px;
 }
 
-/* 💎 Glassmorphism Card */
-.card {
-  background: var(--card-bg);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--card-border);
-  padding: 2.5rem 2rem;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+.grid-layout {
   width: 100%;
-  max-width: 440px;
-  animation: cardFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   💎 GLASSMORPHISM DASHBOARD CARD OVERHAUL
+   ========================================================================== */
+.glass-card {
+  background: var(--card-glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass-default);
+  padding: 32px 24px;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 450px;
+  animation: cardEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .card-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
 .card-header h2 {
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: 700;
-  color: var(--text-main);
-  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
 }
 
-/* 🟢 Status Badges */
+/* 🟢 RADAR STATUS BADGES */
 .status-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 1rem;
-  border-radius: 50px;
-  font-size: 0.8rem;
-  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  background: rgba(148, 163, 184, 0.1);
+  letter-spacing: 0.05em;
+  background: rgba(148, 163, 184, 0.08);
   color: var(--text-muted);
-  transition: all 0.4s ease;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
 }
 
 .status-badge.is-active {
-  background: rgba(16, 185, 129, 0.15);
-  color: var(--success);
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success-neon);
+  border-color: rgba(16, 185, 129, 0.2);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
 }
 
 .status-badge.is-inactive {
-  background: rgba(239, 68, 68, 0.15);
-  color: var(--danger);
+  background: rgba(255, 0, 127, 0.1);
+  color: var(--danger-neon);
+  border-color: rgba(255, 0, 127, 0.2);
 }
 
-/* 📝 Input Fields */
+/* ==========================================================================
+   📝 UN-JAMMED INPUT LABELS AND BOXES
+   ========================================================================== */
 .input-group {
-  margin-bottom: 2rem;
+  margin-bottom: 24px;
 }
 
 .input-group label {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--text-muted);
-  margin-bottom: 0.6rem;
-  letter-spacing: 0.3px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
-.card input {
+.glass-card input[type="text"] {
   width: 100%;
-  padding: 0.9rem 1.2rem;
-  background: rgba(15, 23, 42, 0.5);
-  border: 1px solid var(--card-border);
+  padding: 14px 16px;
+  background: rgba(6, 9, 19, 0.6);
+  border: 1px solid var(--border-glass-default);
   border-radius: 12px;
-  color: var(--text-main);
-  font-size: 1rem;
+  color: #ffffff;
+  font-size: 0.95rem;
   outline: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.25s ease;
 }
 
-.card input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+.glass-card input[type="text"]:focus {
+  border-color: var(--primary-glow);
+  box-shadow: 0 0 0 3px rgba(0, 242, 254, 0.12);
 }
 
-.card input:disabled {
-  background: rgba(15, 23, 42, 0.2);
-  color: #64748b;
-  border-color: transparent;
-  cursor: not-allowed;
-}
-
-/* 🎛️ Action Buttons */
+/* ==========================================================================
+   🎛️ SYSTEM CONTROLLER BUTTON ACTIONS
+   ========================================================================== */
 .action-btn {
   width: 100%;
-  padding: 1rem;
+  padding: 14px;
   border: none;
   border-radius: 12px;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
-  color: #fff;
+  color: #060913;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .action-btn.state-loading {
-  background: #475569;
+  background: #334155;
+  color: var(--text-muted);
   cursor: not-allowed;
 }
 
 .action-btn.state-create {
-  background: var(--success);
+  background: var(--success-neon);
+  color: #060913;
 }
-.action-btn.state-create:hover {
-  background: var(--success-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
-}
-
 .action-btn.state-close {
-  background: var(--danger);
+  background: var(--danger-neon);
+  color: #ffffff;
 }
-.action-btn.state-close:hover {
-  background: var(--danger-hover);
+
+.action-btn:not(:disabled):hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-.action-btn:active {
-  transform: translateY(0);
+.form-divider {
+  height: 1px;
+  background: var(--border-glass-default);
+  margin: 28px 0;
 }
 
-/* ⏳ Loader Overlay */
-#ios-loader {
-  position: fixed;
-  top: 0;
-  left: 0;
+/* ==========================================================================
+   🔑 TOKEN KEY GENERATION STYLING
+   ========================================================================== */
+.security-action-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action-btn-secondary {
   width: 100%;
-  height: 100%;
-  background: rgba(15, 23, 42, 0.4);
-  backdrop-filter: blur(12px);
-  display: none;
+  padding: 12px;
+  background: transparent;
+  border: 1px solid var(--border-neon-soft);
+  color: var(--primary-glow);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-btn-secondary:hover {
+  background: rgba(0, 242, 254, 0.08);
+  border-color: var(--primary-glow);
+}
+
+.display-box {
+  background: rgba(6, 9, 19, 0.4);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  border: 1px dashed var(--border-glass-default);
+}
+
+.code-display {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary-glow);
+  letter-spacing: 1px;
+}
+
+/* ==========================================================================
+   ⏳ FULLSCREEN FIXED LOADING OVERLAYS
+   ========================================================================== */
+.loader-overlay-fixed {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 9, 19, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none; /* Flip to 'flex' programmatically via JS */
   align-items: center;
   justify-content: center;
   z-index: 9999;
 }
 
 .loader-container {
-  background: rgba(30, 41, 59, 0.9);
-  padding: 2rem;
-  border-radius: 20px;
-  border: 1px solid var(--card-border);
+  background: #0f172a;
+  padding: 32px;
+  border-radius: 16px;
+  border: 1px solid var(--border-glass-default);
   text-align: center;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid rgba(255, 255, 255, 0.1);
-  border-top-color: var(--primary);
+.spinner-neon {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(0, 242, 254, 0.1);
+  border-top-color: var(--primary-glow);
   border-radius: 50%;
-  margin: 0 auto 1rem auto;
-  animation: spin 0.75s linear infinite;
+  margin: 0 auto 16px auto;
+  animation: spinWheel 0.65s linear infinite;
 }
 
-#loaderText {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--text-main);
-}
-
-/* 🎬 Animations */
-@keyframes spin {
+/* Animations declarations */
+@keyframes spinWheel {
   to {
     transform: rotate(360deg);
   }
 }
-@keyframes cardFadeIn {
+@keyframes cardEntrance {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -253,276 +276,50 @@ main {
   }
 }
 
-/* 🪄 Footer */
+/* ==========================================================================
+   📱 FOOTER & MEDIA ADAPTATIONS
+   ========================================================================== */
 footer {
-  background: rgba(15, 23, 42, 0.8);
-  border-top: 1px solid var(--card-border);
-  padding: 2.5rem 0.3rem;
+  background: rgba(6, 9, 19, 0.8);
+  border-top: 1px solid var(--border-glass-default);
+  padding: 24px 16px;
   text-align: center;
-  font-size: 0.95rem;
-  margin-top: auto; /* pushes footer down */
 }
 
-.footer-content {
-  max-width: 600px;
-  margin: 0 auto;
+.footer-content p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
 }
 
 .footer-content strong {
-  color: var(--primary);
-  font-weight: 600;
+  color: var(--primary-glow);
 }
-
 .contact-link {
   color: var(--text-muted);
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s;
-  margin: 0 0.5rem;
+  margin: 0 6px;
 }
 .contact-link:hover {
-  color: var(--primary);
+  color: var(--primary-glow);
 }
 
 .social-links {
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
-  margin-top: 1rem;
+  gap: 16px;
+  margin-top: 12px;
 }
+
 .social-links a {
-  color: var(--primary);
+  color: var(--primary-glow);
+  font-size: 0.82rem;
   text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
+  font-weight: 500;
 }
 
-.loader-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.6);
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-top-color: #000;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+/* Scaling adaptations for tablets or computers */
+@media (min-width: 480px) {
+  .glass-card {
+    padding: 40px;
   }
-}
-
-/* --- Global Layout Adjustments for Header --- */
-header {
-  display: flex;
-  justify-content: space-between; /* Pushes title to left, hamburger to right */
-  align-items: center;
-  padding: 1.25rem 5%;
-  background: rgba(6, 9, 19, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-}
-
-.header-left {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-/* --- Right-Aligned Hamburger Button --- */
-.hamburger {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(0, 242, 254, 0.3);
-  font-size: 1.5rem;
-  color: #00f2fe; /* High energy cyan color token */
-  padding: 10px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  line-height: 1;
-  transition: all 0.3s ease;
-  z-index: 101; /* Layer over header text */
-}
-
-.hamburger:hover {
-  background: rgba(0, 242, 254, 0.15);
-  color: #ffffff;
-  box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
-}
-
-/* --- Global Side Menu Drawer Structure --- */
-.side-menu {
-  position: fixed;
-  top: 0;
-  right: -340px; /* Hidden offscreen by default */
-  width: 320px;
-  height: 100%;
-  background: rgba(10, 12, 22, 0.95);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-left: 1px solid rgba(0, 242, 254, 0.2);
-  box-shadow: -20px 0 50px rgba(0, 0, 0, 0.7);
-  padding: 2.5rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 1000;
-  overflow-y: auto;
-}
-
-/* Slide-in State triggered by JavaScript toggle */
-.side-menu.active {
-  right: 0;
-}
-
-.close-btn {
-  align-self: flex-end;
-  background: none;
-  border: none;
-  font-size: 1.75rem;
-  color: #a3b3cc;
-  cursor: pointer;
-  line-height: 1;
-  padding: 6px;
-  margin-bottom: 1.5rem;
-  transition: color 0.3s ease;
-}
-
-.close-btn:hover {
-  color: #ff007f; /* Vibrant neon pink on close hover */
-}
-
-/* --- Sidebar Menu Button Typography and Architecture --- */
-.btn-secondary {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: #a3b3cc;
-  font-size: 0.95rem;
-  font-weight: 600;
-  text-align: left;
-  justify-content: flex-start;
-  padding: 12px 16px;
-  border-radius: 12px;
-  width: 100%;
-  display: inline-flex;
-  align-items: center;
-  transition: all 0.3s ease;
-}
-
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: #ffffff;
-  padding-left: 22px; /* Smooth indent bounce */
-}
-
-.btn-signout {
-  background: transparent;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 0.95rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 13px 24px;
-  border: 1px solid rgba(255, 0, 127, 0.3);
-  color: #ff4d94;
-  margin-top: auto; /* Pushes account functions to the bottom of the column */
-  border-radius: 12px;
-  width: 100%;
-  transition: all 0.3s ease;
-}
-
-.btn-signout:hover {
-  background: rgba(255, 0, 127, 0.15);
-  color: #ffffff;
-  border-color: #ff007f;
-  box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
-}
-
-.btn-danger {
-  background: rgba(255, 0, 127, 0.15);
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 0.95rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 13px 24px;
-  color: #ff007f;
-  border: 1px solid rgba(255, 0, 127, 0.3);
-  border-radius: 12px;
-  width: 100%;
-  transition: all 0.3s ease;
-}
-
-.btn-danger:hover {
-  background: #ff007f;
-  color: white;
-  border-color: transparent;
-  box-shadow: 0 6px 16px rgba(255, 0, 127, 0.4);
-}
-
-/* --- Slide Modal Shell Architecture --- */
-.slide-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(6, 9, 19, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  display: none; /* Controlled via style.display by JavaScript */
-  place-items: center;
-  z-index: 1500;
-  padding: 1rem;
-}
-
-.slide-modal-content {
-  background: rgba(15, 20, 38, 0.95);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(0, 242, 254, 0.2);
-  padding: 2.5rem 2.25rem;
-  border-radius: 16px;
-  width: 100%;
-  max-width: 440px;
-  position: relative;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  animation: cardFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes cardFadeIn {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.slide-modal-content .close-btn {
-  position: absolute;
-  top: 1.25rem;
-  right: 1.25rem;
-  margin-bottom: 0;
 }

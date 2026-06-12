@@ -1,5 +1,5 @@
-//const baseApi = "http://127.0.0.1:4444";
-const baseApi = "https://attandance-app-1.onrender.com";
+const baseApi = "http://127.0.0.1:4444";
+//const baseApi = "https://attandance-app-1.onrender.com";
 const token = localStorage.getItem("token");
 // Local State Engine Tracker
 let isSessionActive = false;
@@ -11,32 +11,31 @@ const navigateTo = (path) => {
 };
 
 // Detects execution context variables safely
-const isLocalDev = 
-  window.location.hostname === "localhost" || 
-  window.location.hostname === "127.0.0.1" || 
+const isLocalDev =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1" ||
   window.location.protocol === "file:";
 
-    // Central Routing Engine Control Mapping Handlers
-  const routeMappings = {
-    "peoplePage": "/people",
-    "database": "/database",
-    "profilePage": "/profile",
-    "analysisPage": "/analysis",
-    "code": "/qrcode",
-    "tend": "/Attend",
-    "MA": "/markAttendace",
-    "followPage": "/GHYYK",
-    "mainPage": "/admin",
-    "DoubleServicePage": "/DD"
-  };
+// Central Routing Engine Control Mapping Handlers
+const routeMappings = {
+  peoplePage: "/people",
+  database: "/database",
+  profilePage: "/profile",
+  analysisPage: "/analysis",
+  code: "/qrcode",
+  tend: "/Attend",
+  MA: "/markAttendace",
+  followPage: "/GHYYK",
+  mainPage: "/admin",
+  DoubleServicePage: "/DD",
+};
 
-  Object.entries(routeMappings).forEach(([elementId, path]) => {
-    const el = document.getElementById(elementId);
-    if (el) {
-      el.addEventListener("click", () => navigateTo(path));
-    }
-  });
-
+Object.entries(routeMappings).forEach(([elementId, path]) => {
+  const el = document.getElementById(elementId);
+  if (el) {
+    el.addEventListener("click", () => navigateTo(path));
+  }
+});
 
 // DOM Cache Elements
 const loader = document.getElementById("ios-loader");
@@ -44,7 +43,6 @@ const loaderText = document.getElementById("loaderText");
 const sessionNameInput = document.getElementById("sessionName");
 const actionBtn = document.getElementById("sessionActionBtn");
 const statusBadge = document.getElementById("statusBadge");
-
 
 // Run immediately when page loads to check live database state
 document.addEventListener("DOMContentLoaded", () => {
@@ -292,64 +290,94 @@ async function CloseSession() {
   }
 }
 
+// const hamburgerBtn = document.getElementById("hamburgerBtn");
+// const sideMenu = document.getElementById("sideMenu");
+// const closeMenuBtn = document.getElementById("closeMenuBtn");
 
+// // Modal variables pointing safely to the modal DOM elements
+// const openBtnDesktop = document.getElementById("changePasswordBtn");
+// const modal = document.getElementById("passwordModal");
+// const closeModalBtn = document.getElementById("closeModalBtn");
 
-        // const hamburgerBtn = document.getElementById("hamburgerBtn");
-        // const sideMenu = document.getElementById("sideMenu");
-        // const closeMenuBtn = document.getElementById("closeMenuBtn");
-        
-        // // Modal variables pointing safely to the modal DOM elements
-        // const openBtnDesktop = document.getElementById("changePasswordBtn");
-        // const modal = document.getElementById("passwordModal");
-        // const closeModalBtn = document.getElementById("closeModalBtn");
+// // Off-canvas Side Drawer Drawer Event Binding Logic
+// if (hamburgerBtn && sideMenu) {
+//   hamburgerBtn.addEventListener("click", () => {
+//     sideMenu.classList.toggle("active");
+//     if (sideMenu.classList.contains("active")) {
+//       hamburgerBtn.innerHTML = "&times;";
+//     } else {
+//       hamburgerBtn.innerHTML = "&#9776;";
+//     }
+//   });
+// }
 
-        // // Off-canvas Side Drawer Drawer Event Binding Logic
-        // if (hamburgerBtn && sideMenu) {
-        //   hamburgerBtn.addEventListener("click", () => {
-        //     sideMenu.classList.toggle("active");
-        //     if (sideMenu.classList.contains("active")) {
-        //       hamburgerBtn.innerHTML = "&times;";
-        //     } else {
-        //       hamburgerBtn.innerHTML = "&#9776;";
-        //     }
-        //   });
-        // }
+// if (closeMenuBtn && sideMenu && hamburgerBtn) {
+//   closeMenuBtn.addEventListener("click", () => {
+//     sideMenu.classList.remove("active");
+//     hamburgerBtn.innerHTML = "&#9776;";
+//   });
+// }
 
-        // if (closeMenuBtn && sideMenu && hamburgerBtn) {
-        //   closeMenuBtn.addEventListener("click", () => {
-        //     sideMenu.classList.remove("active");
-        //     hamburgerBtn.innerHTML = "&#9776;";
-        //   });
-        // }
+// window.addEventListener("click", (e) => {
+//   if (sideMenu && hamburgerBtn && !sideMenu.contains(e.target) && e.target !== hamburgerBtn) {
+//     sideMenu.classList.remove("active");
+//     hamburgerBtn.innerHTML = "&#9776;";
+//   }
+// });
 
-        // window.addEventListener("click", (e) => {
-        //   if (sideMenu && hamburgerBtn && !sideMenu.contains(e.target) && e.target !== hamburgerBtn) {
-        //     sideMenu.classList.remove("active");
-        //     hamburgerBtn.innerHTML = "&#9776;";
-        //   }
-        // });
+// // Modal Open Trigger Event Listeners
+// if (openBtnDesktop && modal) {
+//   openBtnDesktop.addEventListener("click", () => {
+//     modal.style.display = "grid"; // Switch to grid/flex to display your slide-modal correctly
+//     sideMenu.classList.remove("active"); // Clean UI step: shut menu drawer when modal opens
+//     if (hamburgerBtn) hamburgerBtn.innerHTML = "&#9776;";
+//   });
+// }
 
-        // // Modal Open Trigger Event Listeners
-        // if (openBtnDesktop && modal) {
-        //   openBtnDesktop.addEventListener("click", () => {
-        //     modal.style.display = "grid"; // Switch to grid/flex to display your slide-modal correctly
-        //     sideMenu.classList.remove("active"); // Clean UI step: shut menu drawer when modal opens
-        //     if (hamburgerBtn) hamburgerBtn.innerHTML = "&#9776;";
-        //   });
-        // }
+// if (closeModalBtn && modal) {
+//   closeModalBtn.addEventListener("click", () => {
+//     modal.style.display = "none";
+//   });
+// }
 
-        // if (closeModalBtn && modal) {
-        //   closeModalBtn.addEventListener("click", () => {
-        //     modal.style.display = "none";
-        //   });
-        // }
+// window.addEventListener("click", (e) => {
+//   if (modal && e.target === modal) {
+//     modal.style.display = "none";
+//   }
+// });
 
-        // window.addEventListener("click", (e) => {
-        //   if (modal && e.target === modal) {
-        //     modal.style.display = "none";
-        //   }
-        // });
+async function generateAccessCode() {
+  const org = "Visa"; // or dynamically from admin’s org context
+  const display = document.getElementById("generatedCodeDisplay");
 
+  // Show loader
+  document.getElementById("ios-loader").classList.add("active");
+  document.getElementById("loaderText").innerText = "Generating new code...";
+
+  try {
+    const response = await fetch(`${baseApi}/api/admin/generate-code`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to generate code");
+    }
+
+    const data = await response.json();
+    display.innerText = `New Code: ${data.code} (expires ${new Date(
+      data.expiresAt,
+    ).toLocaleString()})`;
+  } catch (err) {
+    console.error("Error generating code:", err);
+    display.innerText = "Error generating code.";
+  } finally {
+    document.getElementById("ios-loader").classList.remove("active");
+  }
+}
 
 function showLoader(message) {
   loaderText.textContent = message;

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mark Your Attendance | Public Access</title>
+    <link rel="stylesheet" href="everyone.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-left">
+        <img src="../logo.png" alt="Logo" class="logo" />
+        <h1>Public Attendance Portal</h1>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="search-wrapper">
+        <div class="controls-bar">
+          <input
+            type="text"
+            id="userSearch"
+            class="search-input"
+            placeholder="Search personnel by name..."
+            oninput="filterPublicNames(event)"
+            disabled
+          />
+
+          <select
+            id="orgSelect"
+            class="org-select"
+            onchange="handleOrgChange()"
+          >
+            <option value="">Select Organization</option>
+            <option value="Visa">Visa</option>
+            <option value="Teens">Teens</option>
+            <option value="VisaUOE">VisaUOE</option>
+          </select>
+
+          <button
+            id="loadBtn"
+            class="btn-primary"
+            onclick="loadAttendance()"
+            disabled
+          >
+            Load Attendance
+          </button>
+        </div>
+
+        <div id="authCodeWrapper" class="auth-drawer">
+          <p class="auth-instruction">
+            Enter 6-digit authorization pin to pull secure directory:
+          </p>
+          <div class="pin-digits-container">
+            <input
+              type="text"
+              maxlength="1"
+              class="pin-box"
+              oninput="handlePinStep(this, 0)"
+              onkeydown="handlePinBack(event, 0)"
+            />
+            <input
+              type="text"
+              maxlength="1"
+              class="pin-box"
+              oninput="handlePinStep(this, 1)"
+              onkeydown="handlePinBack(event, 1)"
+            />
+            <input
+              type="text"
+              maxlength="1"
+              class="pin-box"
+              oninput="handlePinStep(this, 2)"
+              onkeydown="handlePinBack(event, 2)"
+            />
+            <input
+              type="text"
+              maxlength="1"
+              class="pin-box"
+              oninput="handlePinStep(this, 3)"
+              onkeydown="handlePinBack(event, 3)"
+            />
+            <input
+              type="text"
+              maxlength="1"
+              class="pin-box"
+              oninput="handlePinStep(this, 4)"
+              onkeydown="handlePinBack(event, 4)"
+            />
+            <input
+              type="text"
+              maxlength="1"
+              class="pin-box"
+              oninput="handlePinStep(this, 5)"
+              onkeydown="handlePinBack(event, 5)"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div id="attendanceGrid" class="grid-container"></div>
+
+      <div id="paginationWrapper" class="pagination-container hidden">
+        <button id="prevPageBtn" class="btn-secondary" onclick="changePage(-1)">
+          ← Previous
+        </button>
+        <span id="pageTracker" class="page-indicator">Page 1 of 1</span>
+        <button id="nextPageBtn" class="btn-secondary" onclick="changePage(1)">
+          Next →
+        </button>
+      </div>
+    </main>
+
+    <div id="loaderOverlay" class="loader-overlay">
+      <div class="spinner"></div>
+    </div>
+
+    <footer>
+      <p>© 2026 Attendance App. Created by <strong>Elikem</strong>.</p>
+      <p>
+        <a href="mailto:elikemejay@gmail.com">📧 Email</a> |
+        <a href="tel:0593320375"> 📞 Call</a>
+      </p>
+      <div class="social-links">
+        <a
+          href="https://www.linkedin.com/in/james-ganyo-aa0593360"
+          target="_blank"
+          rel="noopener"
+          >LinkedIn</a
+        >
+        <a href="https://wa.me/233503841074" target="_blank" rel="noopener"
+          >WhatsApp</a
+        >
+        <a
+          href="https://github.com/Jganyo-dotcom/"
+          target="_blank"
+          rel="noopener"
+          >GitHub</a
+        >
+      </div>
+    </footer>
+
+    <script src="everyone.js"></script>
+  </body>
+</html>

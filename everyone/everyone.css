@@ -1,0 +1,371 @@
+:root {
+  --bg-main: #060c18;
+  --bg-card: rgba(255, 255, 255, 0.02);
+  --border-glass: rgba(255, 255, 255, 0.07);
+  --text-main: #f8fafc;
+  --text-muted: #64748b;
+  --primary-accent: #38bdf8;
+  --primary-hover: #0ea5e9;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background: rgba(6, 12, 24, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-glass);
+  padding: 16px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.logo {
+  height: 32px;
+  width: auto;
+}
+header h1 {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 16px;
+  flex: 1;
+}
+
+/* ==========================================================================
+   🔑 AUTHENTICATION CODE PANEL DESIGN
+   ========================================================================== */
+.controls-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  padding: 14px;
+  border-radius: var(--radius-md);
+}
+
+.auth-drawer {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 0;
+  background: rgba(56, 189, 248, 0.02);
+  border-radius: var(----radius-md);
+}
+
+.auth-drawer.open {
+  max-height: 160px;
+  opacity: 1;
+  margin-top: 14px;
+  padding: 16px;
+  border: 1px dashed rgba(56, 189, 248, 0.2);
+}
+
+.auth-instruction {
+  font-size: 0.85rem;
+  color: var(--primary-accent);
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.pin-digits-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pin-box {
+  width: 42px;
+  height: 48px;
+  background: #0f172a;
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #fff;
+  outline: none;
+}
+
+.pin-box:focus {
+  border-color: var(--primary-accent);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
+}
+
+.search-input,
+.org-select {
+  width: 100%;
+  background: #0b111e;
+  border: 1px solid var(--border-glass);
+  color: #fff;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.btn-primary {
+  background: var(--primary-accent);
+  color: #060c18;
+  font-weight: 600;
+  padding: 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.btn-primary:disabled {
+  background: #1e293b;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
+   📱 CLEAN PREMIUM PHONE CARD LAYOUT OVERHAUL
+   ========================================================================== */
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr; /* Default straight block stack layout for mobile touchscreens */
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.person-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: background 0.2s ease;
+}
+
+.person-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.card-layout-split {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.identity-block {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Round structural icon layout replacements */
+.avatar-placeholder {
+  width: 42px;
+  height: 42px;
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--primary-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.identity-block h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f8fafc;
+  margin-bottom: 2px;
+}
+
+.dept-text {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.dept-text span {
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.gender-tag {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+.gender-tag.male {
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+}
+.gender-tag.female {
+  background: rgba(244, 63, 94, 0.1);
+  color: #f43f5e;
+}
+
+.action-checkin-btn {
+  width: 100%;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-glass);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-checkin-btn:hover {
+  background: var(--primary-accent);
+  color: #060c18;
+  border-color: var(--primary-accent);
+}
+
+/* ==========================================================================
+   📄 PAGINATION CONTROL DESIGNS
+   ========================================================================== */
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  padding: 16px 0;
+  border-top: 1px solid var(--border-glass);
+}
+
+.pagination-container.hidden {
+  display: none;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--border-glass);
+  color: #cbd5e1;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.btn-secondary:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.page-indicator {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   🖥️ RESPONSIVE DESKTOP ADAPTATION
+   ========================================================================== */
+@media (min-width: 640px) {
+  .controls-bar {
+    flex-direction: row;
+  }
+  .search-input {
+    flex: 2;
+  }
+  .org-select {
+    flex: 1;
+  }
+  .grid-container {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+}
+
+/* Fullscreen Loader Screen Overlay */
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 12, 24, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.loader-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(56, 189, 248, 0.1);
+  border-top-color: var(--primary-accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Footer Design */
+footer {
+  text-align: center;
+  padding: 40px 20px 20px;
+  border-top: 1px solid var(--border-glass);
+  margin-top: auto;
+}
+footer p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+footer a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.social-links a {
+  color: var(--primary-accent);
+}
