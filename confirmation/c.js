@@ -1,192 +1,166 @@
 // Global Endpoint Configuration
 const API_BASE_URL = "https://medsec.onrender.com/api";
 
-// Local state caching arrays
-let allProfilesCache = [];
-
-/**
- * Global Loader Utility
- */
+// System State Manager Toggle Utility for Loader Spinner
 function toggleLoader(show) {
-  const overlay = document.getElementById("loaderOverlay");
-  if (!overlay) return;
+  const loader = document.getElementById("loaderOverlay");
   if (show) {
-    overlay.classList.add("active");
+    loader.classList.add("active");
   } else {
-    overlay.classList.remove("active");
+    loader.classList.remove("active");
   }
 }
 
 /**
- * PHASE 1: Public Interface Logic Methods
- */
-async function fetchAndRenderPublicProfiles() {
-  toggleLoader(true);
-  try {
-    // Adjust endpoint paths to match your custom router setup
-    const response = await fetch(`${API_BASE_URL}/people`);
-    const data = await response.json();
-
-    allProfilesCache = data.people || data;
-    renderPublicCards(allProfilesCache);
-  } catch (error) {
-    console.error("Failed pulling directory records:", error);
-  } finally {
-    toggleLoader(false);
-  }
-}
-
-function renderPublicCards(items) {
-  const container = document.getElementById("attendanceGrid");
-  if (!container) return;
-  container.innerHTML = "";
-
-  if (items.length === 0) {
-    container.innerHTML = `<p style="color:#64748b;">No personnel match criteria.</p>`;
-    return;
-  }
-
-  items.forEach((person) => {
-    const card = document.createElement("div");
-    card.className = "data-card";
-    card.innerHTML = `
-      <div class="card-info">
-        <h3>${person.name}</h3>
-        <p>Department: <strong>${person.department}</strong></p>
-        <p>Level: ${person.level || person.VisaLevels || "N/A"}</p>
-        <span class="badge">${person.gender === "M" ? "Male" : "Female"}</span>
-      </div>
-      <button class="btn-primary" onclick="requestCheckIn('${person._id || person.id}')">
-        Request Present
-      </button>
-    `;
-    container.appendChild(card);
-  });
-}
-
-function filterPublicNames(e) {
-  const term = e.target.value.toLowerCase().trim();
-  if (!term) {
-    renderPublicCards(allProfilesCache);
-    return;
-  }
-
-  const filtered = allProfilesCache.filter((p) =>
-    p.name.toLowerCase().includes(term),
-  );
-  renderPublicCards(filtered);
-}
-
-async function requestCheckIn(personId) {
-  toggleLoader(true);
-  try {
-    const response = await fetch(`${API_BASE_URL}/attendance/request`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ personId }),
-    });
-
-    if (response.ok) {
-      alert(
-        "Check-in request sent successfully! Please wait for admin approval.",
-      );
-    } else {
-      alert("Failed submitting request target.");
-    }
-  } catch (error) {
-    console.error("Submission anomaly:", error);
-  } finally {
-    toggleLoader(false);
-  }
-}
-
-/**
- * PHASE 2: Admin Dashboard Logic Methods
+ * Core Application Controller Initiation Context:
+ * Fetches pending access structures from backend server.
  */
 async function fetchAndRenderAdminDashboard() {
   toggleLoader(true);
   try {
-    // 1. Retrieve the secure token stored during login auth sequence
-    const token = localStorage.getItem("token"); // or sessionStorage / cookies
+    const token = localStorage.getItem("token"); 
     
-    // 2. Fetch dataset with complete explicit header configurations
     const response = await fetch(`${API_BASE_URL}/admin/get-pending-approval`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}` // Injects Bearer token credentials safely
+        "Authorization": `Bearer ${token}`
       }
     });
 
     const data = await response.json();
 
-    // 3. Fallback alert routing handler if response returns un-executable status ranges
     if (!response.ok) {
-      alert(data.message || "An error occurred while fetching admin approvals.");
-      return; // Absolute termination intercept
+      alert(data.message || "Error: Unable to fetch pending approval parameters.");
+      return;
     }
 
-    // 4. Fallback checking optimization to handle variable backend data parsing shapes
     const pendingList = data.pending || data;
     renderAdminCards(pendingList);
 
   } catch (error) {
     console.error("Admin dashboard processing problem:", error);
-    alert("Network communication failure. Please verify connection credentials.");
+    alert("Critical network failure. Could not connect to authorization services.");
   } finally {
     toggleLoader(false);
   }
 }
 
-function renderAdminCards(items) {
+/**
+ * Dynamically Builds and Paints HTML Cards Grid Context Base
+ * @param {Array} profiles - Target raw arrays received from API response extraction
+ */
+function renderAdminCards(profiles) {
   const container = document.getElementById("adminGrid");
-  if (!container) return;
-  container.innerHTML = "";
+  container.innerHTML = ""; // Clear loader artifacts
 
-  if (items.length === 0) {
-    container.innerHTML = `<p style="color:#64748b;">No outstanding check-in requests.</p>`;
+  if (!profiles || profiles.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <p style="font-size: 1.1rem; font-weight: 600;">All Caught Up! 🎉</p>
+        <p style="margin-top: 6px; font-size: 0.85rem;">No pending check-in verifications remaining inside the pool queue.</p>
+      </div>`;
     return;
   }
 
-  items.forEach((record) => {
-    const isMarked = record.status === "Marked";
+  profiles.forEach(person => {
+    // Graceful fallback defaults if data values are missing
+    const personName = person.name || "Anonymous User";
+    const department = person.department || "General Staff";
+    const contact = person.contact || "N/A";
+    const orgName = person.org || "Global Tenant";
+    const personId = person._id;
+
+    // Create custom wrapper mapping block element
     const card = document.createElement("div");
     card.className = "data-card";
+    card.id = `card-${personId}`;
+
     card.innerHTML = `
       <div class="card-info">
-        <h3>${record.personName || record.name}</h3>
-        <p>Department: <strong>${record.department}</strong></p>
-        <p>Status: <span style="color:${isMarked ? "#10b981" : "#f59e0b"}">${record.status || "Pending"}</span></p>
+        <div class="card-header-row">
+          <h3>${personName}</h3>
+          <span class="badge">${orgName}</span>
+        </div>
+        <div class="meta-field">
+          <span class="meta-label">Department</span>
+          <span class="meta-value">${department}</span>
+        </div>
+        <div class="meta-field">
+          <span class="meta-label">Contact Link</span>
+          <span class="meta-value">${contact}</span>
+        </div>
       </div>
-      <button class="btn-action ${isMarked ? "btn-unmark" : "btn-primary"}" 
-              onclick="toggleStatus('${record._id || record.id}', '${record.status}')">
-        ${isMarked ? "↩️ Unmark" : "✅ Confirm Present"}
+      <button class="btn-primary" onclick="markPersonPresent('${orgName}', '${personId}')">
+        <span>✅</span> Mark Present
       </button>
     `;
+
     container.appendChild(card);
   });
 }
 
-async function toggleStatus(recordId, currentStatus) {
+/**
+ * Triggers state verification update over live database network context
+ * @param {string} org - Organization Name Identifier Token 
+ * @param {string} id - Database Document MongoDB _id Key Parameter Path
+ */
+async function markPersonPresent(org, id) {
   toggleLoader(true);
-  const nextStatus = currentStatus === "Marked" ? "Pending" : "Marked";
-
   try {
-    const response = await fetch(`${API_BASE_URL}/attendance/toggle`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ recordId, status: nextStatus }),
+    const token = localStorage.getItem("token");
+    
+    // Calls the dynamic organization endpoint path structure securely
+    const response = await fetch(`${API_BASE_URL}/admin/${org}/mark-present/${id}`, {
+      method: "PATCH", 
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({ submitted: true })
     });
 
-    if (response.ok) {
-      // Re-fetch the updated state values from your cluster nodes
-      await fetchAndRenderAdminDashboard();
-    } else {
-      alert("Could not update record parameters.");
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Could not successfully verify user attendance parameters.");
     }
+
+    // Interactive UI cleanup block loop context
+    const targetedCard = document.getElementById(`card-${id}`);
+    if (targetedCard) {
+      // Transition look to green-out verification state confirmation visually
+      const button = targetedCard.querySelector(".btn-primary");
+      button.style.background = "linear-gradient(135deg, #10b981, #059669)";
+      button.style.color = "#ffffff";
+      button.style.boxShadow = "none";
+      button.disabled = true;
+      button.innerHTML = "✓ Marked Present OK";
+
+      // Fade element out of view smoothly after a tiny visual confirmation delay
+      setTimeout(() => {
+        targetedCard.style.opacity = "0";
+        targetedCard.style.transform = "scale(0.9)";
+        setTimeout(() => {
+          targetedCard.remove();
+          // Recheck layout context to paint alternative placeholder state UI if array length hits 0
+          const remainingCards = document.querySelectorAll(".data-card");
+          if (remainingCards.length === 0) {
+            renderAdminCards([]);
+          }
+        }, 300);
+      }, 800);
+    }
+
   } catch (error) {
-    console.error("Admin toggle update link issue:", error);
+    console.error("Attendance checking assignment tracking problem:", error);
+    alert(error.message || "Network request rejected by server application layers.");
   } finally {
     toggleLoader(false);
   }
 }
+
+// Global invocation tracking on initial file load sequence event lifecycle
+document.addEventListener("DOMContentLoaded", () => {
+  fetchAndRenderAdminDashboard();
+});
