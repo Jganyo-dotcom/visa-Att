@@ -212,21 +212,23 @@ function filterPublicNames(e) {
  * Request check-in dispatch sequence
  */
 async function requestCheckIn(personId) {
+  const code = getEnteredPin();
+  if (code.length !== 6) return alert("Please provide the 6-digit access pin.");
   const org = document.getElementById("orgSelect").value;
   if (!org) return alert("Organization parameter context missing.");
 
   toggleLoader(true);
   try {
-    const response = await fetch(`${API_BASE_URL}/${org}/attendance/request`, {
-      method: "POST",
+    const response = await fetch(`${API_BASE_URL}/org/attendance/request/${org}/${code}/${personId}`, {
+      method: "GET",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ personId }),
     });
+    const data = await response.json()
 
     if (response.ok) {
-      alert("Check-in request sent successfully!");
+      alert(data.message || "Check-in request sent successfully!");
     } else {
-      alert("Failed to submit check-in request.");
+      alert(data.error|| data.message || "Failed to submit check-in request.");
     }
   } catch (error) {
     console.error("Submission error:", error);

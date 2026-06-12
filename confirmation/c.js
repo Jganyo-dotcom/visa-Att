@@ -106,13 +106,33 @@ async function requestCheckIn(personId) {
 async function fetchAndRenderAdminDashboard() {
   toggleLoader(true);
   try {
-    const response = await fetch(`${API_BASE_URL}/attendance/pending`);
+    // 1. Retrieve the secure token stored during login auth sequence
+    const token = localStorage.getItem("token"); // or sessionStorage / cookies
+    
+    // 2. Fetch dataset with complete explicit header configurations
+    const response = await fetch(`${API_BASE_URL}/admin/get-pending-approval`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}` // Injects Bearer token credentials safely
+      }
+    });
+
     const data = await response.json();
 
+    // 3. Fallback alert routing handler if response returns un-executable status ranges
+    if (!response.ok) {
+      alert(data.message || "An error occurred while fetching admin approvals.");
+      return; // Absolute termination intercept
+    }
+
+    // 4. Fallback checking optimization to handle variable backend data parsing shapes
     const pendingList = data.pending || data;
     renderAdminCards(pendingList);
+
   } catch (error) {
     console.error("Admin dashboard processing problem:", error);
+    alert("Network communication failure. Please verify connection credentials.");
   } finally {
     toggleLoader(false);
   }
