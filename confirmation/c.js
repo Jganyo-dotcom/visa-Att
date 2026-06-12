@@ -4,6 +4,7 @@ const API_BASE_URL = "https://attandance-app-1.onrender.com/api";
 // System State Manager Toggle Utility for Loader Spinner
 function toggleLoader(show) {
   const loader = document.getElementById("loaderOverlay");
+  if (!loader) return;
   if (show) {
     loader.classList.add("active");
   } else {
@@ -35,7 +36,17 @@ async function fetchAndRenderAdminDashboard() {
       return;
     }
 
-    const pendingList = data.pending || data;
+    // Comprehensive Fallback Processing Layout
+    // Inspects data.pending, data.staff, data itself, or defaults to an empty array
+    let pendingList = [];
+    if (data && Array.isArray(data.pending)) {
+      pendingList = data.pending;
+    } else if (data && Array.isArray(data.staff)) {
+      pendingList = data.staff;
+    } else if (Array.isArray(data)) {
+      pendingList = data;
+    }
+
     renderAdminCards(pendingList);
 
   } catch (error) {
@@ -52,9 +63,12 @@ async function fetchAndRenderAdminDashboard() {
  */
 function renderAdminCards(profiles) {
   const container = document.getElementById("adminGrid");
+  if (!container) return;
+  
   container.innerHTML = ""; // Clear loader artifacts
 
-  if (!profiles || profiles.length === 0) {
+  // Strict Array Type Checking Guard
+  if (!profiles || !Array.isArray(profiles) || profiles.length === 0) {
     container.innerHTML = `
       <div class="empty-state">
         <p style="font-size: 1.1rem; font-weight: 600;">All Caught Up! 🎉</p>
@@ -110,7 +124,6 @@ async function markPersonPresent(org, id) {
   try {
     const token = localStorage.getItem("token");
     
-    // Calls the dynamic organization endpoint path structure securely
     const response = await fetch(`${API_BASE_URL}/admin/${org}/mark-present/${id}`, {
       method: "PATCH", 
       headers: {
@@ -131,11 +144,13 @@ async function markPersonPresent(org, id) {
     if (targetedCard) {
       // Transition look to green-out verification state confirmation visually
       const button = targetedCard.querySelector(".btn-primary");
-      button.style.background = "linear-gradient(135deg, #10b981, #059669)";
-      button.style.color = "#ffffff";
-      button.style.boxShadow = "none";
-      button.disabled = true;
-      button.innerHTML = "✓ Marked Present OK";
+      if (button) {
+        button.style.background = "linear-gradient(135deg, #10b981, #059669)";
+        button.style.color = "#ffffff";
+        button.style.boxShadow = "none";
+        button.disabled = true;
+        button.innerHTML = "✓ Marked Present OK";
+      }
 
       // Fade element out of view smoothly after a tiny visual confirmation delay
       setTimeout(() => {
@@ -143,6 +158,7 @@ async function markPersonPresent(org, id) {
         targetedCard.style.transform = "scale(0.9)";
         setTimeout(() => {
           targetedCard.remove();
+          
           // Recheck layout context to paint alternative placeholder state UI if array length hits 0
           const remainingCards = document.querySelectorAll(".data-card");
           if (remainingCards.length === 0) {
