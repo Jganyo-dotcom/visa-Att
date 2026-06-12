@@ -1,5 +1,5 @@
 // Global Endpoint Configuration
-const API_BASE_URL = "https://medsec.onrender.com/api";
+const API_BASE_URL = "https://attandance-app-1.onrender.com";
 
 // System State Manager Toggle Utility for Loader Spinner
 function toggleLoader(show) {
