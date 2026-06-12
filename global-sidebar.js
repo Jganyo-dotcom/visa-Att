@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     <button id="mainPage" class="btn-secondary">📊 Dashboard</button>
     <button id="sessionM" class="btn-secondary">⏳ Manage Sessions</button>
     <button id="MA" class="btn-secondary">📝 Mark Attendance</button>
+    <button id="approveAttendance" class="btn-secondary">📝Pending Attendance</button>
     <button id="code" class="btn-secondary">📷 Mark Attendance By Scan</button>
     <button id="DoubleServicePage" class="btn-secondary">🔄 Double Pip</button>
     <button id="tend" class="btn-secondary">ℹ️ Attendance Info</button>
@@ -161,6 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mainPage: "/admin",
     sessionM: "/sessionManagement",
     DoubleServicePage: "/DD",
+    approveAttendance:"/confirmation/c",
     "pendingA":"/c"
   };
 

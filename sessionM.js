@@ -1,5 +1,5 @@
-const baseApi = "http://127.0.0.1:4444";
-//const baseApi = "https://attandance-app-1.onrender.com";
+//const baseApi = "http://127.0.0.1:4444";
+const baseApi = "https://attandance-app-1.onrender.com";
 const token = localStorage.getItem("token");
 // Local State Engine Tracker
 let isSessionActive = false;
@@ -28,6 +28,7 @@ const routeMappings = {
   followPage: "/GHYYK",
   mainPage: "/admin",
   DoubleServicePage: "/DD",
+
 };
 
 Object.entries(routeMappings).forEach(([elementId, path]) => {
@@ -347,7 +348,7 @@ async function CloseSession() {
 // });
 
 async function generateAccessCode() {
-  const org = "Visa"; // or dynamically from admin’s org context
+ 
   const display = document.getElementById("generatedCodeDisplay");
 
   // Show loader
@@ -368,6 +369,7 @@ async function generateAccessCode() {
     }
 
     const data = await response.json();
+    display.innerHTML = ""
     display.innerText = `New Code: ${data.code} (expires ${new Date(
       data.expiresAt,
     ).toLocaleString()})`;
@@ -378,6 +380,49 @@ async function generateAccessCode() {
     document.getElementById("ios-loader").classList.remove("active");
   }
 }
+
+
+async function displayAccessCode() {
+  const display = document.getElementById("generatedCodeDisplay");
+
+  // Show loader
+  document.getElementById("ios-loader").classList.add("active");
+  document.getElementById("loaderText").innerText = "Finding existing code ......";
+
+  try {
+    const response = await fetch(`${baseApi}/api/admin/get-existing-code`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      // Show backend message if expired or not found
+      display.innerHTML = "";
+      display.innerText = `❌ ${data.message ||data.error|| "Failed to get code"}`;
+      return;
+    }
+
+    // If code exists and is valid
+    display.innerHTML = "";
+    display.innerText = `New Code: ${data.code} (expires ${new Date(
+      data.expiresAt
+    ).toLocaleString()})`;
+  } catch (err) {
+    console.error("Error finding code:", err);
+    display.innerText = "Error finding code.";
+  } finally {
+    document.getElementById("ios-loader").classList.remove("active");
+  }
+}
+
+
+displayAccessCode()
+
 
 function showLoader(message) {
   loaderText.textContent = message;
