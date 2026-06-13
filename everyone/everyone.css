@@ -20,7 +20,7 @@
 }
 
 body {
-  background-color: var(--bg-main);
+  background-color: black;
   color: var(--text-main);
   min-height: 100vh;
   display: flex;

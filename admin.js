@@ -276,11 +276,11 @@ document.addEventListener("DOMContentLoaded", () => {
   //   });
   // }
 
-  window.addEventListener("click", (e) => {
-    if (user && user.hasChangedPassword === true && e.target === modal) {
-      modal.style.display = "none";
-    }
-  });
+  // window.addEventListener("click", (e) => {
+  //   if (user && user.hasChangedPassword === true && e.target === modal) {
+  //     modal.style.display = "none";
+  //   }
+  // });
 
   // Account Self-Destruct Operations Handler Block logic
   const deleteAccountBtn = document.getElementById("deleteAccount");

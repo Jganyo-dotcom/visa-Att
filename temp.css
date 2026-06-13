@@ -349,19 +349,7 @@ button:active {
 }
 
 /* --- Controls & Utilities --- */
-.hamburger {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(0, 242, 254, 0.3);
-  font-size: 1.5rem;
-  color: var(--primary);
-  padding: 10px;
-  border-radius: var(--radius-sm);
-}
 
-.hamburger:hover {
-  background: rgba(0, 242, 254, 0.1);
-  color: #ffffff;
-}
 
 .close-btn {
   align-self: flex-end;
@@ -423,7 +411,7 @@ button:active {
   letter-spacing: 0.05em;
 }
 
-/* --- Footer --- */
+/* --- Footer ---
 footer {
   background: rgba(6, 9, 19, 0.8);
   backdrop-filter: blur(12px);
@@ -481,7 +469,7 @@ footer a:hover {
   color: #ffffff;
   transform: translateY(-2px);
   box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
-}
+} */
 
 /* --- Interactive Overlay Modals --- */
 .slide-modal {

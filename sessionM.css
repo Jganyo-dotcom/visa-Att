@@ -1,4 +1,4 @@
-/* ==========================================================================
+/* /* ==========================================================================
    🎨 DESIGN TOKENS & MASTER CONFIGURATION
    ========================================================================== */
 :root {
@@ -22,7 +22,7 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background-color: var(--bg-dark-surface);
+  background-color: black;
   color: var(--text-primary);
   min-height: 100vh;
   display: flex;
@@ -46,7 +46,7 @@ header {
   top: 0;
   z-index: 100;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-}
+} */
 
 .header-left {
   display: flex;

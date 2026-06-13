@@ -19,7 +19,9 @@ function toggleLoader(show) {
  * PIN Access Control & Input Triggers
  */
 
-document.querySelector("#orgSelect").addEventListener("change", handleOrgChange);
+document
+  .querySelector("#orgSelect")
+  .addEventListener("change", handleOrgChange);
 
 function handleOrgChange() {
   const org = document.getElementById("orgSelect").value;
@@ -219,16 +221,20 @@ async function requestCheckIn(personId) {
 
   toggleLoader(true);
   try {
-    const response = await fetch(`${API_BASE_URL}/org/attendance/request/${org}/${code}/${personId}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
-    const data = await response.json()
+    const response = await fetch(
+      `${API_BASE_URL}/org/attendance/request/${org}/${code}/${personId}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+    const data = await response.json();
 
     if (response.ok) {
       alert(data.message || "Check-in request sent successfully!");
+      loadAttendance()
     } else {
-      alert(data.error|| data.message || "Failed to submit check-in request.");
+      alert(data.error || data.message || "Failed to submit check-in request.");
     }
   } catch (error) {
     console.error("Submission error:", error);

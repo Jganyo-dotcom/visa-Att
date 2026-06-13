@@ -1,48 +1,4 @@
-/* --- Variables & Reset --- */
-:root {
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
-  --bg-dark: #0f172a;
-  --card-bg: #1e293b;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --danger: #ef4444;
-  --secondary: #334155;
-  --accent: #8b5cf6;
-  --transition: all 0.3s ease;
-}
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family:
-    "Inter",
-    system-ui,
-    -apple-system,
-    sans-serif;
-}
-
-body {
-  background: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e")
-    no-repeat center center / cover;
-  color: var(--text-main);
-  line-height: 1.6;
-
-  /* Add an overlay to make backdrop-filter visible */
-  position: relative;
-}
-
-/* Header Styling */
-header {
-  background: #2c3e50;
-  color: white;
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
 
 .header-left {
   display: flex;
@@ -50,11 +6,6 @@ header {
   gap: 15px;
 }
 
-.logo {
-  height: 40px;
-  width: auto;
-  border-radius: 4px;
-}
 
 #welcome {
   font-size: 1.5rem;

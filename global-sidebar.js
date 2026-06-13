@@ -164,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sessionM: "/sessionManagement",
     DoubleServicePage: "/DD",
     approveAttendance:"/confirmation/c",
-    "pendingA":"/c",
+    "pendingA":"/confirmation/c",
     "qrCodePage":"/everyone/generate"
   };
 

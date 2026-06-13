@@ -1,47 +1,4 @@
-/* ==========================================================================
-   🎨 MASTER DESIGN TOKENS & OVERLAYS
-   ========================================================================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
 
-body {
-  background: #060913; /* Updated to deep background canvas matches dashboard aesthetics */
-  color: #f8fafc;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.25rem 5%;
-  background: rgba(6, 9, 19, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.logo {
-  height: 40px;
-  width: auto;
-}
 
 h1 {
   font-size: 1.3rem;
@@ -231,7 +188,9 @@ h1 {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Hamburger UI Component */
@@ -297,4 +256,45 @@ footer strong {
 
 .social-links a:hover {
   text-decoration: underline;
+}
+
+/* --- Header Layout adjustments --- */
+.card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* Container for the badge and the X button next to each other */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Spacing between badge and X button */
+}
+
+/* --- Clean Inline Close Button --- */
+.card-close-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  font-size: 1.1rem;
+  line-height: 1;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+/* Hover State - Glow Neon Pink/Red */
+.card-close-btn:hover {
+  background: rgba(255, 0, 127, 0.15);
+  color: #ff007f;
+  border-color: rgba(255, 0, 127, 0.3);
+  box-shadow: 0 0 8px rgba(255, 0, 127, 0.2);
 }
