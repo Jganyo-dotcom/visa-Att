@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   sidebar.className = "side-menu";
   sidebar.innerHTML = `
     <button id="closeMenuBtn" class="close-btn" aria-label="Close Navigation">&times;</button>
+    <button id="HomePage" class="btn-secondary">🏠 Home</button>
     <button id="mainPage" class="btn-secondary">📊 Dashboard</button>
     <button id="sessionM" class="btn-secondary">⏳ Manage Sessions</button>
     <button id="MA" class="btn-secondary">📝 Mark Attendance</button>
@@ -163,9 +164,10 @@ document.addEventListener("DOMContentLoaded", () => {
     mainPage: "/admin",
     sessionM: "/sessionManagement",
     DoubleServicePage: "/DD",
-    approveAttendance:"/confirmation/c",
-    "pendingA":"/confirmation/c",
-    "qrCodePage":"/everyone/generate"
+    approveAttendance: "/confirmation/c",
+    pendingA: "/confirmation/c",
+    qrCodePage: "/everyone/generate",
+    HomePage: "/landingPage",
   };
 
   const navigateTo = (path) => {

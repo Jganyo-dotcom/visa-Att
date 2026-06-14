@@ -257,3 +257,8 @@ footer a:hover {
     font-size: 0.75rem;
   }
 }
+
+.btn-secondary i,
+.btn-secondary svg {
+  margin-right: 8px;
+}

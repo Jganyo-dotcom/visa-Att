@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("user", JSON.stringify(data.safe_user));
 
         setTimeout(() => {
-          window.location.href = "/ladingPage.html"; // Change to your landing page filename/path
+          window.location.href = "/landingPage.html"; // Change to your landing page filename/path
         }, 800);
       } else {
         showMessage(
