@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
+    />
+    <title>Smart Attendance Portal // SaaS Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="landP.css" />
+    <link rel="stylesheet" href="global-sidebar.css" />
+  </head>
+  <body>
+    <header>
+      <div class="brand-group">
+        <div class="logo-container">A</div>
+        <h1>Attendance<span style="color: var(--primary)">Engine</span></h1>
+      </div>
+
+      <button
+        class="mobile-nav-toggle"
+        id="mobileMenuBtn"
+        aria-label="Toggle Menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-actions" id="navActionsMenu">
+        <button class="btn-secondary">Documentation</button>
+        <button class="btn-primary" id="navigateDash">Get Started</button>
+      </div>
+    </header>
+
+    <div class="container">
+      <section class="hero-split-grid reveal">
+        <div class="hero-text-block">
+          <span class="announcement-pill">System Overview Live</span>
+          <h2>
+            Smart Attendance, <br /><span class="gradient-text"
+              >Simplified.</span
+            >
+          </h2>
+          <p>
+            An elegant, multi-role validation matrix engineered for real-time
+            tracking, administrative verification queues, and comprehensive
+            organizational analytics.
+          </p>
+          <div class="hero-cta-wrapper">
+            <button class="btn-primary" onclick="triggerMockSync()">
+              Simulate Sync Run
+            </button>
+            <button class="btn-secondary">Explore API Blueprint</button>
+          </div>
+        </div>
+
+        <div class="dashboard-preview-window">
+          <div class="window-chrome">
+            <div class="window-dots">
+              <span class="dot-r"></span>
+              <span class="dot-y"></span>
+              <span class="dot-g"></span>
+            </div>
+            <select
+              class="org-switcher-select"
+              id="orgSelector"
+              onchange="handleMockOrgChange(this.value)"
+            >
+              <option value="teens">Organization: Teens</option>
+              <option value="visa">Organization: Visa</option>
+            </select>
+          </div>
+
+          <div class="window-body">
+            <div class="metrics-micro-row">
+              <div class="metric-bubble">
+                <span class="m-lbl">Total Verified</span>
+                <div class="m-val" id="count-total">477</div>
+              </div>
+              <div class="metric-bubble">
+                <span class="m-lbl">Females (F)</span>
+                <div
+                  class="m-val"
+                  id="count-females"
+                  style="color: var(--danger)"
+                >
+                  252
+                </div>
+              </div>
+              <div class="metric-bubble">
+                <span class="m-lbl">Males (M)</span>
+                <div
+                  class="m-val"
+                  id="count-males"
+                  style="color: var(--primary)"
+                >
+                  225
+                </div>
+              </div>
+            </div>
+
+            <div class="mock-chart-panel">
+              <div class="chart-title-bar">
+                <h4>Active Section Breakdown Registry</h4>
+              </div>
+              <div class="bar-chart-graphic">
+                <div class="column-container">
+                  <div
+                    class="column-fill"
+                    id="bar-visa"
+                    style="height: 45%"
+                  ></div>
+                  <span>Visa</span>
+                </div>
+                <div class="column-container">
+                  <div
+                    class="column-fill highlight"
+                    id="bar-teens"
+                    style="height: 85%"
+                  ></div>
+                  <span>Teens</span>
+                </div>
+                <div class="column-container">
+                  <div
+                    class="column-fill"
+                    id="bar-welfare"
+                    style="height: 60%"
+                  ></div>
+                  <span>Welfare</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="features-section-block reveal">
+        <div class="section-header-center">
+          <span
+            class="announcement-pill"
+            style="
+              background: rgba(0, 242, 254, 0.05);
+              color: var(--primary);
+              border-color: rgba(0, 242, 254, 0.15);
+            "
+          >
+            Architecture Focus
+          </span>
+          <h3>Built for Critical Workflows</h3>
+        </div>
+
+        <div class="features-grid-canvas">
+          <div class="feature-showcase-card">
+            <div class="icon-wrapper-box">⚡</div>
+            <h5>Real-Time Verification</h5>
+            <p>
+              Instant personnel lookups with optimized multi-field regular
+              expression search covering names, departments, and contacts
+              seamlessly.
+            </p>
+          </div>
+          <div class="feature-showcase-card">
+            <div class="icon-wrapper-box">🛡️</div>
+            <h5>Secure Session Gates</h5>
+            <p>
+              Dynamic automated short-lived access codes equipped with explicit
+              time-to-live parameter stamps preventing stale authorization
+              loops.
+            </p>
+          </div>
+          <div class="feature-showcase-card">
+            <div class="icon-wrapper-box">📊</div>
+            <h5>Granular Metrics Tracking</h5>
+            <p>
+              Instant demographic tracking arrays compiling male-to-female
+              record ratios and pending processing queues automatically across
+              connections.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <p>&copy; 2026 AttendanceEngine System. Crafted with Precision.</p>
+      <p style="font-size: 0.75rem">
+        Engineered by <strong>James Elikem Ganyo</strong> // Full-Stack
+        Architecture
+      </p>
+      <div class="social-links">
+        <a href="#">GitHub</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">WhatsApp Business</a>
+      </div>
+    </footer>
+
+    <script src="landingP.js"></script>
+    <script src="global-sidebar.js"></script>
+  </body>
+</html>

@@ -2,8 +2,6 @@ const baseApi = "https://attandance-app-1.onrender.com/";
 
 //const baseApi = "http://127.0.0.1:4444/";
 
-
-
 document.addEventListener("DOMContentLoaded", () => {
   // Show loader
   function showLoader() {
@@ -128,15 +126,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.message) {
         localStorage.setItem("user", JSON.stringify(data.safe_user));
 
-        if (data.safe_user.role === "Admin") {
-          window.location.href = "/admin.html";
-        } else if (data.safe_user.role === "Staff") {
-          window.location.href = "/staff.html";
-        } else if (data.safe_user.role === "Manager") {
-          window.location.href = "/manager.html";
-        } else {
-          alert("Unknown role!");
-        }
+        setTimeout(() => {
+          window.location.href = "/ladingPage.html"; // Change to your landing page filename/path
+        }, 800);
       } else {
         showMessage(
           "loginMessage",

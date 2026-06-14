@@ -19,18 +19,25 @@ function toggleLoader(show) {
  * Core Application Controller Initiation Context:
  * Fetches pending access structures from backend server.
  */
-async function fetchAndRenderAdminDashboard() {
+let currentPage = 1;
+
+let currentPage = 1;
+
+async function fetchAndRenderAdminDashboard(page = 1, search = "") {
   toggleLoader(true);
   try {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(`${API_BASE_URL}/admin/get-pending-approval`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+    const response = await fetch(
+      `${API_BASE_URL}/admin/get-pending-approval?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
 
     const data = await response.json();
 
@@ -41,8 +48,6 @@ async function fetchAndRenderAdminDashboard() {
       return;
     }
 
-    // Comprehensive Fallback Processing Layout
-    // Inspects data.pending, data.staff, data itself, or defaults to an empty array
     let pendingList = [];
     if (data && Array.isArray(data.pending)) {
       pendingList = data.pending;
@@ -53,6 +58,13 @@ async function fetchAndRenderAdminDashboard() {
     }
 
     renderAdminCards(pendingList);
+
+    // Update pagination controls
+    currentPage = data.page;
+    document.getElementById("pageInfo").textContent =
+      `Page ${data.page} of ${data.totalPages}`;
+    document.getElementById("prevBtn").disabled = !data.hasPrevPage;
+    document.getElementById("nextBtn").disabled = !data.hasNextPage;
   } catch (error) {
     console.error("Admin dashboard processing problem:", error);
     alert(
@@ -63,6 +75,22 @@ async function fetchAndRenderAdminDashboard() {
   }
 }
 
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("input", () => {
+  const searchTerm = searchInput.value.trim();
+  fetchAndRenderAdminDashboard(1, searchTerm); // reset to page 1 when searching
+});
+
+document.getElementById("prevBtn").addEventListener("click", () => {
+  if (currentPage > 1) {
+    fetchAndRenderAdminDashboard(currentPage - 1, searchInput.value.trim());
+  }
+});
+
+document.getElementById("nextBtn").addEventListener("click", () => {
+  fetchAndRenderAdminDashboard(currentPage + 1, searchInput.value.trim());
+});
 /**
  * Dynamically Builds and Paints HTML Cards Grid Context Base
  * @param {Array} profiles - Target raw arrays received from API response extraction

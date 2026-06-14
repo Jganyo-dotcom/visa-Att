@@ -32,9 +32,20 @@
           Verify user attendance states below to register authentication
           timestamps.
         </p>
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="🔍 Search by name, department, or contact..."
+          class="search-bar"
+        />
       </div>
 
       <div id="adminGrid" class="grid-container"></div>
+      <div id="paginationControls" class="pagination-controls">
+        <button id="prevBtn" disabled>⬅ Prev</button>
+        <span id="pageInfo"></span>
+        <button id="nextBtn" disabled>Next ➡</button>
+      </div>
     </main>
 
     <div id="loaderOverlay" class="loader-overlay">
