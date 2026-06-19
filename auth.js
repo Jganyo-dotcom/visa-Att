@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Show modal when link clicked
   forgotLink.addEventListener("click", (e) => {
-    window.location.href = "/reset-password.html"; // show modalC:\Users\esthe\prot\visa-Att\reset-password.html
+    window.location.href = "/reset-password"; // show modalC:\Users\esthe\prot\visa-Att\reset-password.html
   });
 
   // Handle form submit
