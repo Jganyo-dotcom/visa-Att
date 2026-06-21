@@ -12,7 +12,7 @@ if (user.avatarUrl && user.avatarUrl !== "") {
   document.querySelector(".logo").src = user.avatarUrl;
 }
 
-let user = JSON.parse(localStorage.getItem("user"));
+
 
 /* --- Capture DOM Structural Components --- */
 const pwdModal = document.getElementById("changePasswordModal");
