@@ -3,9 +3,6 @@ const baseApi = "https://attandance-app-1.onrender.com";
 const token = localStorage.getItem("token");
 
 const user = JSON.parse(localStorage.getItem("user"));
-if (user.avatarUrl && user.avatarUrl !== "") {
-  document.querySelector(".logo").src = user.avatarUrl;
-}
 
 // Local State Engine Tracker
 let isSessionActive = false;
