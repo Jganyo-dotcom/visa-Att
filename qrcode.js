@@ -7,6 +7,11 @@ if (!token) {
   window.location.href = "auth.html";
 }
 
+const user = JSON.parse(localStorage.getItem("user"));
+if (user.avatarUrl && user.avatarUrl !== "") {
+  document.querySelector(".logo").src = user.avatarUrl;
+}
+
 let html5QrcodeScanner;
 
 document.getElementById("openScannerBtn").addEventListener("click", () => {

@@ -1,12 +1,22 @@
 const baseApi = "https://attandance-app-1.onrender.com/";
+//const baseApi = "http://127.0.0.1:4444/";
 // Update this constant at the very top of profile.js
-const DEFAULT_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2394a3b8'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z'/></svg>";
+const DEFAULT_AVATAR =
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2394a3b8'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z'/></svg>";
 const token = localStorage.getItem("token");
 let user = JSON.parse(localStorage.getItem("user")); // Changed to 'let' so we can modify the cache dynamically
+
+// --- CLOUDINARY CONFIGURATION FOR FRONTEND UPLOADS ---
+const CLOUDINARY_CLOUD_NAME = "dvjaeogmn"; // 👈 Put your real cloud name here
+const CLOUDINARY_PRESET = "cmlbmag6"; // Your working unsigned preset code
 
 if (!token || !user) {
   alert("Session expired or unauthorized! Returning to Login.");
   window.location.href = "auth.html";
+}
+
+if (user.avatarUrl && user.avatarUrl !== "") {
+  document.querySelector(".logo").src = user.avatarUrl;
 }
 
 // Frame DOM node targets
@@ -20,8 +30,8 @@ const avatarWrapper = document.getElementById("avatarWrapper");
 const avatarFileInput = document.getElementById("avatarFileInput");
 const avatarPreview = document.getElementById("avatarPreview");
 
-// Tracks current chosen base64 image data payload block 
-let selectedAvatarBase64 = null;
+// Tracks current chosen file data payload block
+let selectedFileObject = null;
 
 /**
  * Hydrates UI field components using stored session cache definitions
@@ -34,7 +44,7 @@ function populateUserProfile(userData) {
   document.getElementById("adminEmail").value = userData.email || "";
   document.getElementById("adminOrg").value = userData.org || "N/A";
   document.getElementById("adminRole").value = userData.role || "Admin";
-  
+
   // Custom fallback picture pipeline execution
   if (userData.avatarUrl && userData.avatarUrl.trim() !== "") {
     avatarPreview.src = userData.avatarUrl;
@@ -62,19 +72,18 @@ if (avatarFileInput) {
 
     // Maximum file restriction checking size matrix constraints (2MB max)
     if (file.size > 2 * 1024 * 1024) {
-      alert("Upload Limit Exceeded: Please choose a file image under 2MB size.");
+      alert(
+        "Upload Limit Exceeded: Please choose a file image under 2MB size.",
+      );
       avatarFileInput.value = "";
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = function(event) {
-      // Sync viewport graphics container node
-      avatarPreview.src = event.target.result;
-      // Store image base64 cache references
-      selectedAvatarBase64 = event.target.result;
-    };
-    reader.readAsDataURL(file);
+    // Cache the clean binary file object globally to upload later on submit
+    selectedFileObject = file;
+
+    // Fast URL object creation for immediate visual UI response
+    avatarPreview.src = URL.createObjectURL(file);
   });
 }
 
@@ -85,39 +94,84 @@ const updateAdminForm = document.getElementById("updateAdminForm");
 if (updateAdminForm) {
   updateAdminForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    
+
     const session = localStorage.getItem("sessionId");
     if (session) {
-      alert("Please close active attendance sessions before modifying configuration metadata.");
+      alert(
+        "Please close active attendance sessions before modifying configuration metadata.",
+      );
       return;
     }
 
     const submitBtn = e.target.querySelector("button[type='submit']");
     const originalText = submitBtn ? submitBtn.textContent : "Save Changes";
-    
+
     if (submitBtn) {
       submitBtn.textContent = "Saving Profile...";
       submitBtn.disabled = true;
     }
 
-    // Assembly structure logic maps mapping out backend variables 
+    // Assembly structure logic maps mapping out backend variables
     const updatedFields = {
       name: document.getElementById("adminName").value.trim(),
       username: document.getElementById("adminUsername").value.trim(),
       email: document.getElementById("adminEmail").value.trim(),
     };
 
-    // If a profile image has been modified, provide the payload link key structure
-    if (selectedAvatarBase64) {
-      updatedFields.avatarUrl = selectedAvatarBase64;
+    // ONLY attach avatarUrl if the user currently has one stored in session memory
+    if (user.avatarUrl) {
+      updatedFields.avatarUrl = user.avatarUrl;
     }
 
     try {
+      // 1. IF A NEW FILE WAS CHOSEN, PUSH TO CLOUDINARY FIRST
+      if (selectedFileObject) {
+        const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+        // Check file type
+        if (!allowedTypes.includes(selectedFileObject.type)) {
+          alert("Only JPG, PNG, or WebP images are allowed.");
+          return;
+        }
+
+        // Check file size (2MB max)
+        if (selectedFileObject.size > 2 * 1024 * 1024) {
+          alert("Upload Limit Exceeded: Please choose an image under 2MB.");
+          return;
+        }
+        if (submitBtn) submitBtn.textContent = "Uploading image...";
+
+        const cloudinaryForm = new FormData();
+        cloudinaryForm.append("file", selectedFileObject);
+        cloudinaryForm.append("upload_preset", CLOUDINARY_PRESET);
+
+        const cloudRes = await fetch(
+          `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+          {
+            method: "POST",
+            body: cloudinaryForm,
+          },
+        );
+
+        const cloudData = await cloudRes.json();
+
+        if (!cloudRes.ok) {
+          throw new Error(
+            cloudData.error?.message || "Cloudinary image upload failed.",
+          );
+        }
+
+        // Overwrite field string directly with clean final Cloudinary URL
+        updatedFields.avatarUrl = cloudData.secure_url;
+      }
+
+      // 2. DISPATCH CLEAN JSON TEXT PAYLOAD TO RENDER BACKEND
+      if (submitBtn) submitBtn.textContent = "Saving text options...";
+
       const res = await fetch(`${baseApi}api/update/me/${user.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(updatedFields),
       });
@@ -128,27 +182,29 @@ if (updateAdminForm) {
         throw new Error(data.message || "Failed to modify dashboard data.");
       }
 
-      // --- NO LOGOUT. UPDATE STATE LIVED IN LOCALSTORAGE ---
-      user = { ...user, ...updatedFields };
+      // Sync local state using the fresh document parsing values from your backend
+      user = { ...user, ...data.updatedPerson };
       localStorage.setItem("user", JSON.stringify(user));
 
       // Refresh UI inputs with newly configured data mappings
       populateUserProfile(user);
-      
+
       // Dynamically update your global custom sidebar welcome header text if it exists
       const welcomeHeader = document.getElementById("welcome");
       if (welcomeHeader) {
         welcomeHeader.textContent = `Admin Profile (${user.name})`;
       }
 
-      // Reset base64 runtime cache tracking variable
-      selectedAvatarBase64 = null;
+      // Reset runtime tracking references
+      selectedFileObject = null;
 
       alert("🎉 Profile updated successfully without system disruption!");
-
     } catch (err) {
       console.error("Profile modification layout structural failure:", err);
-      alert(err.message || "A tracking network error processing requests has occurred.");
+      alert(
+        err.message ||
+          "A tracking network error processing requests has occurred.",
+      );
     } finally {
       if (submitBtn) {
         submitBtn.textContent = originalText;
@@ -157,6 +213,18 @@ if (updateAdminForm) {
     }
   });
 }
+
+/* ==========================================================================
+   C. SLIDING ACCOUNT PASSWORD UPDATES (IN-PLACE LIVE UPDATES)
+   ========================================================================== */
+// if (openModalBtn) {
+//   openModalBtn.addEventListener("click", () => {
+//     if (passwordModal) {
+//       passwordModal.style.display = "flex";
+//       document.body.style.overflow = "hidden";
+//     }
+//   });
+// }
 
 /* ==========================================================================
    C. SLIDING ACCOUNT PASSWORD UPDATES (IN-PLACE LIVE UPDATES)
@@ -206,7 +274,9 @@ if (changePasswordForm) {
     }
 
     if (newPassword.length < 6) {
-      alert("Security Notice: Password definitions must be at least 6 characters long.");
+      alert(
+        "Security Notice: Password definitions must be at least 6 characters long.",
+      );
       return;
     }
 
@@ -217,39 +287,46 @@ if (changePasswordForm) {
     }
 
     try {
-      const response = await fetch(`${baseApi}api/admin/change-password/${user.id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+      const response = await fetch(
+        `${baseApi}api/admin/change-password/${user.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            currentPassword,
+            newPassword,
+            confirmPassword,
+          }),
         },
-        body: JSON.stringify({
-          currentPassword,
-          newPassword,
-          confirmPassword,
-        }),
-      });
+      );
 
       const data = await response.json();
 
       if (!response.ok) {
-  // Extract the most useful message from the server response
-  const errorMsg = data.message || data.error || "Failed to process authorization credential overhaul updates.";
-  
-  // Show it directly to the user
-  alert(`❌ ${errorMsg}`);
-  
-  // Stop execution so the success code doesn't run
-  return;
-}
+        // Extract the most useful message from the server response
+        const errorMsg =
+          data.message ||
+          data.error ||
+          "Failed to process authorization credential overhaul updates.";
 
+        // Show it directly to the user
+        alert(`❌ ${errorMsg}`);
+
+        // Stop execution so the success code doesn't run
+        return;
+      }
 
       // --- NO LOGOUT. SECURE USER STATUS TO COMPLETED ---
       user.hasChangedPassword = true;
       localStorage.setItem("user", JSON.stringify(user));
 
-      alert("🔒 Password changed successfully! Your account state has been secured.");
-      
+      alert(
+        "🔒 Password changed successfully! Your account state has been secured.",
+      );
+
       // Seamlessly hide the modal window and clean fields back out
       closeDrawerModal();
 
@@ -257,10 +334,12 @@ if (changePasswordForm) {
       if (window.location.reload) {
         window.location.reload();
       }
-
     } catch (err) {
       console.error("Credential network validation error details:", err);
-      alert(err.message || "System error modifications handling server validation arrays.");
+      alert(
+        err.message ||
+          "System error modifications handling server validation arrays.",
+      );
     } finally {
       if (submitBtn) {
         submitBtn.textContent = "Update Password";

@@ -9,6 +9,11 @@ if (!token) {
   window.location.href = "auth.html";
 }
 
+
+if (user.avatarUrl && user.avatarUrl !== "") {
+  document.querySelector(".logo").src = user.avatarUrl;
+}
+
 // When loading attendance, decide whether to show Level column
 async function loadAttendance(page = 1, searchTerm = "") {
   try {
@@ -127,8 +132,6 @@ document.getElementById("updateForm").addEventListener("submit", async (e) => {
   submitBtn.textContent = "Updating...";
   submitBtn.disabled = true;
 
-
-
   // Build updatedUser object
   const updatedUser = {
     name: document.getElementById("updateName").value,
@@ -195,7 +198,6 @@ document.getElementById("updateForm").addEventListener("submit", async (e) => {
 
 async function deleteUser(id, name) {
   try {
-
     if (!token) {
       alert("Not authorized!");
       window.location.href = "auth.html";
@@ -305,9 +307,6 @@ document.getElementById("searchInput").addEventListener("input", (e) => {
 //       return;
 //     }
 //   }
-
-
-
 
 // const changePasswordBtn = document.getElementById("changePasswordBtn");
 // const modal = document.getElementById("changePasswordModal");

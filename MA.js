@@ -5,6 +5,12 @@ if (!token) {
   alert("Not authorized!");
   window.location.href = "auth.html";
 }
+
+const user = JSON.parse(localStorage.getItem("user"));
+if (user.avatarUrl && user.avatarUrl !== "") {
+  document.querySelector(".logo").src = user.avatarUrl;
+}
+
 // Attendance list
 document.addEventListener("DOMContentLoaded", () => {
   let currentPage = 1;
@@ -35,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
       list.innerHTML = "";
 
       const staff = data.staff || data;
-      console.log(data);
+
 
       staff.forEach((s) => {
         const li = document.createElement("li");
@@ -507,31 +513,31 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.remove();
   }
 
-//   document.getElementById("staffPage").addEventListener("click", () => {
-//     console.log("ha");
-//     window.location.href = "/staffManagement.html";
-//   });
+  //   document.getElementById("staffPage").addEventListener("click", () => {
+  //     console.log("ha");
+  //     window.location.href = "/staffManagement.html";
+  //   });
 
-//   document.getElementById("peoplePage").addEventListener("click", () => {
-//     window.location.href = "/people.html";
-//   });
-//   document.getElementById("mainPage").addEventListener("click", () => {
-//     window.location.href = "/admin.html";
-//   });
+  //   document.getElementById("peoplePage").addEventListener("click", () => {
+  //     window.location.href = "/people.html";
+  //   });
+  //   document.getElementById("mainPage").addEventListener("click", () => {
+  //     window.location.href = "/admin.html";
+  //   });
 
-//   document.getElementById("database").addEventListener("click", () => {
-//     window.location.href = "/database.html";
-//   });
-//   document.getElementById("profilePage").addEventListener("click", () => {
-//     window.location.href = "/profile.html";
-//   });
-//   document.getElementById("analysisPage").addEventListener("click", () => {
-//     window.location.href = "/analysis.html";
-//   });
-//   document.getElementById("code").addEventListener("click", () => {
-//     window.location.href = "/qrcode.html";
-//   });
-//   document.getElementById("tend").addEventListener("click", () => {
-//     window.location.href = "/Attend.html";
-//   });
+  //   document.getElementById("database").addEventListener("click", () => {
+  //     window.location.href = "/database.html";
+  //   });
+  //   document.getElementById("profilePage").addEventListener("click", () => {
+  //     window.location.href = "/profile.html";
+  //   });
+  //   document.getElementById("analysisPage").addEventListener("click", () => {
+  //     window.location.href = "/analysis.html";
+  //   });
+  //   document.getElementById("code").addEventListener("click", () => {
+  //     window.location.href = "/qrcode.html";
+  //   });
+  //   document.getElementById("tend").addEventListener("click", () => {
+  //     window.location.href = "/Attend.html";
+  //   });
 });

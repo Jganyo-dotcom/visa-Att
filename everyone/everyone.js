@@ -15,6 +15,11 @@ function toggleLoader(show) {
   overlay.classList.toggle("active", show);
 }
 
+const user = JSON.parse(localStorage.getItem("user"));
+if (user.avatarUrl && user.avatarUrl !== "") {
+  document.querySelector(".logo").src = user.avatarUrl;
+}
+
 /**
  * PIN Access Control & Input Triggers
  */
@@ -232,7 +237,7 @@ async function requestCheckIn(personId) {
 
     if (response.ok) {
       alert(data.message || "Check-in request sent successfully!");
-      loadAttendance()
+      loadAttendance();
     } else {
       alert(data.error || data.message || "Failed to submit check-in request.");
     }

@@ -3,6 +3,11 @@ const API_BASE_URL = "https://attandance-app-1.onrender.com/api";
 //const API_BASE_URL = "http://127.0.0.1:4444/api";
 
 const token = localStorage.getItem("token");
+const user = JSON.parse(localStorage.getItem("user"));
+if (user.avatarUrl && user.avatarUrl !== "") {
+  document.querySelector(".logo").src = user.avatarUrl;
+}
+
 
 // System State Manager Toggle Utility for Loader Spinner
 function toggleLoader(show) {
@@ -19,7 +24,7 @@ function toggleLoader(show) {
  * Core Application Controller Initiation Context:
  * Fetches pending access structures from backend server.
  */
-let currentPage = 1;
+
 
 let currentPage = 1;
 

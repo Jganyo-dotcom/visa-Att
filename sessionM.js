@@ -1,6 +1,12 @@
 //const baseApi = "http://127.0.0.1:4444";
 const baseApi = "https://attandance-app-1.onrender.com";
 const token = localStorage.getItem("token");
+
+const user = JSON.parse(localStorage.getItem("user"));
+if (user.avatarUrl && user.avatarUrl !== "") {
+  document.querySelector(".logo").src = user.avatarUrl;
+}
+
 // Local State Engine Tracker
 let isSessionActive = false;
 let sessionId;
@@ -28,7 +34,6 @@ const routeMappings = {
   followPage: "/GHYYK",
   mainPage: "/admin",
   DoubleServicePage: "/DD",
-
 };
 
 Object.entries(routeMappings).forEach(([elementId, path]) => {
@@ -348,7 +353,6 @@ async function CloseSession() {
 // });
 
 async function generateAccessCode() {
- 
   const display = document.getElementById("generatedCodeDisplay");
 
   // Show loader
@@ -369,7 +373,7 @@ async function generateAccessCode() {
     }
 
     const data = await response.json();
-    display.innerHTML = ""
+    display.innerHTML = "";
     display.innerText = `New Code: ${data.code} (expires ${new Date(
       data.expiresAt,
     ).toLocaleString()})`;
@@ -381,13 +385,13 @@ async function generateAccessCode() {
   }
 }
 
-
 async function displayAccessCode() {
   const display = document.getElementById("generatedCodeDisplay");
 
   // Show loader
   document.getElementById("ios-loader").classList.add("active");
-  document.getElementById("loaderText").innerText = "Finding existing code ......";
+  document.getElementById("loaderText").innerText =
+    "Finding existing code ......";
 
   try {
     const response = await fetch(`${baseApi}/api/admin/get-existing-code`, {
@@ -403,14 +407,14 @@ async function displayAccessCode() {
     if (!response.ok) {
       // Show backend message if expired or not found
       display.innerHTML = "";
-      display.innerText = `❌ ${data.message ||data.error|| "Failed to get code"}`;
+      display.innerText = `❌ ${data.message || data.error || "Failed to get code"}`;
       return;
     }
 
     // If code exists and is valid
     display.innerHTML = "";
     display.innerText = `New Code: ${data.code} (expires ${new Date(
-      data.expiresAt
+      data.expiresAt,
     ).toLocaleString()})`;
   } catch (err) {
     console.error("Error finding code:", err);
@@ -420,9 +424,7 @@ async function displayAccessCode() {
   }
 }
 
-
-displayAccessCode()
-
+displayAccessCode();
 
 function showLoader(message) {
   loaderText.textContent = message;
