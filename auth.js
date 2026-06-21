@@ -143,6 +143,72 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  async function verifySession() {
+    const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
+    console.log(token);
+
+    if (!token || !user) {
+      console.log("got here");
+      return; // no session, let login flow handle it
+    }
+
+    try {
+      const res = await fetch(baseApi + "api/verify-token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // send token to backend
+        },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        // Backend says token invalid/expired/disabled/deleted
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        showMessage(
+          "loginMessage",
+          data.message || "Session expired!",
+          "error",
+        );
+        window.location.href = "/auth.html";
+        return;
+      }
+
+      // ✅ Token is valid, redirect based on role
+      localStorage.setItem("token", data.token);
+      showMessage(
+        "loginMessage",
+        data.message || "Login successful",
+        "success",
+      );
+      if (data.message) {
+        localStorage.setItem("user", JSON.stringify(data.safe_user));
+
+        setTimeout(() => {
+          window.location.href = "/landingPage.html"; // Change to your landing page filename/path
+        }, 800);
+      } else {
+        showMessage(
+          "loginMessage",
+          data.message || data.error || "Login failed!",
+          "error",
+        );
+      }
+    } catch (err) {
+      console.error("Verification error:", err);
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      showMessage("loginMessage", "Session expired!", "error");
+      window.location.href = "/auth.html";
+    }
+  }
+
+  // Call it on page load
+  verifySession();
+
   const forgotLink = document.getElementById("forgotPassword");
   const forgotModal = document.getElementById("forgotPasswordModal");
   const closeForgot = document.getElementById("closeForgot");
@@ -183,9 +249,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // });
 
   // Close modal when X is clicked
-  closeForgot.addEventListener("click", () => {
-    forgotModal.style.display = "none";
-  });
+  // closeForgot.addEventListener("click", () => {
+  //   forgotModal.style.display = "none";
+  // });
 
   function showMessage(elementId, message, type = "error") {
     const el = document.getElementById(elementId);
