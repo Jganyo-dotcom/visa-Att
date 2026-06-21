@@ -26,12 +26,9 @@ function toggleLoader(show) {
  */
 
 
-let currentPage = 1;
-
 async function fetchAndRenderAdminDashboard(page = 1, search = "") {
   toggleLoader(true);
   try {
-    const token = localStorage.getItem("token");
 
     const response = await fetch(
       `${API_BASE_URL}/admin/get-pending-approval?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
