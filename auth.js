@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
       hideLoader();
 
       // Check if user account needs to trigger OTP verification loop
-      if ( data.otp ===true || (data.safe_user && data.safe_user.isVerified === false) || data.isVerified === false) {
+      if ( data.otp ===true) {
         pendingVerifyEmail = main; // cache email or username context
         showMessage("verifyMessage", "Account unverified. An active security OTP was routed to your email.", "error");
         showVerify();
