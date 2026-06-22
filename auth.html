@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -9,66 +9,33 @@
   </head>
   <body>
     <div class="container">
-      <!-- Register Form -->
-      <form id="registerForm" class="form hidden">
-        <h2>Register</h2>
-        <input type="text" id="regUsername" placeholder="Username" required />
-        <input type="text" id="regName" placeholder="Full Name" required />
-        <input type="text" id="regEmail" placeholder="email" required />
-        <select id="regOrg" name="regOrg" required>
-          <option value="">-- Select Organization --</option>
-          <option value="Main">Main</option>
-          <option value="Visa">Visa-KNUST</option>
-          <option value="VisaUOE">Visa-UOE</option>
-          <option value="Teens">Teens Chapel</option>
-        </select>
-        <input
-          type="password"
-          id="regPassword"
-          placeholder="Password"
-          required
-        />
-
-        <input
-          type="password"
-          id="regConfirmPassword"
-          placeholder="Confirm Password"
-          required
-        />
-        <button type="submit">Sign Up</button>
-        <p>Already have an account? <a href="#" id="loginLink">Login</a></p>
-      </form>
-
-      <!-- Login Form -->
       <form id="loginForm" class="form">
         <h2>Login</h2>
         <p id="loginMessage" class="form-message"></p>
         <input type="text" id="loginUsername" placeholder="Username" required />
         <div class="password-wrapper">
-  <input
-    type="password"
-    id="loginPassword"
-    placeholder="Password"
-    required
-  />
-  <span class="toggle-password" onclick="togglePassword()">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 20px; height: 20px;">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-      <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
-  </span>
-</div>
-
+          <input type="password" id="loginPassword" placeholder="Password" required />
+          <span class="toggle-password" onclick="togglePassword()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 20px; height: 20px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </span>
+        </div>
         <button type="submit">Sign In</button>
-        <p>
-          <a href="#" id="forgotPassword">forgotPassword?</a>
-        </p>
-        <p>
-          Don’t have an account?
-          <a href="#" id="registerLink">Register</a>
-        </p>
+        <p><a href="#" id="forgotPassword">forgotPassword?</a></p>
+      </form>
+
+      <form id="verifyForm" class="form hidden">
+        <h2>Verify Account</h2>
+        <p class="form-instruction">Please enter the 6-digit verification code sent to your email inbox.</p>
+        <p id="verifyMessage" class="form-message"></p>
+        <input type="text" id="verifyOtp" placeholder="6-Digit OTP Code" maxlength="6" pattern="\d{6}" inputmode="numeric" required />
+        <button type="submit">Confirm Code</button>
+        <p><a href="#" id="backToLoginLink">Back to Login</a></p>
       </form>
     </div>
+
     <div class="loader-overlay" id="loaderOverlay">
       <div class="loader">
         <div class="spinner"></div>
@@ -77,22 +44,5 @@
     </div>
 
     <script src="auth.js"></script>
-    <!-- Forgot Password Modal -->
-    <!-- <div id="forgotPasswordModal" class="modal hidden">
-      <div class="modal-content">
-        <span class="close" id="closeForgot">&times;</span>
-        <h2>Reset Password</h2>
-        <p>Please enter your username or email to reset your password.</p>
-        <form id="forgotForm">
-          <input
-            type="text"
-            id="forgotInput"
-            placeholder="Username or Email"
-            required
-          />
-          <button type="submit">Send Reset Link</button>
-        </form>
-      </div>
-    </div> -->
   </body>
 </html>
