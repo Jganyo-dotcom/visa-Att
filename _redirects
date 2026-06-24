@@ -8,8 +8,10 @@
 /GHYYK               /GHYYK.html              200
 /sessionManagement   /sessionManagement.html  200
 /DD                  /DD.html                 200
-/c                  /c.html                 200
-/auth                 /auth.html                 200
-/landingPage              /landingPage.html           200
+/c                   /c.html                  200
+/auth                /auth.html               200
+/landingPage         /landingPage.html        200
+/reset-password      /reset-password.html     200
 
-/reset-password                          /reset-password.html     200
+# --- CATCH-ALL FOR BROKEN LINKS ---
+/* /404.html                404
