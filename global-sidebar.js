@@ -148,6 +148,56 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ==========================================================================
+     7. CIRCULAR LOGO SECURITY GUARD & PROFILE PIC LIGHTBOX CONTROLLER
+     ========================================================================== */
+  const profileLogo = document.querySelector(".logo");
+
+  if (profileLogo) {
+    // 1. Core Lightbox Structural Engine Generation
+    const lightboxModal = document.createElement("div");
+    lightboxModal.id = "profileLightbox";
+    lightboxModal.className = "profile-lightbox";
+    lightboxModal.innerHTML = `
+      <button class="lightbox-close" aria-label="Close Preview">&times;</button>
+      <img class="lightbox-content" src="" alt="Profile Target Large Scale View" />
+    `;
+    document.body.appendChild(lightboxModal);
+
+    const lightboxImg = lightboxModal.querySelector(".lightbox-content");
+    const lightboxCloseBtn = lightboxModal.querySelector(".lightbox-close");
+
+    // 2. Open Event Mapping (Captures active image reference configuration state)
+    profileLogo.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const targetSrc = profileLogo.getAttribute("src");
+      if (targetSrc) {
+        lightboxImg.setAttribute("src", targetSrc);
+        lightboxModal.classList.add("lightbox-open");
+        document.body.style.overflow = "hidden"; // Freeze tracking under standard layout canvas layers
+      }
+    });
+
+    // 3. Dismiss Actions (Supports backing out on background canvas or button click)
+    const closeLightbox = () => {
+      lightboxModal.classList.remove("lightbox-open");
+      document.body.style.overflow = ""; // Reactivate dynamic navigation frame tracking layers
+    };
+
+    lightboxCloseBtn.addEventListener("click", closeLightbox);
+    lightboxModal.addEventListener("click", (e) => {
+      if (e.target === lightboxModal || e.target === lightboxImg) {
+        closeLightbox();
+      }
+    });
+
+    // Support keyboard escape routing
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && lightboxModal.classList.contains("lightbox-open")) {
+        closeLightbox();
+      }
+    });
+  }
+  /* ==========================================================================
      5. SITE LOCATION NAVIGATION ROUTING MAPS
      ========================================================================== */
   const routeMappings = {
