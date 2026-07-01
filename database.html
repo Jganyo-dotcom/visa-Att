@@ -79,28 +79,41 @@
       </div>
     </footer>
 
-    <!-- Interactive Overlay Modal Structure (Aligned to match global-sidebar.js targets) -->
-    <!-- <div id="passwordModal" class="slide-modal">
-      <div class="slide-modal-content">
-        <button id="closeModalBtn" class="close-btn">&times;</button>
-        <h2>Change Password</h2>
-        <form id="changePasswordForm">
-          <div class="form-group">
-            <label for="currentPassword">Old Password</label>
-            <input type="password" id="currentPassword" required />
+    <!-- Modal -->
+    <div id="syncModal" class="sync" style="display: none">
+      <div class="sync-content">
+        <h3>Update Person</h3>
+        <form id="syncForm">
+          <input type="hidden" id="syncId" />
+
+          <div>
+            <label>Name:</label>
+            <input type="text" id="syncName" readonly />
           </div>
-          <div class="form-group">
-            <label for="newPassword">New Password</label>
-            <input type="password" id="newPassword" required />
+
+          <div>
+            <label>Email:</label>
+            <input type="text" id="syncEmail" />
           </div>
-          <div class="form-group">
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" required />
+
+          <div>
+            <label>Date of Birth:</label>
+            <input type="date" id="syncDOB" />
           </div>
-          <button type="submit" class="btn-primary">Update Password</button>
+
+          <div style="margin-top: 10px">
+            <button type="submit" id="saveBtn" class="btn btn-success">Save</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="closeModal()"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
-    </div> -->
+    </div>
 
     <!-- Report Modal -->
     <div id="reportModal" class="modal">

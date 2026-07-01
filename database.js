@@ -1,5 +1,5 @@
-//const baseApi = "http://127.0.0.1:4444/";
-const baseApi = "https://attandance-app-1.onrender.com/";
+const baseApi = "http://127.0.0.1:4444/";
+//const baseApi = "https://attandance-app-1.onrender.com/";
 
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
@@ -8,7 +8,6 @@ if (!token) {
   alert("Not authorized!");
   window.location.href = "auth.html";
 }
-
 
 if (user.avatarUrl && user.avatarUrl !== "") {
   document.querySelector(".logo").src = user.avatarUrl;
@@ -30,6 +29,7 @@ async function loadAttendance(page = 1, searchTerm = "") {
       },
     );
     const data = await res.json();
+    console.log(data);
     const males = data.males ? data.males : 0;
     const females = data.females ? data.females : 0;
     const total = data.total ? data.total : 0;
@@ -57,6 +57,7 @@ async function loadAttendance(page = 1, searchTerm = "") {
         <th>Action</th>
         <th>Update</th>
         <th>Report</th>
+        <th>sync</th>
         <th>QR-code</th>
       </tr>
     `;
@@ -77,6 +78,7 @@ async function loadAttendance(page = 1, searchTerm = "") {
         <td><button class="btn-danger" onclick="deleteUser('${s._id}', '${s.name}')">Delete</button></td>
         <td><button class="btn btn-primary" onclick="UpdateUser('${s._id}', '${s.name}', '${s.department}', '${s.level}', '${contactValue}', '${s.gender}')">Update</button></td>
         <td><button class="btn btn-primary" onclick="openReportModal('${s._id}', '${s.name}')">Report</button></td>
+        <td><button class="btn btn-primary" onclick="sync('${s._id}', '${s.name}','${s.email}','${s.dob}')">sync</button></td>
         <td><button class="btn btn-primary" onclick="generateCode('${s._id}')">Generate</button></td>
       `;
       tbody.appendChild(tr);
@@ -650,3 +652,64 @@ function closeQrModal() {
   document.getElementById("qrModal").style.display = "none";
   document.getElementById("qrcode").innerHTML = "";
 }
+
+function sync(id, name, email, dob) {
+  document.getElementById("syncId").value = id;
+  document.getElementById("syncName").value = name || "";
+  document.getElementById("syncEmail").value =
+    email === "null" || email === undefined ? "" : email;
+  document.getElementById("syncDOB").value =
+    dob && dob !== "null" ? dob.split("T")[0] : "";
+  console.log("sync called with:", { id, name, email, dob });
+
+  // Show modal
+  document.getElementById("syncModal").style.display = "block";
+}
+
+function closeModal() {
+  document.getElementById("syncModal").style.display = "none";
+}
+
+// Handle save
+document.getElementById("syncForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const saveBtn = document.getElementById("saveBtn");
+  const originalText = saveBtn.textContent;
+
+  // Show spinner + Updating text
+  saveBtn.innerHTML = `<span class="spinner-border"></span> Updating...`;
+  saveBtn.disabled = true;
+
+  const id = document.getElementById("syncId").value;
+  const email = document.getElementById("syncEmail").value.trim();
+  const dob = document.getElementById("syncDOB").value;
+
+  try {
+    const res = await fetch(
+      `${baseApi}api/admin/update/${id}/profile/dob?dob=${dob}&email=${email}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // token goes here
+        },
+      },
+    );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.message || "Update failed!");
+    } else {
+      alert(data.message || "Profile updated successfully!");
+      document.getElementById("syncModal").style.display = "none";
+    }
+  } catch (err) {
+    console.error("Update error:", err);
+    alert("Network error updating profile!");
+  } finally {
+    saveBtn.textContent = originalText;
+    saveBtn.disabled = false;
+  }
+});
