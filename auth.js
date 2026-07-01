@@ -1,7 +1,5 @@
-
 const baseApi = "https://attandance-app-1.onrender.com/";
- //const baseApi = "http://127.0.0.1:4444/";
-
+//const baseApi = "http://127.0.0.1:4444/";
 
 document.addEventListener("DOMContentLoaded", () => {
   // Global temporary placeholder to track user identity across screen states
@@ -31,9 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Basic event binding configurations
-  document.getElementById("backToLoginLink").addEventListener("click", (e) => { 
-    e.preventDefault(); 
-    showLogin(); 
+  document.getElementById("backToLoginLink").addEventListener("click", (e) => {
+    e.preventDefault();
+    showLogin();
   });
 
   // Login transaction submission sequence
@@ -54,15 +52,23 @@ document.addEventListener("DOMContentLoaded", () => {
       hideLoader();
 
       // Check if user account needs to trigger OTP verification loop
-      if ( data.otp ===true) {
+      if (data.otp === true) {
         pendingVerifyEmail = main; // cache email or username context
-        showMessage("verifyMessage", "Account unverified. An active security OTP was routed to your email.", "error");
+        showMessage(
+          "verifyMessage",
+          "Account unverified. An active security OTP was routed to your email.",
+          "error",
+        );
         showVerify();
         return;
       }
 
       if (!res.ok) {
-        showMessage("loginMessage", data.message || data.error || "Login failed!", "error");
+        showMessage(
+          "loginMessage",
+          data.message || data.error || "Login failed!",
+          "error",
+        );
         return;
       }
 
@@ -76,36 +82,50 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Verification form tracking handler
-  document.getElementById("verifyForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const otp = document.getElementById("verifyOtp").value.trim();
+  document
+    .getElementById("verifyForm")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const otp = document.getElementById("verifyOtp").value.trim();
 
-    try {
-      showLoader();
-      const res = await fetch(baseApi + "api/verify-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: pendingVerifyEmail, otp: otp }),
-      });
+      try {
+        showLoader();
+        const res = await fetch(baseApi + "api/verify-otp", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: pendingVerifyEmail, otp: otp }),
+        });
 
-      const data = await res.json();
-      hideLoader();
+        const data = await res.json();
+        hideLoader();
 
-      if (!res.ok) {
-        showMessage("verifyMessage", data.message || data.error || "Verification code invalid.", "error");
-        return;
+        if (!res.ok) {
+          showMessage(
+            "verifyMessage",
+            data.message || data.error || "Verification code invalid.",
+            "error",
+          );
+          return;
+        }
+
+        showMessage(
+          "verifyMessage",
+          "Account authenticated completely! Redirecting...",
+          "success",
+        );
+
+        // On success token synchronization layer activation
+        executeSessionOnboarding(data);
+      } catch (err) {
+        console.error(err);
+        hideLoader();
+        showMessage(
+          "verifyMessage",
+          "Verification execution failure.",
+          "error",
+        );
       }
-
-      showMessage("verifyMessage", "Account authenticated completely! Redirecting...", "success");
-      
-      // On success token synchronization layer activation
-      executeSessionOnboarding(data);
-    } catch (err) {
-      console.error(err);
-      hideLoader();
-      showMessage("verifyMessage", "Verification execution failure.", "error");
-    }
-  });
+    });
 
   function executeSessionOnboarding(data) {
     localStorage.setItem("token", data.token);
@@ -169,3 +189,56 @@ function togglePassword() {
     icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 20px; height: 20px;"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>`;
   }
 }
+
+function scheduleNinePMEmailRequest() {
+  const now = new Date();
+
+  // Set the target time to 9:00 PM (21:00:00) today
+  const target = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    21, // 9 PM in 24-hour format
+    0, // Minutes
+    0, // Seconds
+  );
+
+  // If it is already past 9:00 PM today, target 9:00 PM tomorrow
+  if (now >= target) {
+    target.setDate(target.getDate() + 1);
+  }
+
+  const timeUntilNinePM = target.getTime() - now.getTime();
+
+  console.log(
+    `System primed. Request will fire in ${Math.round(timeUntilNinePM / 1000 / 60)} minutes.`,
+  );
+
+  // Wait until exactly 9:00 PM, then run the function
+  setTimeout(async () => {
+    console.log("It is 9:00 PM. Sending request to backend...");
+
+    try {
+      const response = await fetch(
+        "https://attandance-app-1.onrender.com/api/run-birthday-job",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      const data = await response.json();
+      console.log("Backend response received:", data);
+    } catch (error) {
+      console.error("Failed to connect to backend:", error);
+    }
+
+    // Call the function again to schedule it for tomorrow at 9:00 PM
+    scheduleNinePMEmailRequest();
+  }, timeUntilNinePM);
+}
+
+// Start the scheduler as soon as the page opens
+scheduleNinePMEmailRequest();
