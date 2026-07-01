@@ -1,249 +1,415 @@
+/* ==========================================================================
+   1. GLOBAL SYSTEM VARIABLES & RESET (DARK MODE PREMIUM)
+   ========================================================================== */
+:root {
+  --bg-dark: #090d16;
+  --panel-bg: rgba(30, 41, 59, 0.7); /* Translucent premium slate slate */
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --primary: #38bdf8; /* iOS Sky Blue */
+  --primary-hover: #0ea5e9;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --radius: 12px;
+  
+  /* Alert Themes */
+  --success-bg: rgba(34, 197, 94, 0.15);
+  --success-border: #4ade80;
+  --error-bg: rgba(239, 68, 68, 0.15);
+  --error-border: #f87171;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background:
-    linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.6)),
-    url("https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80")
-      no-repeat center center / cover;
+  font-family: -apple-system, BlinkMacSystemFont, ui-sans-serif, system-ui, sans-serif;
+  /* Deep structural gradient matching high-end app frameworks */
+  background: radial-gradient(circle at top, #1e293b 0%, #0f172a 50%, #020617 100%);
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  margin: 0;
   color: var(--text-main);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* ==========================================================================
+   2. APP CONTAINER & FORM ANIMATION MATRIX
+   ========================================================================== */
 .container {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 30px;
-  border-radius: 10px;
-  width: 300px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  background: var(--panel-bg);
+  backdrop-filter: blur(20px); /* iOS Frosted glass finish */
+  -webkit-backdrop-filter: blur(20px);
+  padding: 40px 32px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+  min-height: 360px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .form {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   display: flex;
   flex-direction: column;
 }
 
 .form.hidden {
-  display: none;
+  opacity: 0;
+  transform: translateX(40px) scale(0.96);
+  pointer-events: none;
+  position: absolute;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
 }
 
+/* ==========================================================================
+   3. TYPOGRAPHY & FIELDS
+   ========================================================================== */
 h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin: 0 0 24px 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+}
+
+.form-instruction {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 24px;
+  text-align: center;
 }
 
 input {
   margin: 10px 0;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 14px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  font-size: 15px;
+  background-color: rgba(15, 23, 42, 0.6);
+  color: #ffffff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
 }
 
-select {
-  width: 100%;
-  padding: 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #f9f9f9;
-  font-size: 1rem;
-  color: #333;
-  transition:
-    border-color 0.3s,
-    box-shadow 0.3s;
+input::placeholder {
+  color: #475569;
 }
-select:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+
+input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
   outline: none;
 }
-option {
-  padding: 0.4rem;
+
+#verifyOtp {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 26px;
+  letter-spacing: 8px;
+  text-align: center;
+  color: var(--primary);
+}
+
+/* ==========================================================================
+   4. PASSWORDS & ACTIONS
+   ========================================================================== */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 46px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.toggle-password:hover {
+  color: #ffffff;
 }
 
 button {
-  padding: 10px;
-  background: #007bff;
-  color: white;
+  margin-top: 16px;
+  padding: 14px;
+  background: var(--primary);
+  color: #0f172a; /* Dark text on bright button for high legibility */
   border: none;
-  border-radius: 5px;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 button:hover {
-  background: #0056b3;
+  background: var(--primary-hover);
+}
+
+button:active {
+  transform: scale(0.98); /* iOS native spring click click feedback */
 }
 
 p {
   text-align: center;
-  margin-top: 15px;
+  margin-top: 24px;
+  margin-bottom: 0;
+  font-size: 14px;
+  color: var(--text-muted);
 }
 
 a {
-  color: #007bff;
+  color: var(--primary);
   text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
 }
 
-/* Loader overlay covers the whole screen */
-/* Overlay covers the whole screen and blurs background */
+a:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   5. NOTIFICATION INLINE MESSAGES
+   ========================================================================== */
+.form-message {
+  margin-bottom: 16px;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 12px;
+  border-radius: var(--radius);
+  line-height: 1.4;
+  display: none;
+}
+
+.form-message.success {
+  background: var(--success-bg);
+  color: var(--success-border);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+.form-message.error {
+  background: var(--error-bg);
+  color: var(--error-border);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+}
+
+/* ==========================================================================
+   6. GLOBAL SCREEN BLUR LOADER LAYER (iOS 3-DOT SYSTEM)
+   ========================================================================== */
 .loader-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  backdrop-filter: blur(6px); /* blur background */
-  background: rgba(0, 0, 0, 0.4); /* subtle dark overlay */
-  display: none; /* hidden by default */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(2, 6, 17, 0.6);
+  display: none;
   justify-content: center;
   align-items: center;
   z-index: 9999;
 }
 
-/* Loader content centered */
 .loader {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Glowing ring spinner */
+/* Middle Dot (The main .spinner div) */
 .spinner {
-  width: 80px;
-  height: 80px;
-  border: 8px solid transparent;
-  border-top: 8px solid #ff6ec4;
-  border-right: 8px solid #7873f5;
-  border-bottom: 8px solid #4facfe;
-  border-left: 8px solid #43e97b;
+  position: relative;
+  width: 10px;
+  height: 10px;
+  background-color: #ffffff;
   border-radius: 50%;
-  animation:
-    spin 1.2s linear infinite,
-    glow 2s ease-in-out infinite alternate;
+  animation: iosBounce 1.4s infinite ease-in-out both;
+  animation-delay: -0.16s; /* Offset perfectly between left and right */
 }
 
-/* Loading text */
-.loading-text {
-  margin-top: 20px;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #fff;
-  letter-spacing: 2px;
-  animation: fade 1.5s infinite;
+/* Left Dot */
+.spinner::before {
+  content: '';
+  position: absolute;
+  left: -20px; /* Space out to the left */
+  top: 0;
+  width: 10px;
+  height: 10px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  animation: iosBounce 1.4s infinite ease-in-out both;
+  animation-delay: -0.32s; /* Starts first */
 }
 
-/* Animations */
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+/* Right Dot */
+.spinner::after {
+  content: '';
+  position: absolute;
+  left: 20px; /* Space out to the right */
+  top: 0;
+  width: 10px;
+  height: 10px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  animation: iosBounce 1.4s infinite ease-in-out both;
+  animation-delay: 0s; /* Starts last */
 }
 
-@keyframes glow {
-  from {
-    box-shadow:
-      0 0 10px #ff6ec4,
-      0 0 20px #7873f5;
-  }
-  to {
-    box-shadow:
-      0 0 25px #4facfe,
-      0 0 40px #43e97b;
-  }
-}
-
-@keyframes fade {
-  0%,
-  100% {
+/* Ultra-smooth iOS wave oscillation scaling matrix */
+@keyframes iosBounce {
+  0%, 80%, 100% { 
+    transform: scale(0.3);
     opacity: 0.3;
-  }
-  50% {
+  } 
+  40% { 
+    transform: scale(1.1);
     opacity: 1;
   }
 }
 
+.loading-text {
+  margin-top: 24px; /* Slight extra margin to account for absolute positioning bounds */
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   7. MODAL OVERLAY EXTENSIONS
+   ========================================================================== */
 .modal {
-  display: none; /* hidden by default */
+  display: none;
   position: fixed;
   z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
 }
 
 .modal-content {
-  background: #fff;
-  margin: 10% auto;
-  padding: 20px;
-  border-radius: 6px;
-  width: 300px;
+  background: #1e293b;
+  border: 1px solid var(--border-color);
+  margin: 15% auto;
+  padding: 24px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 340px;
   text-align: center;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
 }
 
 .close {
   float: right;
-  font-size: 24px;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-muted);
   cursor: pointer;
+  line-height: 1;
 }
 
-.password-wrapper {
-  position: relative;
-  width: 100%; /* keep it inside the container */
+.close:hover {
+  color: #ffffff;
 }
 
-.password-wrapper input {
-  width: 100%;
-  box-sizing: border-box; /* ensures padding stays inside width */
-  padding: 12px 40px 12px 16px; /* space for icon */
-  border-radius: 8px;
-  border: 1px solid #ccc;
+/* ==========================================================================
+   8. THIRD-PARTY IDENTITY PROVIDERS CONTAINER & LAYOUT MATRIX
+   ========================================================================== */
+.social-login-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+/* Custom class specificity overrides general form button defaults */
+button.btn-social {
+  margin-top: 0;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.03);
+  color: #ffffff;
   font-size: 14px;
-}
-
-.toggle-password {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  
-  /* ==========================================================================
-     ADDED FOR PRODUCTION SVG ALIGNMENT
-     ========================================================================== */
+  font-weight: 500;
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  color: #666;
-  transition: color 0.2s ease; /* Adds a smooth transition on hover */
+  gap: 12px;
 }
 
-/* Optional: Make the eye icon look interactive when hovered */
-.toggle-password:hover {
-  color: #3498db; 
+button.google-btn {
+  background: #ffffff;
+  color: #0f172a;
+  border: none;
 }
-.form-message {
-  margin-top: 10px;
-  font-size: 0.9rem;
+
+button.google-btn:hover {
+  background: #f1f5f9;
+}
+
+button.apple-btn {
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+button.apple-btn:hover {
+  background: #111111;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
   text-align: center;
-  padding: 8px;
-  border-radius: 5px;
-  display: none; /* hidden until message is set */
+  margin: 12px 0 4px 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.form-message.success {
-  background: rgba(43, 193, 85, 0.1);
-  color: #2bc155;
-  border: 1px solid #2bc155;
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-color);
 }
 
-.form-message.error {
-  background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-  border: 1px solid #ef4444;
+.divider:not(:empty)::before {
+  margin-right: 1em;
+}
+
+.divider:not(:empty)::after {
+  margin-left: 1em;
 }

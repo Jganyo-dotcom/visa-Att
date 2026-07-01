@@ -178,7 +178,7 @@ if (navigateDashBtn) {
       // Safety Guard: If not authenticated, take them back to log in/register
       if (!token || !storedUser) {
         alert("Please login or create an account first!");
-        window.location.href = "/auth.html"; // Adjust to your auth page file name
+        window.location.href = "/auth"; // Adjust to your auth page file name
         return;
       }
 

@@ -132,3 +132,85 @@
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
 }
+
+/* ==========================================================================
+   4. CIRCULAR LOGO/PROFILE UI MODIFICATIONS
+   ========================================================================== */
+.logo {
+  width: 38px !important;
+  height: 38px !important;
+  object-fit: cover !important; /* Forces avatars to crop cleanly into standard circle boundaries */
+  border-radius: 50% !important; /* Converts shape cleanly into a circle */
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+}
+
+.logo:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.65);
+}
+
+/* ==========================================================================
+   5. SOCIAL MEDIA PROFILE PREVIEW LIGHTBOX MODAL
+   ========================================================================== */
+.profile-lightbox {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(4, 6, 12, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  cursor: zoom-out;
+}
+
+.profile-lightbox.lightbox-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox-content {
+  max-width: 85%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 16px;
+  border: 2px solid rgba(0, 242, 254, 0.3);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+  transform: scale(0.9);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.profile-lightbox.lightbox-open .lightbox-content {
+  transform: scale(1);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  line-height: 1;
+  transition: all 0.2s ease;
+}
+
+.lightbox-close:hover {
+  background: #ff007f;
+  color: #ffffff;
+  border-color: transparent;
+  transform: rotate(90deg);
+}
