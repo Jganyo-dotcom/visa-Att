@@ -268,12 +268,25 @@ document.addEventListener("DOMContentLoaded", () => {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 
+  const toggle = document.getElementById("isNewMemberToggle");
+  const banner = document.getElementById("newMemberBanner");
+
+  // 1. Listen for toggle changes to animate the banner
+  toggle.addEventListener("change", function () {
+    if (this.checked) {
+      banner.classList.add("show");
+    } else {
+      banner.classList.remove("show");
+    }
+  });
+
   // Primary Creation Form Handlers
   const form = document.getElementById("createPersonForm");
 
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const isNew = toggle.checked;
 
       if (!token) {
         alert("Not authorized!");
@@ -285,6 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
         name: capitalise(document.getElementById("name").value),
         department: capitalise(document.getElementById("department").value),
         gender: document.getElementById("gender").value,
+        isNewMember: isNew,
       };
 
       const contact = document.getElementById("contact").value.trim();

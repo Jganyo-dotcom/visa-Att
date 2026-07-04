@@ -5,32 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Main Dashboard | Attendance App</title>
     <link rel="icon" type="image/png" href="/logo.png" />
-    
+
     <link rel="stylesheet" href="temp.css" />
     <link rel="stylesheet" href="global-sidebar.css" />
     <link rel="stylesheet" href="components.css" />
   </head>
   <body>
     <header>
-  <div class="header-left">
-    <img 
-      src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f464.svg" 
-      alt="User Profile" 
-      class="logo" 
-      id="globalHeaderAvatar"
-      style="opacity: 0; transition: opacity 0.15s ease;" 
-    />
-    <h1 id="welcome">Admin Dashboard</h1>
-  </div>
-  <div class="header-right">
-    <button id="hamburgerBtn" class="hamburger" aria-label="Open Navigation">&#9776;</button>
-  </div>
-</header>
+      <div class="header-left">
+        <img
+          src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f464.svg"
+          alt="User Profile"
+          class="logo"
+          id="globalHeaderAvatar"
+          style="opacity: 0; transition: opacity 0.15s ease"
+        />
+        <h1 id="welcome">Admin Dashboard</h1>
+      </div>
+      <div class="header-right">
+        <button
+          id="hamburgerBtn"
+          class="hamburger"
+          aria-label="Open Navigation"
+        >
+          &#9776;
+        </button>
+      </div>
+    </header>
 
     <main class="grid">
       <section>
         <h2>➕ Create Person</h2>
         <form id="createPersonForm" class="form-card">
+          <div id="newMemberBanner" class="new-member-banner">
+            ✨ Welcome! This person is marked as a New Member.
+          </div>
           <div class="form-group">
             <input type="text" id="name" placeholder="Full Name" required />
           </div>
@@ -81,6 +90,13 @@
 
           <div class="form-group">
             <input type="text" id="contact" placeholder="Contact" />
+          </div>
+          <div class="form-group toggle-container">
+            <label class="switch">
+              <input type="checkbox" id="isNewMemberToggle" />
+              <span class="slider round"></span>
+            </label>
+            <span class="toggle-label">Is this a new member?</span>
           </div>
 
           <button type="submit" class="btn-primary">Create Person</button>
