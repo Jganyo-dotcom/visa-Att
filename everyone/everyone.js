@@ -15,18 +15,49 @@ function toggleLoader(show) {
   overlay.classList.toggle("active", show);
 }
 
-const user = JSON.parse(localStorage.getItem("user"));
-if (user.avatarUrl && user.avatarUrl !== "") {
-  document.querySelector(".logo").src = user.avatarUrl;
+// FIX 1: Prevent crash if a public user has no local storage session context saved
+const storedUser = localStorage.getItem("user");
+if (storedUser) {
+  try {
+    const user = JSON.parse(storedUser);
+    if (user && user.avatarUrl) {
+      const logoEl = document.querySelector(".logo");
+      if (logoEl) logoEl.src = user.avatarUrl;
+    }
+  } catch (e) {
+    console.error("Error parsing user profile avatar data:", e);
+  }
 }
 
 /**
  * PIN Access Control & Input Triggers
  */
+document.addEventListener("DOMContentLoaded", () => {
+  const orgSelect = document.querySelector("#orgSelect");
+  if (orgSelect) {
+    orgSelect.addEventListener("change", handleOrgChange);
+  }
 
-document
-  .querySelector("#orgSelect")
-  .addEventListener("change", handleOrgChange);
+  // FIX 2: Dynamically attach missing step and backspace listener loops to your layout inputs
+  const pinInputs = document.querySelectorAll(".pin-box");
+  pinInputs.forEach((input, index) => {
+    // Listens for active digit entries
+    input.addEventListener("input", (e) => {
+      handlePinStep(e.target, index);
+    });
+
+    // Listens for structural backspace keyboard controls
+    input.addEventListener("keydown", (e) => {
+      handlePinBack(e, index);
+    });
+  });
+
+  // Attach search bar input event listener
+  const userSearch = document.getElementById("userSearch");
+  if (userSearch) {
+    userSearch.addEventListener("input", filterPublicNames);
+  }
+});
 
 function handleOrgChange() {
   const org = document.getElementById("orgSelect").value;
@@ -34,22 +65,26 @@ function handleOrgChange() {
   const loadBtn = document.getElementById("loadBtn");
   const pinInputs = document.querySelectorAll(".pin-box");
 
+  if (!drawer) return;
+
   if (org) {
     drawer.classList.add("open");
     pinInputs.forEach((i) => (i.value = ""));
-    pinInputs[0].focus();
+    if (pinInputs.length > 0) pinInputs[0].focus();
   } else {
     drawer.classList.remove("open");
-    loadBtn.disabled = true;
-    document.getElementById("userSearch").disabled = true;
+    if (loadBtn) loadBtn.disabled = true;
+    const searchBar = document.getElementById("userSearch");
+    if (searchBar) searchBar.disabled = true;
   }
 }
 
 function handlePinStep(input, index) {
   input.value = input.value.replace(/\D/g, ""); // Digits numbers only
 
+  const pinInputs = document.querySelectorAll(".pin-box");
   if (input.value.length === 1 && index < 5) {
-    document.querySelectorAll(".pin-box")[index + 1].focus();
+    if (pinInputs[index + 1]) pinInputs[index + 1].focus();
   }
 
   checkAndTriggerAutoAuth();
@@ -58,7 +93,7 @@ function handlePinStep(input, index) {
 function handlePinBack(event, index) {
   if (event.key === "Backspace" && !event.target.value && index > 0) {
     const inputs = document.querySelectorAll(".pin-box");
-    inputs[index - 1].focus();
+    if (inputs[index - 1]) inputs[index - 1].focus();
   }
 }
 
@@ -75,11 +110,11 @@ function checkAndTriggerAutoAuth() {
   const loadBtn = document.getElementById("loadBtn");
 
   if (code.length === 6) {
-    loadBtn.disabled = false;
+    if (loadBtn) loadBtn.disabled = false;
     currentPage = 1; // Reset page context tracking
     loadAttendance();
   } else {
-    loadBtn.disabled = true;
+    if (loadBtn) loadBtn.disabled = true;
   }
 }
 
@@ -87,7 +122,10 @@ function checkAndTriggerAutoAuth() {
  * 📡 BACKEND DATA FETCH PIPELINE (Server-Side Pagination & Search)
  */
 async function loadAttendance() {
-  const org = document.getElementById("orgSelect").value;
+  const orgSelectEl = document.getElementById("orgSelect");
+  if (!orgSelectEl) return;
+
+  const org = orgSelectEl.value;
   const code = getEnteredPin();
 
   if (!org) return alert("Please select an organization first.");
@@ -95,7 +133,6 @@ async function loadAttendance() {
 
   toggleLoader(true);
   try {
-    // Constructing the URL utilizing params and query values expected by your controller
     let url = `${API_BASE_URL}/org/get-All/${org}/${code}?page=${currentPage}&limit=${recordsPerPage}`;
 
     if (currentSearchTerm) {
@@ -113,20 +150,23 @@ async function loadAttendance() {
 
     const data = await response.json();
 
-    // Sync application states with response payload fields
     totalPages = data.totalPages || 1;
     currentPage = data.page || 1;
 
     // Unlock search functionality on successful data pull
-    document.getElementById("userSearch").disabled = false;
+    const searchBar = document.getElementById("userSearch");
+    if (searchBar) searchBar.disabled = false;
 
     renderPublicCards(data.staff || []);
     renderPaginationControls();
   } catch (error) {
     console.error("Pipeline Breakdown:", error);
     alert(error.message || "Error loading attendance records.");
-    document.getElementById("attendanceGrid").innerHTML = "";
-    document.getElementById("paginationWrapper").classList.add("hidden");
+    const grid = document.getElementById("attendanceGrid");
+    if (grid) grid.innerHTML = "";
+
+    const paginator = document.getElementById("paginationWrapper");
+    if (paginator) paginator.classList.add("hidden");
   } finally {
     toggleLoader(false);
   }
@@ -137,6 +177,7 @@ async function loadAttendance() {
  */
 function renderPublicCards(staffArray) {
   const container = document.getElementById("attendanceGrid");
+  if (!container) return;
   container.innerHTML = "";
 
   if (!staffArray || staffArray.length === 0) {
@@ -149,10 +190,10 @@ function renderPublicCards(staffArray) {
     card.className = "person-card";
     card.innerHTML = `
       <div class="card-layout-split">
-        <div class="identity-block">
-          <div class="avatar-placeholder">${person.name.charAt(0).toUpperCase()}</div>
+        
+          <div class="avatar-placeholder">${person.name ? person.name.charAt(0).toUpperCase() : "?"}</div>
           <div>
-            <h3>${person.name}</h3>
+            <h3>${person.name || "Unknown"}</h3>
             <p class="dept-text">Department: <span>${person.department || "N/A"}</span></p>
           </div>
         </div>
@@ -176,29 +217,27 @@ function renderPaginationControls() {
   const nextBtn = document.getElementById("nextPageBtn");
   const tracker = document.getElementById("pageTracker");
 
-  // Only display if there are multiple pages to browse
+  if (!paginator) return;
+
   if (totalPages > 1) {
     paginator.classList.remove("hidden");
-    tracker.innerText = `Page ${currentPage} of ${totalPages}`;
-    prevBtn.disabled = currentPage === 1;
-    nextBtn.disabled = currentPage === totalPages;
+    if (tracker) tracker.innerText = `Page ${currentPage} of ${totalPages}`;
+    if (prevBtn) prevBtn.disabled = currentPage === 1;
+    if (nextBtn) nextBtn.disabled = currentPage === totalPages;
   } else {
     paginator.classList.add("hidden");
   }
 }
 
-// Handler for the pagination button actions
 function changePage(direction) {
   const targetPage = currentPage + direction;
   if (targetPage < 1 || targetPage > totalPages) return;
 
   currentPage = targetPage;
-  loadAttendance(); // Pull next dataset window frame
+  loadAttendance();
 
-  // Smoothly slide view back up to grid baseline context
-  document
-    .getElementById("attendanceGrid")
-    .scrollIntoView({ behavior: "smooth" });
+  const grid = document.getElementById("attendanceGrid");
+  if (grid) grid.scrollIntoView({ behavior: "smooth" });
 }
 
 /**
@@ -206,9 +245,8 @@ function changePage(direction) {
  */
 function filterPublicNames(e) {
   currentSearchTerm = e.target.value.trim();
-  currentPage = 1; // Always fall back to page 1 on fresh filter adjustments
+  currentPage = 1;
 
-  // Debounce API requests so it doesn't slam your node instance on every single keystroke
   clearTimeout(searchTimeout);
   searchTimeout = setTimeout(() => {
     loadAttendance();
@@ -221,7 +259,10 @@ function filterPublicNames(e) {
 async function requestCheckIn(personId) {
   const code = getEnteredPin();
   if (code.length !== 6) return alert("Please provide the 6-digit access pin.");
-  const org = document.getElementById("orgSelect").value;
+
+  const orgSelectEl = document.getElementById("orgSelect");
+  if (!orgSelectEl) return;
+  const org = orgSelectEl.value;
   if (!org) return alert("Organization parameter context missing.");
 
   toggleLoader(true);
