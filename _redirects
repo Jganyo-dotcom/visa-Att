@@ -11,6 +11,7 @@
 /c                   /c.html                  200
 /auth                /auth.html               200
 /landingPage         /landingPage.html        200
+/newbie      /newbie.html     200
 /reset-password      /reset-password.html     200
 
 # --- CATCH-ALL FOR BROKEN LINKS ---

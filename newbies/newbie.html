@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Member Records | Attendance App</title>
+    <link rel="icon" type="image/png" href="/logo.png" />
+
+    <link rel="stylesheet" href="newbe.css" />
+    <link rel="stylesheet" href="/global-sidebar.css" />
+    <!-- <link rel="stylesheet" href="components.css" /> -->
+  </head>
+  <body>
+    <header>
+      <div class="header-left">
+        <img
+          src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f464.svg"
+          alt="User Profile"
+          class="logo"
+          id="globalHeaderAvatar"
+          style="opacity: 0; transition: opacity 0.15s ease"
+        />
+        <h1>New Members Hub</h1>
+      </div>
+      <div class="header-right">
+        <button
+          id="hamburgerBtn"
+          class="hamburger"
+          aria-label="Open Navigation"
+        >
+          ☰
+        </button>
+      </div>
+    </header>
+
+    <main class="grid">
+      <!-- Page Navigation Dropdown Selector Row -->
+      <section style="grid-column: 1 / -1">
+        <div class="page-navigation-group">
+          <label for="pageRotator" style="font-weight: bold; font-size: 14px"
+            >📄 Go to Page:</label
+          >
+          <select id="pageRotator" class="page-selector">
+            <option value="landingPage.html">Dashboard Overview</option>
+            <option value="newbies.html" selected>
+              Page 1: New Member Analytics
+            </option>
+            <option value="attendance.html">Page 2: Attendance Registry</option>
+            <option value="departments.html">
+              Page 3: Department Management
+            </option>
+            <option value="users.html">Page 4: Admin Accounts</option>
+            <option value="settings.html">Page 5: System Settings</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Search Param Card Block Configuration -->
+      <section>
+        <h2>🔍 Cross-Check Records</h2>
+        <div class="form-card">
+          <div class="search-controls">
+            <!-- Type Switch Filters -->
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="searchType" value="full" checked />
+                Full Date
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="searchType" value="month" /> By Month
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="searchType" value="year" /> By Year
+              </label>
+            </div>
+
+            <!-- Context Swapping Inputs Interface Box -->
+            <div class="dynamic-input-container" id="inputWrapper">
+              <!-- Default state: Full Calendar Selector -->
+              <div class="form-group" id="groupFull">
+                <input type="date" id="queryDate" required />
+              </div>
+
+              <!-- Month Selection Target Dropdown Wrapper -->
+              <div class="form-group hidden" id="groupMonth">
+                <input type="month" id="queryMonth" />
+              </div>
+
+              <!-- Year Input Field Block Selector -->
+              <div class="form-group hidden" id="groupYear">
+                <input
+                  type="number"
+                  id="queryYear"
+                  placeholder="e.g., 2026"
+                  min="2000"
+                  max="2100"
+                />
+              </div>
+            </div>
+
+            <button type="button" class="btn-primary" id="searchNewbiesBtn">
+              Run Query Search
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Data Presentation Layout List Section -->
+      <section style="grid-column: 1 / -1">
+        <h2>📊 Results Summary (<span id="resultsCount">0</span> found)</h2>
+        <div class="results-table-card">
+          <table>
+            <thead>
+              <tr>
+                <th>Count</th>
+                <th>Full Name</th>
+                <th>Department</th>
+                <th>Gender</th>
+                <th>Level</th>
+                <th>Contact/Email</th>
+                <th>Date Joined</th>
+              </tr>
+            </thead>
+            <tbody id="newbiesTableBody">
+              <tr>
+                <td colspan="7" style="text-align: center; color: #777">
+                  No records loaded. Select parameters and search above.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <!-- Base UI Processing Screen Modal Loader Overlay Component -->
+    <div id="ios-loader" class="loader-overlay">
+      <div class="loader">
+        <div class="spinner"></div>
+        <span class="loading-text">Processing Request...</span>
+      </div>
+    </div>
+
+    <!-- Replicated Application Footer Template Pattern -->
+    <footer>
+      <p>© 2026 Attendance App. Created by <strong>Elikem</strong>.</p>
+      <p>
+        <a href="mailto:elikemejay@gmail.com">📧 Email</a> |
+        <a href="tel:0593320375"> 📞 Call</a>
+      </p>
+      <div class="social-links">
+        <a
+          href="https://www.linkedin.com/in/james-ganyo-aa0593360"
+          target="_blank"
+          rel="noopener"
+          >LinkedIn</a
+        >
+        <a href="https://wa.me/233503841074" target="_blank" rel="noopener"
+          >WhatsApp</a
+        >
+        <a
+          href="https://github.com/Jganyo-dotcom/"
+          target="_blank"
+          rel="noopener"
+          >GitHub</a
+        >
+      </div>
+    </footer>
+
+    <script src="/global-sidebar.js"></script>
+    <script src="newb.js"></script>
+  </body>
+</html>

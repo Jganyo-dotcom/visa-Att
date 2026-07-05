@@ -1,0 +1,401 @@
+/* ==========================================================================
+   1. GLOBAL RESET & DEFENSIVE STRUCTURAL ROOTS
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #f8fafc;
+  color: #0f172a;
+  line-height: 1.4;
+  padding-bottom: 40px;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ==========================================================================
+   2. HEADER WORKSPACE (MOBILE-FIRST)
+   ========================================================================== */
+header {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0; /* Prevents text truncation blowout */
+}
+
+.header-left .logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+header h1 {
+  font-size: 16px;
+  color: #0f172a;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hamburger {
+  background: #f1f5f9;
+  border: none;
+  font-size: 18px;
+  color: #334155;
+  cursor: pointer;
+  width: 40px; /* Perfect 44px equivalent touch target spacing */
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   3. MOBILE-OPTIMIZED CONTAINER ARCHITECTURE
+   ========================================================================== */
+main.grid {
+  width: 100%;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+section {
+  width: 100%;
+  min-width: 0; /* Defensive grid layout tracks sizing wrap */
+}
+
+section h2 {
+  font-size: 12px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   4. NAVIGATION SELECTOR TRACKER
+   ========================================================================== */
+.page-navigation-group {
+  background-color: #ffffff;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.page-selector {
+  width: 100%;
+  padding: 12px; /* Amplified padding height for touch targets */
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  color: #334155;
+  background-color: #ffffff;
+  font-weight: 500;
+  outline: none;
+  appearance: none; /* Modern system reset arrow anchors */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+/* ==========================================================================
+   5. FILTERS CARD & INPUT ENHANCEMENTS
+   ========================================================================== */
+.form-card {
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.search-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Scrollable radio container grid if viewport breaks too narrow */
+.radio-group {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #475569;
+  cursor: pointer;
+  background: #f8fafc;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.radio-label has(:checked),
+.radio-label input[type="radio"]:checked + * {
+  color: #3b82f6;
+}
+
+.radio-label input[type="radio"] {
+  accent-color: #3b82f6;
+  width: 16px;
+  height: 16px;
+}
+
+.dynamic-input-container {
+  width: 100%;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 15px; /* Forced 15px/16px thresholds to block iOS auto-zoom layout disruptions */
+  color: #0f172a;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.form-group input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: none;
+  padding: 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(59, 130, 246, 0.05);
+}
+
+/* ==========================================================================
+   6. RESPONSIVE TABLE PRESERVATION & OVERFLOW WRAPS
+   ========================================================================== */
+.results-table-card {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  min-width: 750px;
+}
+
+th,
+td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 13px;
+}
+
+th {
+  background-color: #f8fafc;
+  color: #475569;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+.badge-dept {
+  background: #eff6ff;
+  color: #1e40af;
+  border: 1px solid #dbeafe;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   7. LOADER PROCESSOR COMPONENT OVERLAYS
+   ========================================================================== */
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  display: none;
+}
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e2e8f0;
+  border-top: 3px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==========================================================================
+   8. COMPACT FOOTER MANAGEMENT
+   ========================================================================== */
+footer {
+  background-color: #ffffff;
+  padding: 20px 16px;
+  text-align: center;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 24px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+footer p {
+  margin-bottom: 6px;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.social-links a {
+  background-color: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #475569;
+  text-decoration: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==========================================================================
+   9. DEVICE MEDIA QUERIES (GRADUAL BREAKPOINTS SCALING UP)
+   ========================================================================== */
+@media (min-width: 640px) {
+  main.grid {
+    padding: 16px;
+    gap: 20px;
+  }
+
+  header {
+    padding: 14px 24px;
+  }
+
+  header h1 {
+    font-size: 18px;
+  }
+
+  .page-navigation-group {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .page-selector {
+    width: auto;
+    min-width: 260px;
+  }
+
+  .search-controls {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .radio-group {
+    border-bottom: none;
+    padding-bottom: 0;
+    overflow: visible;
+  }
+
+  .radio-label {
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+
+  .dynamic-input-container {
+    width: 200px;
+  }
+
+  .btn-primary {
+    width: auto;
+    padding: 12px 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  main.grid {
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0;
+  }
+}

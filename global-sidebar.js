@@ -3,25 +3,35 @@ document.addEventListener("DOMContentLoaded", () => {
   // 0. IMMEDIATE AVATAR SYNCHRONIZATION ENGINE (Prevents Layout Flashing)
   // ==========================================================================
   // Target the dynamic header profile avatar wrapper
-  const globalHeaderAvatar = document.getElementById("globalHeaderAvatar") || document.querySelector(".logo");
-  
+  const globalHeaderAvatar =
+    document.getElementById("globalHeaderAvatar") ||
+    document.querySelector(".logo");
+
   if (globalHeaderAvatar) {
     try {
       // Securely pull and parse current user configurations
       const localUserStr = localStorage.getItem("user");
       const localUser = localUserStr ? JSON.parse(localUserStr) : null;
-      
+
       // Default modern silhouette body placeholder image path fallback
-      const defaultAvatar = "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f464.svg";
+      const defaultAvatar =
+        "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f464.svg";
 
       // Match your data property precisely: checking for avatarUrl
-      if (localUser && localUser.avatarUrl && localUser.avatarUrl.trim() !== "") {
+      if (
+        localUser &&
+        localUser.avatarUrl &&
+        localUser.avatarUrl.trim() !== ""
+      ) {
         globalHeaderAvatar.setAttribute("src", localUser.avatarUrl);
       } else {
         globalHeaderAvatar.setAttribute("src", defaultAvatar);
       }
     } catch (err) {
-      console.error("Error setting dynamic profile avatar fallback routes:", err);
+      console.error(
+        "Error setting dynamic profile avatar fallback routes:",
+        err,
+      );
     } finally {
       // Gracefully show the avatar now that properties match up smoothly
       globalHeaderAvatar.style.opacity = "1";
@@ -45,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     <button id="DoubleServicePage" class="btn-secondary">🔄 Double Pip</button>
     <button id="tend" class="btn-secondary">ℹ️ Attendance Info</button>
     <button id="followPage" class="btn-secondary">🔍 Filter Attendance</button>
+    <button id="newbee" class="btn-secondary">🗄️ New Additions</button>
     <button id="analysisPage" class="btn-secondary">📈 Analysis Of Attendance</button>
     <button id="peoplePage" class="btn-secondary">🚫 Manage Absentees</button>
     <button id="database" class="btn-secondary">🗄️ Database Records</button>
@@ -194,6 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
     approveAttendance: "/confirmation/c",
     pendingA: "/confirmation/c",
     qrCodePage: "/everyone/generate",
+    newbee:"/newbies/newbie",
     HomePage: "/landingPage",
   };
 
@@ -310,7 +322,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Support keyboard escape routing
     window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && lightboxModal.classList.contains("lightbox-open")) {
+      if (
+        e.key === "Escape" &&
+        lightboxModal.classList.contains("lightbox-open")
+      ) {
         closeLightbox();
       }
     });
