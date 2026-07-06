@@ -125,12 +125,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Loader Controls
   function showLoader() {
-    const overlay = document.getElementById("loaderrOverlay");
+    const overlay = document.getElementById("loaderOverlay");
     if (overlay) overlay.style.display = "flex";
   }
 
   function hideLoader() {
-    const overlay = document.getElementById("loaderrOverlay");
+    const overlay = document.getElementById("loaderOverlay");
     if (overlay) overlay.style.display = "none";
   }
 

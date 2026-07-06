@@ -1,4 +1,40 @@
+/* ==========================================================================
+   1. ROOT & BODY GUARDRAILS (Fixes Sidebar Bleed)
+   ========================================================================== */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden; /* Prevents layout from extending past the viewport */
+  margin: 0;
+}
 
+body {
+  position: relative; /* Context helper for the blurred background layer */
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  z-index: -1;
+}
+
+/* ==========================================================================
+   2. SITE LAYOUT HEADER & FOOTER
+   ========================================================================== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  background: var(--card-bg);
+  border-bottom: 1px solid #334155;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
 
 .header-left {
   display: flex;
@@ -6,20 +42,87 @@
   gap: 15px;
 }
 
-
 #welcome {
   font-size: 1.5rem;
   font-weight: 600;
 }
 
-/* Main Content Layout */
+/* Footer Styling */
+footer {
+  background: #2c3e50;
+  color: #bdc3c7;
+  padding: 2rem;
+  text-align: center;
+  margin-top: 4rem;
+}
+
+footer strong {
+  color: white;
+}
+
+footer a {
+  color: #3498db;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+.social-links {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.social-links a {
+  color: whitesmoke;
+  text-decoration: none;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 15px;
+  border-radius: 20px;
+  transition: background 0.3s;
+}
+
+.social-links a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+/* ==========================================================================
+   3. MAIN CONTENT LAYOUT
+   ========================================================================== */
 main {
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* Controls Section (The Filter Bar) */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem 5%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+section {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #334155;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   4. FILTERS & CONTROLS SECTION
+   ========================================================================== */
 .controls {
   background: white;
   padding: 1.5rem;
@@ -55,7 +158,7 @@ main {
   min-width: 200px;
 }
 
-/* Button Styling */
+/* UI Action Buttons */
 .btn {
   padding: 10px 20px;
   border: none;
@@ -75,13 +178,17 @@ main {
   transform: translateY(-1px);
 }
 
-/* Attendance Table Styling */
+/* ==========================================================================
+   5. ATTENDANCE DATA TABLE CONTAINER
+   ========================================================================== */
 #attendanceContainer {
   background: blue;
   border-radius: 8px;
   padding: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  overflow-x: auto;
+  overflow-x: auto; /* Keeps wide tables contained inside this scroll space */
+  max-width: 100%; /* Strictly prevents table component from shifting sidebar out */
+  box-sizing: border-box;
 }
 
 table {
@@ -107,62 +214,9 @@ tr:hover {
   background-color: #f1f7fd;
 }
 
-/* Footer Styling */
-footer {
-  background: #2c3e50;
-  color: #bdc3c7;
-  padding: 2rem;
-  text-align: center;
-  margin-top: 4rem;
-}
-
-footer strong {
-  color: white;
-}
-
-footer a {
-  color: #3498db;
-  text-decoration: none;
-  margin: 0 5px;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
-
-.social-links {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.social-links a {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 8px 15px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  transition: background 0.3s;
-}
-
-.social-links a:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .controls {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  #welcome {
-    font-size: 1.2rem;
-  }
-}
-
-/* The Loader Container */
+/* ==========================================================================
+   6. UI LOADERS & ANIMATIONS
+   ========================================================================== */
 .loader-container {
   display: flex;
   flex-direction: column;
@@ -172,12 +226,11 @@ footer a:hover {
   gap: 15px;
 }
 
-/* The Spinner Animation */
 .loader {
   width: 48px;
   height: 48px;
   border: 5px solid #f3f3f3;
-  border-bottom-color: #007bff; /* Matches your header color */
+  border-bottom-color: #007bff;
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
@@ -192,6 +245,15 @@ footer a:hover {
   letter-spacing: 1px;
 }
 
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid var(--secondary);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: rotation 1s linear infinite;
+}
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
@@ -201,82 +263,16 @@ footer a:hover {
   }
 }
 
-body::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4); /* semi-transparent overlay */
-  backdrop-filter: blur(12px); /* blur applies here */
-  z-index: -1; /* keep it behind content */
-}
-
-/* --- Layout --- */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 5%;
-  background: var(--card-bg);
-  border-bottom: 1px solid #334155;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.logo {
-  height: 40px;
-  border-radius: 8px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  padding: 2rem 5%;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-section {
-  background: var(--card-bg);
-  padding: 1.5rem;
-  border-radius: 12px;
-  border: 1px solid #334155;
-}
-.spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid var(--secondary);
-  border-top-color: var(--primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+/* ==========================================================================
+   7. RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+@media (max-width: 768px) {
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
   }
 }
-.social-links {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
 
-.social-links a {
-  color: whitesmoke;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-/* Responsive adjustments */
 @media (max-width: 600px) {
   .grid {
     grid-template-columns: 1fr;
@@ -285,18 +281,3 @@ section {
     font-size: 1.2rem;
   }
 }
-
-.hamburger {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(0, 242, 254, 0.3);
-  font-size: 1.5rem;
-  color: var(--primary);
-  padding: 10px;
-  border-radius: var(--radius-sm);
-}
-
-.hamburger:hover {
-  background: rgba(0, 242, 254, 0.1);
-  color: #ffffff;
-}
-

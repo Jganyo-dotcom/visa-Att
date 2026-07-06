@@ -2,22 +2,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================================================
   // 0. IMMEDIATE AVATAR SYNCHRONIZATION ENGINE (Prevents Layout Flashing)
   // ==========================================================================
-  // Target the dynamic header profile avatar wrapper
   const globalHeaderAvatar =
     document.getElementById("globalHeaderAvatar") ||
     document.querySelector(".logo");
 
   if (globalHeaderAvatar) {
     try {
-      // Securely pull and parse current user configurations
       const localUserStr = localStorage.getItem("user");
       const localUser = localUserStr ? JSON.parse(localUserStr) : null;
-
-      // Default modern silhouette body placeholder image path fallback
       const defaultAvatar =
         "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f464.svg";
 
-      // Match your data property precisely: checking for avatarUrl
       if (
         localUser &&
         localUser.avatarUrl &&
@@ -33,35 +28,64 @@ document.addEventListener("DOMContentLoaded", () => {
         err,
       );
     } finally {
-      // Gracefully show the avatar now that properties match up smoothly
       globalHeaderAvatar.style.opacity = "1";
     }
   }
 
   // ==========================================================================
-  // 1. DYNAMIC DRAWER GENERATION ENGINE
+  // 1. DYNAMIC DRAWER GENERATION ENGINE (Nested Accordion Dropdown Matrix)
   // ==========================================================================
   const sidebar = document.createElement("div");
   sidebar.id = "sideMenu";
   sidebar.className = "side-menu";
   sidebar.innerHTML = `
-    <button id="closeMenuBtn" class="close-btn" aria-label="Close Navigation">&times;</button>
-    <button id="HomePage" class="btn-secondary">🏠 Home</button>
-    <button id="mainPage" class="btn-secondary">📊 Dashboard</button>
-    <button id="sessionM" class="btn-secondary">⏳ Manage Sessions</button>
-    <button id="MA" class="btn-secondary">📝 Mark Attendance</button>
-    <button id="approveAttendance" class="btn-secondary">📝Pending Attendance</button>
-    <button id="qrCodePage" class="btn-secondary">📷 Generage code</button>
-    <button id="DoubleServicePage" class="btn-secondary">🔄 Double Pip</button>
-    <button id="tend" class="btn-secondary">ℹ️ Attendance Info</button>
-    <button id="followPage" class="btn-secondary">🔍 Filter Attendance</button>
-    <button id="newbee" class="btn-secondary">🗄️ New Additions</button>
-    <button id="analysisPage" class="btn-secondary">📈 Analysis Of Attendance</button>
-    <button id="peoplePage" class="btn-secondary">🚫 Manage Absentees</button>
-    <button id="database" class="btn-secondary">🗄️ Database Records</button>
-    <button id="profilePage" class="btn-secondary">⚙️ Settings & Profile</button>
-    <button id="signOutBtn" class="btn-signout">🚪 Sign Out</button>
-    <button id="deleteAccount" class="btn-danger">⚠️ Delete Account</button>
+    <div class="menu-header-actions">
+      <button id="closeMenuBtn" class="close-btn" aria-label="Close Navigation">&times;</button>
+    </div>
+    <div class="menu-links-grid">
+      <button id="HomePage" class="btn-secondary standalone-home">🏠 Home</button>
+      
+      <div class="menu-group">
+        <button class="group-trigger">🛠️ Management Panel <span class="arrow-icon">❯</span></button>
+        <div class="group-content">
+          <button id="mainPage" class="btn-secondary">📊 Dashboard</button>
+          <button id="sessionM" class="btn-secondary">⏳ Manage Sessions</button>
+          <button id="peoplePage" class="btn-secondary">🚫 Manage Absentees</button>
+        </div>
+      </div>
+
+      <div class="menu-group">
+        <button class="group-trigger">📝 Attendance Core <span class="arrow-icon">❯</span></button>
+        <div class="group-content">
+          <button id="MA" class="btn-secondary">✍️ Mark Attendance</button>
+          <button id="approveAttendance" class="btn-secondary">⏳ Pending Approvals</button>
+          <button id="qrCodePage" class="btn-secondary">📷 Generate QR Code</button>
+          <button id="DoubleServicePage" class="btn-secondary">🔄 Double Pip</button>
+        </div>
+      </div>
+
+      <div class="menu-group">
+        <button class="group-trigger">📈 Records & Insights <span class="arrow-icon">❯</span></button>
+        <div class="group-content">
+          <button id="tend" class="btn-secondary">ℹ️ Attendance Info</button>
+          <button id="followPage" class="btn-secondary">🔍 Filter Logs</button>
+          <button id="analysisPage" class="btn-secondary">📊 Performance Analysis</button>
+          <button id="newbee" class="btn-secondary">🗄️ New Additions</button>
+          <button id="database" class="btn-secondary">🗄️ Database Archive</button>
+        </div>
+      </div>
+
+      <div class="menu-group">
+        <button class="group-trigger">⚙️ Settings Matrix <span class="arrow-icon">❯</span></button>
+        <div class="group-content">
+          <button id="profilePage" class="btn-secondary">👤 Account Profile</button>
+        </div>
+      </div>
+    </div>
+    <div class="menu-footer-actions">
+      <button id="signOutBtn" class="btn-signout">🚪 Sign Out</button>
+      <button id="deleteAccount" class="btn-danger">⚠️ Delete Account</button>
+    </div>
   `;
 
   document.body.prepend(sidebar);
@@ -75,12 +99,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("passwordModal");
   const closeModalBtn = document.getElementById("closeModalBtn");
 
-  // Fetch local identity keys securely
   const globalToken = localStorage.getItem("token");
   const globalUserStr = localStorage.getItem("user");
   const globalUser = globalUserStr ? JSON.parse(globalUserStr) : null;
 
-  // Environment Hostname Engine Configuration Maps
   const isLocalDev =
     window.location.hostname === "localhost" ||
     window.location.hostname === "127.0.0.1" ||
@@ -92,7 +114,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (globalToken && globalUser && globalUser.hasChangedPassword === false) {
     const currentFilename = window.location.pathname.split("/").pop();
 
-    // SCENARIO A: User is browsing outside the settings workspace profile loop
     if (!currentFilename.includes("profile")) {
       alert(
         "🔐 Security Notice:\n\nYou must update your temporary password before accessing the system dashboard.\n\nNavigating to your settings panel now...",
@@ -101,18 +122,17 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // SCENARIO B: User is on the profile page -> completely freeze interface interactions
     const lockOverlay = document.getElementById("passwordModal");
     const lockCloseBtn = document.getElementById("closeModalBtn");
 
     if (lockOverlay) {
       lockOverlay.style.display = "flex";
       lockOverlay.classList.add("force-security-lock");
-      document.body.style.overflow = "hidden"; // Freeze page background tracking
+      document.body.style.overflow = "hidden";
     }
 
-    if (lockCloseBtn) lockCloseBtn.remove(); // Safely strip out close button
-    if (changePasswordBtn) changePasswordBtn.remove(); // Remove repetitive background button toggles
+    if (lockCloseBtn) lockCloseBtn.remove();
+    if (changePasswordBtn) changePasswordBtn.remove();
 
     if (hamburgerBtn) {
       hamburgerBtn.disabled = true;
@@ -120,7 +140,6 @@ document.addEventListener("DOMContentLoaded", () => {
       hamburgerBtn.style.cursor = "not-allowed";
     }
 
-    // Intercept outside frame click events
     window.addEventListener(
       "click",
       (e) => {
@@ -134,8 +153,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================================================
-  // 4. STANDARD SIDEBAR INTERFACE DRAWING ACTIONS
+  // 4. INTERFACE ACTIONS & NESTED ACCORDION CONTROLLERS
   // ==========================================================================
+
+  // Accordion Logic: Expand/Collapse Menu Groups
+  const groupTriggers = sidebar.querySelectorAll(".group-trigger");
+  groupTriggers.forEach((trigger) => {
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const parentGroup = trigger.parentElement;
+
+      // Optional: Close other groups when opening a new one (Solo Accordion Style)
+      sidebar.querySelectorAll(".menu-group").forEach((group) => {
+        if (group !== parentGroup) group.classList.remove("open");
+      });
+
+      parentGroup.classList.toggle("open");
+    });
+  });
+
   if (
     hamburgerBtn &&
     (!globalUser || globalUser.hasChangedPassword !== false)
@@ -149,11 +185,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  const closeDropdownMenu = () => {
+    sidebar.classList.remove("active");
+    if (hamburgerBtn) hamburgerBtn.innerHTML = "&#9776;";
+    // Collapse any left open accordion submenus when master window goes away
+    sidebar
+      .querySelectorAll(".menu-group")
+      .forEach((group) => group.classList.remove("open"));
+  };
+
   if (closeMenuBtn) {
-    closeMenuBtn.addEventListener("click", () => {
-      sidebar.classList.remove("active");
-      if (hamburgerBtn) hamburgerBtn.innerHTML = "&#9776;";
-    });
+    closeMenuBtn.addEventListener("click", closeDropdownMenu);
   }
 
   window.addEventListener("click", (e) => {
@@ -163,21 +205,18 @@ document.addEventListener("DOMContentLoaded", () => {
       !sidebar.contains(e.target) &&
       e.target !== hamburgerBtn
     ) {
-      sidebar.classList.remove("active");
-      hamburgerBtn.innerHTML = "&#9776;";
+      closeDropdownMenu();
     }
   });
 
-  // Dynamic system password context hooks
   if (
     changePasswordBtn &&
     modal &&
     (!globalUser || globalUser.hasChangedPassword !== false)
   ) {
     changePasswordBtn.addEventListener("click", () => {
-      modal.style.display = "flex"; // Match professional slide layouts
-      sidebar.classList.remove("active");
-      if (hamburgerBtn) hamburgerBtn.innerHTML = "&#9776;";
+      modal.style.display = "flex";
+      closeDropdownMenu();
     });
   }
 
@@ -205,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
     approveAttendance: "/confirmation/c",
     pendingA: "/confirmation/c",
     qrCodePage: "/everyone/generate",
-    newbee:"/newbies/newbie",
+    newbee: "/newbies/newbie",
     HomePage: "/landingPage",
   };
 
@@ -226,7 +265,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const signOut = document.getElementById("signOutBtn");
   if (signOut) {
     signOut.addEventListener("click", () => {
-      console.log("Signing out user...");
       signOut.textContent = "🚪 Signing Out...";
       signOut.disabled = true;
 
@@ -283,7 +321,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const profileLogo = document.querySelector(".logo");
 
   if (profileLogo) {
-    // 1. Core Lightbox Structural Engine Generation
     const lightboxModal = document.createElement("div");
     lightboxModal.id = "profileLightbox";
     lightboxModal.className = "profile-lightbox";
@@ -296,21 +333,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const lightboxImg = lightboxModal.querySelector(".lightbox-content");
     const lightboxCloseBtn = lightboxModal.querySelector(".lightbox-close");
 
-    // 2. Open Event Mapping (Captures active image reference configuration state)
     profileLogo.addEventListener("click", (e) => {
       e.stopPropagation();
       const targetSrc = profileLogo.getAttribute("src");
       if (targetSrc) {
         lightboxImg.setAttribute("src", targetSrc);
         lightboxModal.classList.add("lightbox-open");
-        document.body.style.overflow = "hidden"; // Freeze tracking layers
+        document.body.style.overflow = "hidden";
       }
     });
 
-    // 3. Dismiss Actions (Supports backing out on background canvas or button click)
     const closeLightbox = () => {
       lightboxModal.classList.remove("lightbox-open");
-      document.body.style.overflow = ""; // Reactivate scroll interface layers
+      document.body.style.overflow = "";
     };
 
     lightboxCloseBtn.addEventListener("click", closeLightbox);
@@ -320,7 +355,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Support keyboard escape routing
     window.addEventListener("keydown", (e) => {
       if (
         e.key === "Escape" &&

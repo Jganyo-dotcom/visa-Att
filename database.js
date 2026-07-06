@@ -29,7 +29,6 @@ async function loadAttendance(page = 1, searchTerm = "") {
       },
     );
     const data = await res.json();
-    console.log(data);
     const males = data.males ? data.males : 0;
     const females = data.females ? data.females : 0;
     const total = data.total ? data.total : 0;
@@ -98,7 +97,6 @@ async function loadAttendance(page = 1, searchTerm = "") {
 }
 
 function UpdateUser(id, name, department, level, contact, gender) {
-  console.log(department);
   document.getElementById("updateId").value = id;
   document.getElementById("updateName").value = name;
   document.getElementById("updateDepartment").value = department;

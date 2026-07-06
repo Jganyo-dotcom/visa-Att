@@ -1,76 +1,323 @@
 /* ==========================================================================
-   1. GLOBAL SIDE MENU DRAWER STRUCTURE
+   1. GLOBAL DROPDOWN MASTER PANEL (Floating Glassmorphism Dashboard)
    ========================================================================== */
 .side-menu {
   position: fixed;
-  top: 0;
-  right: -340px; /* Hidden offscreen by default */
-  width: 320px;
-  height: 100%;
+  top: -120%; /* Deep hidden offscreen top state to accommodate shadows */
+  left: 50%;
+  transform: translateX(-50%); /* Perfectly centered horizontally on desktop */
+  width: 90%;
+  max-width: 1200px;
+  max-height: 85vh;
   background: rgba(10, 12, 22, 0.95);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-left: 1px solid rgba(0, 242, 254, 0.2);
-  box-shadow: -20px 0 50px rgba(0, 0, 0, 0.7);
-  padding: 2.5rem 1.5rem;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(0, 242, 254, 0.18);
+  border-top: none;
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9);
+  padding: 2.5rem;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  gap: 24px;
+  /* Syncs both layout entry drop down and responsive shifts */
+  transition:
+    top 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s ease !important;
   z-index: 1000;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
-/* Slide-in State triggered by JavaScript toggle */
+/* Slide-Down Trigger State */
 .side-menu.active {
-  right: 0;
+  top: 0;
+}
+
+/* Header Close Panel Area */
+.menu-header-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
 }
 
 .close-btn {
-  align-self: flex-end;
-  background: none;
-  border: none;
-  font-size: 1.75rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 1.5rem;
   color: #a3b3cc;
   cursor: pointer;
-  line-height: 1;
-  padding: 6px;
-  margin-bottom: 1.5rem;
-  transition: color 0.3s ease;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.25s ease;
 }
 
 .close-btn:hover {
-  color: #ff007f; /* Vibrant neon pink on close hover */
+  color: #ffffff;
+  background: #ff007f;
+  border-color: transparent;
+  transform: rotate(90deg);
+}
+
+/* Cyber Ambient Animated Background Gradient Mesh Layer */
+.side-menu::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(0, 242, 254, 0.05) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 85% 85%,
+      rgba(255, 0, 127, 0.05) 0%,
+      transparent 40%
+    );
+  animation: ambientMeshShift 25s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes ambientMeshShift {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* ==========================================================================
-   2. SIDEBAR MENU NAVIGATION BUTTONS
+   2. MASONS/COLUMNS RESPONSIVE GRID MATRIX (Prevents Vertical Stretching)
    ========================================================================== */
-.side-menu .btn-secondary {
+.menu-links-grid {
+  display: grid;
+  /* Reconfigured Layout: 2 Columns that don't stretch each other's height */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  width: 100%;
+  align-items: start; /* CRITICAL: Prevents vertical row height ballooning on expand */
+}
+
+/* Standalone Clean Compact Home Layout Rule overrides */
+.standalone-home {
+  grid-column: 1 / -1; /* Centers row span structurally */
+  justify-self: start; /* Prevents button from stretching edge-to-edge */
+  min-width: 180px;
+  max-width: 240px;
+  border: 1px solid rgba(0, 242, 254, 0.25) !important;
+  background: rgba(0, 242, 254, 0.03) !important;
+  font-weight: 700 !important;
+}
+
+/* ==========================================================================
+   3. ACCORDION STRUCTURAL CORES & TRANSITIONS
+   ========================================================================== */
+.menu-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  overflow: hidden;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.menu-group.open {
+  background: rgba(14, 18, 36, 0.4);
+  border-color: rgba(0, 242, 254, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Folder Header Row Toggle Target Clicker */
+.group-trigger {
+  width: 100%;
   background: transparent;
   border: none;
-  cursor: pointer;
-  color: #a3b3cc;
-  font-size: 0.95rem;
+  color: #ffffff;
+  font-size: 1.05rem;
   font-weight: 600;
   text-align: left;
-  justify-content: flex-start;
-  padding: 12px 16px;
-  border-radius: 12px;
-  width: 100%;
-  display: inline-flex;
+  padding: 18px 22px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  user-select: none;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+.group-trigger:hover {
+  background: rgba(0, 242, 254, 0.04);
+  color: #00f2fe;
+}
+
+.menu-group.open .group-trigger {
+  color: #00f2fe;
+  text-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* Folder Active Neon Cyan Dot Micro-Interaction Indicator */
+.group-trigger::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: rgba(163, 179, 204, 0.4);
+  border-radius: 50%;
+  margin-right: 12px;
   transition: all 0.3s ease;
+}
+
+.menu-group.open .group-trigger::before {
+  background: #00f2fe;
+  box-shadow:
+    0 0 10px #00f2fe,
+    0 0 20px #00f2fe;
+  transform: scale(1.2);
+}
+
+/* Folder Arrow Icon */
+.arrow-icon {
+  font-size: 0.85rem;
+  color: #a3b3cc;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menu-group.open .arrow-icon {
+  transform: rotate(90deg);
+  color: #00f2fe;
+}
+
+/* Submenu Dynamic Content Drawer Grid */
+.group-content {
+  display: grid;
+  grid-template-columns: 1fr; /* Stack links nicely inside their folder container */
+  gap: 8px;
+  padding: 0 16px;
+  max-height: 0;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+  transition:
+    max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    padding 0.4s ease,
+    opacity 0.3s ease;
+}
+
+.menu-group.open .group-content {
+  max-height: 600px; /* Safe upper limit allows full card layout growth expansion */
+  padding: 16px;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ==========================================================================
+   4. NAVIGATION BUTTON LINK ACTIONS (Child Links Elements)
+   ========================================================================== */
+.side-menu .btn-secondary {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  color: #b4c6ef;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: left;
+  padding: 14px 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   text-decoration: none;
+  box-sizing: border-box;
+}
+
+.group-content .btn-secondary {
+  background: rgba(10, 12, 22, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.03) !important;
+  position: relative;
+  border-left: 2px solid transparent !important;
 }
 
 .side-menu .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(0, 242, 254, 0.08);
+  border-color: rgba(0, 242, 254, 0.35);
   color: #ffffff;
-  padding-left: 22px; /* Smooth indent bounce */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 242, 254, 0.12);
 }
 
-/* Base style layout configurations for destructive system items */
+.group-content .btn-secondary:hover {
+  border-left: 2px solid #00f2fe !important;
+  padding-left: 24px; /* Premium textual hover glide nudge */
+}
+
+.group-content .btn-secondary:active {
+  transform: scale(0.98);
+  background: rgba(0, 242, 254, 0.15) !important;
+}
+
+/* Cascading Staggered Entrance Animations on Folder Expand Open */
+.menu-group.open .group-content .btn-secondary {
+  animation: itemEntranceDrop 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.menu-group.open .group-content .btn-secondary:nth-child(1) {
+  animation-delay: 0.02s;
+}
+.menu-group.open .group-content .btn-secondary:nth-child(2) {
+  animation-delay: 0.05s;
+}
+.menu-group.open .group-content .btn-secondary:nth-child(3) {
+  animation-delay: 0.08s;
+}
+.menu-group.open .group-content .btn-secondary:nth-child(4) {
+  animation-delay: 0.11s;
+}
+.menu-group.open .group-content .btn-secondary:nth-child(5) {
+  animation-delay: 0.14s;
+}
+
+@keyframes itemEntranceDrop {
+  from {
+    opacity: 0;
+    transform: scale(0.98) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ==========================================================================
+   5. DESTRUCTIVE SYSTEM MASTER FOOTER CONTROLS
+   ========================================================================== */
+.menu-footer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 12px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  width: 100%;
+}
+
 .side-menu .btn-signout,
 .side-menu .btn-danger {
   cursor: pointer;
@@ -79,47 +326,65 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 13px 24px;
+  padding: 14px 24px;
   border-radius: 12px;
-  width: 100%;
-  transition: all 0.3s ease;
+  flex: 1;
+  min-width: 220px;
+  transition: all 0.25s ease;
+  box-sizing: border-box;
 }
 
 .side-menu .btn-signout {
   background: transparent;
-  border: 1px solid rgba(255, 0, 127, 0.3);
+  border: 1px solid rgba(255, 0, 127, 0.25);
   color: #ff4d94;
-  margin-top: auto; /* Pushes account functions to the bottom of the stack */
 }
 
 .side-menu .btn-signout:hover {
-  background: rgba(255, 0, 127, 0.15);
+  background: rgba(255, 0, 127, 0.1);
   color: #ffffff;
   border-color: #ff007f;
-  box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
+  box-shadow: 0 0 20px rgba(255, 0, 127, 0.15);
 }
 
 .side-menu .btn-danger {
-  background: rgba(255, 0, 127, 0.15);
+  background: rgba(255, 0, 127, 0.12);
   color: #ff007f;
-  border: 1px solid rgba(255, 0, 127, 0.3);
+  border: 1px solid rgba(255, 0, 127, 0.25);
 }
 
 .side-menu .btn-danger:hover {
   background: #ff007f;
   color: white;
   border-color: transparent;
-  box-shadow: 0 6px 16px rgba(255, 0, 127, 0.4);
+  box-shadow: 0 6px 20px rgba(255, 0, 127, 0.35);
 }
 
 /* ==========================================================================
-   3. SECURITY INTERCEPTOR OVERLAY MODIFICATIONS
+   6. PREMIUM CUSTOM CHROMIUM WEBKIT SCROLLBARS
+   ========================================================================== */
+.side-menu::-webkit-scrollbar {
+  width: 6px;
+}
+.side-menu::-webkit-scrollbar-track {
+  background: rgba(10, 12, 22, 0.5);
+}
+.side-menu::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+.side-menu::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 242, 254, 0.35);
+}
+
+/* ==========================================================================
+   7. SECURITY INTERCEPTOR OVERLAY MODIFICATIONS
    ========================================================================== */
 .force-security-lock {
-  background-color: rgba(15, 23, 42, 0.96) !important; /* Deep obsidian background shadow */
-  backdrop-filter: blur(12px) !important; /* Frosting screen blur layer effect */
+  background-color: rgba(15, 23, 42, 0.96) !important;
+  backdrop-filter: blur(12px) !important;
   pointer-events: auto !important;
-  z-index: 999999 !important; /* Force positions object over alternative components */
+  z-index: 999999 !important;
 }
 
 .force-security-lock .slide-modal-content {
@@ -129,20 +394,26 @@
 }
 
 @keyframes slideInUpGlobal {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 /* ==========================================================================
-   4. CIRCULAR LOGO/PROFILE UI MODIFICATIONS
+   8. IMAGE AVATARS & USER LIGHTBOX PORTRAIT MODALS
    ========================================================================== */
 .logo {
   width: 38px !important;
   height: 38px !important;
-  object-fit: cover !important; /* Forces avatars to crop cleanly into standard circle boundaries */
-  border-radius: 50% !important; /* Converts shape cleanly into a circle */
+  object-fit: cover !important;
+  border-radius: 50% !important;
   cursor: pointer;
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease;
+  transition:
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.25s ease;
 }
 
 .logo:hover {
@@ -150,9 +421,6 @@
   box-shadow: 0 0 25px rgba(0, 242, 254, 0.65);
 }
 
-/* ==========================================================================
-   5. SOCIAL MEDIA PROFILE PREVIEW LIGHTBOX MODAL
-   ========================================================================== */
 .profile-lightbox {
   position: fixed;
   inset: 0;
@@ -165,7 +433,9 @@
   z-index: 99999;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
   cursor: zoom-out;
 }
 
@@ -213,4 +483,90 @@
   color: #ffffff;
   border-color: transparent;
   transform: rotate(90deg);
+}
+
+/* ==========================================================================
+   9. HIGH-DENSITY SMART RESPONSIVE INTERFACE MEDIA VIEWPORTS
+   ========================================================================== */
+
+/* Large Desktop and Widescreen Layouts Optimization Layer */
+@media (min-width: 1100px) {
+  .menu-links-grid {
+    /* Transitions smoothly into 3 balanced columns on ultra-wide screens */
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Mobile Devices and Touch Tablets Boundary Adaptation Overrides */
+@media (max-width: 768px) {
+  .side-menu {
+    width: 100%;
+    max-width: 100%;
+    left: 0;
+    transform: none;
+    border-radius: 0; /* Flush flat with screen frame */
+    padding: 1.5rem;
+    gap: 16px;
+  }
+
+  .menu-links-grid {
+    /* Collapse down to an intentional, singular stacked list column */
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .standalone-home {
+    max-width: 100%; /* Spans full responsive line width cleanly on mobile viewports */
+    width: 100%;
+  }
+
+  .menu-footer-actions {
+    flex-direction: column; /* Stack destructive action buttons safely */
+    gap: 12px;
+  }
+
+  .side-menu .btn-signout,
+  .side-menu .btn-danger {
+    width: 100%;
+    min-width: 100%;
+  }
+}
+
+/* Active Navigation State Highlighters */
+.side-menu .btn-secondary.page-active {
+  background: rgba(0, 242, 254, 0.12) !important;
+  border-color: rgba(0, 242, 254, 0.5) !important;
+  color: #00f2fe !important;
+  font-weight: 600;
+  box-shadow: inset 0 0 12px rgba(0, 242, 254, 0.15);
+}
+
+/* Add a glowing neon pipe indicator for the active link */
+.side-menu .btn-secondary.page-active::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  width: 6px;
+  height: 6px;
+  background: #00f2fe;
+  border-radius: 50%;
+  box-shadow:
+    0 0 8px #00f2fe,
+    0 0 15px #00f2fe;
+}
+
+/* Premium Keyboard Accessibility Focus Rings */
+.side-menu button:focus-visible,
+.side-menu a:focus-visible {
+  outline: none;
+  border-color: #00f2fe !important;
+  box-shadow:
+    0 0 0 3px rgba(0, 242, 254, 0.25),
+    0 0 15px rgba(0, 242, 254, 0.2) !important;
+}
+
+/* Spring-Physics Header Controls Hover */
+.close-btn:active {
+  transform: scale(0.9) rotate(90deg);
+  background: #ff0055;
 }

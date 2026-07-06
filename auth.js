@@ -1,10 +1,26 @@
-
 //const baseApi = "http://127.0.0.1:4444/";
 const baseApi = "https://attandance-app-1.onrender.com/";
 
 document.addEventListener("DOMContentLoaded", () => {
   // Global temporary placeholder to track user identity across screen states
   let pendingVerifyEmail = "";
+
+  const alertBanner = document.getElementById("emailAlertBanner");
+  const closeAlertBtn = document.getElementById("closeAlertBtn");
+
+  if (closeAlertBtn && alertBanner) {
+    closeAlertBtn.addEventListener("click", () => {
+      // Smooth fade-out micro animation
+      alertBanner.style.transition =
+        "opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease";
+      alertBanner.style.opacity = "0";
+      alertBanner.style.transform = "scale(0.95) translateY(-8px)";
+
+      setTimeout(() => {
+        alertBanner.remove();
+      }, 300);
+    });
+  }
 
   // Visual component references
   const loaderOverlay = document.getElementById("loaderOverlay");
@@ -171,8 +187,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
       if (!res.ok) {
         // Clear bad tokens out completely
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
+        // localStorage.removeItem("token");
+        // localStorage.removeItem("user");
         showLogin();
         return;
       }

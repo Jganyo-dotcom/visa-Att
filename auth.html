@@ -9,6 +9,7 @@
   </head>
   <body>
     <div class="container">
+      <!-- Login Form -->
       <form id="loginForm" class="form">
         <h2>Login</h2>
 
@@ -62,6 +63,7 @@
 
         <p id="loginMessage" class="form-message"></p>
         <input type="text" id="loginUsername" placeholder="Username" required />
+
         <div class="password-wrapper">
           <input
             type="password"
@@ -91,10 +93,12 @@
             </svg>
           </span>
         </div>
+
         <button type="submit">Sign In</button>
-        <p><a href="#" id="forgotPassword">forgotPassword?</a></p>
+        <p><a href="#" id="forgotPassword">Forgot Password?</a></p>
       </form>
 
+      <!-- Verify Account Form -->
       <form id="verifyForm" class="form hidden">
         <h2>Verify Account</h2>
         <p class="form-instruction">
@@ -115,6 +119,30 @@
       </form>
     </div>
 
+    <!-- Email Alert Banner (Fixed duplicate, moved outside container for global positioning) -->
+    <div id="emailAlertBanner" class="email-alert-banner">
+      <div class="alert-icon-wrapper">
+        <span class="alert-pulse-dot"></span> 📩
+      </div>
+      <div class="alert-body-content">
+        <h4 class="alert-title">Didn't receive your access link?</h4>
+        <p class="alert-message">
+          If you requested an email and don't see it in your primary inbox,
+          please check your <strong>Spam</strong> folder or the
+          <strong>All Mail</strong> tab. System automated networks can sometimes
+          be filtered by strict email providers.
+        </p>
+      </div>
+      <button
+        id="closeAlertBtn"
+        class="alert-dismiss-btn"
+        aria-label="Dismiss Alert"
+      >
+        &times;
+      </button>
+    </div>
+
+    <!-- Loader Overlay -->
     <div class="loader-overlay" id="loaderOverlay">
       <div class="loader">
         <div class="spinner"></div>
