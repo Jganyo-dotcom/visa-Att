@@ -1,5 +1,4 @@
-// API_BASE_URI= "https://attandance-app-1.onrender.com/api"
-API_BASE_URI= "http://127.0.0.1:4444/api"
+
 
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
@@ -28,7 +27,7 @@ async function fetchAndRenderAdminDashboard(page = 1, search = "") {
   try {
 
     const response = await fetch(
-      `${API_BASE_URI}/admin/get-pending-approval?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
+      `${API_BASE_URL}api/admin/get-pending-approval?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
       {
         method: "GET",
         headers: {
@@ -365,7 +364,7 @@ function addLongPressHandler(btn, personId, status) {
 async function handleCardDismiss(id) {
   const session = localStorage.getItem("sessionId");
   try {
-    const res = await fetch(API_BASE_URL + `/admin/dismiss/${id}`, {
+    const res = await fetch(API_BASE_URL + `api/admin/dismiss/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

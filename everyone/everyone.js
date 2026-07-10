@@ -1,5 +1,5 @@
-//const API_BASE_URL = "http://127.0.0.1:4444/api/guest";
-const API_BASE_URL = "https://attandance-app-1.onrender.com/api/guest";
+//const API_BASE_URI = "http://127.0.0.1:4444/api/guest";
+const API_BASE_URI = "https://attandance-app-1.onrender.com/api/guest";
 
 // Syncing state variables directly with your backend response properties
 let currentPage = 1;
@@ -133,7 +133,7 @@ async function loadAttendance() {
 
   toggleLoader(true);
   try {
-    let url = `${API_BASE_URL}/org/get-All/${org}/${code}?page=${currentPage}&limit=${recordsPerPage}`;
+    let url = `${API_BASE_URI}/org/get-All/${org}/${code}?page=${currentPage}&limit=${recordsPerPage}`;
 
     if (currentSearchTerm) {
       url += `&search=${encodeURIComponent(currentSearchTerm)}`;
@@ -268,7 +268,7 @@ async function requestCheckIn(personId) {
   toggleLoader(true);
   try {
     const response = await fetch(
-      `${API_BASE_URL}/org/attendance/request/${org}/${code}/${personId}`,
+      `${API_BASE_URI}/org/attendance/request/${org}/${code}/${personId}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },

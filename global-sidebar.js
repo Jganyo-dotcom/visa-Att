@@ -3,6 +3,15 @@ let API_BASE_URL = "https://attandance-app-1.onrender.com/";
 
 document.addEventListener("DOMContentLoaded", () => {
   const globalToken = localStorage.getItem("token");
+  if (!globalToken) {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("sessionId");
+
+    setTimeout(() => {
+      window.location.href = "auth.html";
+    }, 400);
+  }
   const globalUserStr = localStorage.getItem("user");
   const globalUser = globalUserStr ? JSON.parse(globalUserStr) : null;
   // ==========================================================================
@@ -363,16 +372,13 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!confirmed) return;
 
       try {
-        const res = await fetch(
-          `${API_BASE_URL}api//${globalUser.id}/delete`,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${sessionStorage.getItem("token") || localStorage.getItem("token")}`,
-            },
+        const res = await fetch(`${API_BASE_URL}api//${globalUser.id}/delete`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("token") || localStorage.getItem("token")}`,
           },
-        );
+        });
 
         if (res.ok) {
           sessionStorage.removeItem("token");
