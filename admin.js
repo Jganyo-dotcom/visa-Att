@@ -1,12 +1,5 @@
-//const baseApi = "http://127.0.0.1:4444/";
-
-const baseApi = "https://attandance-app-1.onrender.com/";
-
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
-if (user.avatarUrl && user.avatarUrl !== "") {
-  document.querySelector(".logo").src = user.avatarUrl;
-}
 
 // --- DYNAMIC PROFILE PICTURE ALIGNMENT MODAL ---
 function showProfilePictureNotice() {
@@ -149,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Asynchronous Fetch Blocks Engine logic for locked accounts
   async function loadLocked() {
     try {
-      const res = await fetch(baseApi + "api/admin/blocked/accounts", {
+      const res = await fetch(API_BASE_URL + "api/admin/blocked/accounts", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -196,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const res = await fetch(baseApi + `api/admin/unblock/${id}`, {
+      const res = await fetch(API_BASE_URL + `api/admin/unblock/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -239,13 +232,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // Administrative Delete Action Command Orchestrator logic
   async function deleteStaff(staffId, btn) {
     try {
-      const response = await fetch(baseApi + `api/admin/delete/${staffId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        API_BASE_URL + `api/admin/delete/${staffId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -315,7 +311,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       try {
         showLoader();
-        const res = await fetch(baseApi + "api/create-person", {
+        const res = await fetch(API_BASE_URL + "api/create-person", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -405,7 +401,7 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         const activeToken =
           sessionStorage.getItem("token") || localStorage.getItem("token");
-        const res = await fetch(baseApi + `api/admin/${user.id}/delete`, {
+        const res = await fetch(API_BASE_URL + `api/admin/${user.id}/delete`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

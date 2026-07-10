@@ -192,7 +192,7 @@ h1 {
 }
 
 /* Hamburger UI Component */
-.hamburger {
+/* .hamburger {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(0, 242, 254, 0.3);
   font-size: 1.5rem;
@@ -206,55 +206,8 @@ h1 {
 .hamburger:hover {
   background: rgba(0, 242, 254, 0.1);
   color: #ffffff;
-}
+} */
 
-/* ==========================================================================
-   📱 FOOTER STRUCTURAL PROPERTIES
-   ========================================================================== */
-footer {
-  background: rgba(6, 9, 19, 0.8);
-  padding: 24px 16px;
-  text-align: center;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  margin-top: auto;
-}
-
-footer p {
-  font-size: 0.82rem;
-  color: #94a3b8;
-  margin-bottom: 6px;
-}
-
-footer strong {
-  color: #00f2fe;
-}
-
-.footer-link {
-  color: #94a3b8;
-  text-decoration: none;
-}
-
-.footer-link:hover {
-  color: #00f2fe;
-}
-
-.social-links {
-  margin-top: 12px;
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-}
-
-.social-links a {
-  color: #00f2fe;
-  font-size: 0.82rem;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.social-links a:hover {
-  text-decoration: underline;
-}
 
 /* --- Header Layout adjustments --- */
 .card-header-row {

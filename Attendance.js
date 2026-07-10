@@ -1,5 +1,4 @@
-//const baseApi = "http://127.0.0.1:4444/";
-const baseApi = "https://attandance-app-1.onrender.com/";
+
 
 const token = localStorage.getItem("token");
 
@@ -9,9 +8,7 @@ if (!token) {
 }
 
 const user = JSON.parse(localStorage.getItem("user"));
-if (user.avatarUrl && user.avatarUrl !== "") {
-  document.querySelector(".logo").src = user.avatarUrl;
-}
+
 
 // Global variable to store attendance data
 let attendanceData = [];
@@ -34,7 +31,7 @@ document.getElementById("loadBtn").addEventListener("click", async () => {
 
   try {
     const res = await fetch(
-      baseApi + `api/export-Attendance-Html?date=${date}`,
+      API_BASE_URL + `api/export-Attendance-Html?date=${date}`,
       {
         method: "GET",
         headers: {
@@ -119,7 +116,7 @@ document.getElementById("searchInput").addEventListener("input", (e) => {
 
 // Fetch flagged absentees
 async function loadAbsentees() {
-  const res = await fetch(baseApi + "api/frequent-absentees", {
+  const res = await fetch(API_BASE_URL + "api/frequent-absentees", {
     headers: { Authorization: "Bearer " + token },
   });
   const data = await res.json();

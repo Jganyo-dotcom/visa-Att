@@ -1,5 +1,4 @@
-//const baseApi = "http://127.0.0.1:4444/";
-const baseApi = "https://attandance-app-1.onrender.com/";
+
 const token = localStorage.getItem("token");
 
 if (!token) {
@@ -45,7 +44,7 @@ function onScanSuccess(decodedText, decodedResult) {
   const token = localStorage.getItem("token");
   const today = new Date().toISOString().split("T")[0];
 
-  fetch(baseApi + `api/get-person/${decodedText}`, {
+  fetch(API_BASE_URL + `api/get-person/${decodedText}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -85,7 +84,7 @@ function onScanError(errorMessage) {
 async function markPresent(id, btn) {
   const session = localStorage.getItem("sessionId");
   try {
-    const res = await fetch(baseApi + `api/mark-present/${id}/${session}`, {
+    const res = await fetch(API_BASE_URL + `api/mark-present/${id}/${session}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

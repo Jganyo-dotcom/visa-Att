@@ -48,49 +48,6 @@ header {
 }
 
 /* Footer Styling */
-footer {
-  background: #2c3e50;
-  color: #bdc3c7;
-  padding: 2rem;
-  text-align: center;
-  margin-top: 4rem;
-}
-
-footer strong {
-  color: white;
-}
-
-footer a {
-  color: #3498db;
-  text-decoration: none;
-  margin: 0 5px;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
-
-.social-links {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
-
-.social-links a {
-  color: whitesmoke;
-  text-decoration: none;
-  font-size: 0.9rem;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 8px 15px;
-  border-radius: 20px;
-  transition: background 0.3s;
-}
-
-.social-links a:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-}
 
 /* ==========================================================================
    3. MAIN CONTENT LAYOUT

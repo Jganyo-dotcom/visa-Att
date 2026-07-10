@@ -1,5 +1,4 @@
-const baseApi = "https://attandance-app-1.onrender.com/";
-//const baseApi = "http://127.0.0.1:4444/";
+
 // Update this constant at the very top of profile.js
 const DEFAULT_AVATAR =
   "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2394a3b8'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z'/></svg>";
@@ -15,9 +14,7 @@ if (!token || !user) {
   window.location.href = "auth.html";
 }
 
-if (user.avatarUrl && user.avatarUrl !== "") {
-  document.querySelector(".logo").src = user.avatarUrl;
-}
+
 
 // Frame DOM node targets
 const passwordModal = document.getElementById("passwordModal");
@@ -167,7 +164,7 @@ if (updateAdminForm) {
       // 2. DISPATCH CLEAN JSON TEXT PAYLOAD TO RENDER BACKEND
       if (submitBtn) submitBtn.textContent = "Saving text options...";
 
-      const res = await fetch(`${baseApi}api/update/me/${user.id}`, {
+      const res = await fetch(`${API_BASE_URL}api/update/me/${user.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -288,7 +285,7 @@ if (changePasswordForm) {
 
     try {
       const response = await fetch(
-        `${baseApi}api/admin/change-password/${user.id}`,
+        `${API_BASE_URL}api/admin/change-password/${user.id}`,
         {
           method: "POST",
           headers: {

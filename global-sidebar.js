@@ -1,6 +1,75 @@
+let API_BASE_URL = "https://attandance-app-1.onrender.com/";
+//let API_BASE_URL = "http://127.0.0.1:4444/";
+
 document.addEventListener("DOMContentLoaded", () => {
+  const globalToken = localStorage.getItem("token");
+  const globalUserStr = localStorage.getItem("user");
+  const globalUser = globalUserStr ? JSON.parse(globalUserStr) : null;
   // ==========================================================================
-  // 0. IMMEDIATE AVATAR SYNCHRONIZATION ENGINE (Prevents Layout Flashing)
+  // 1. GLOBAL AUTOMATED HEADER INJECTION MATRIX
+  // ==========================================================================
+  let globalHeader = document.querySelector("header");
+
+  if (!globalHeader) {
+    globalHeader = document.createElement("header");
+    document.body.insertBefore(globalHeader, document.body.firstChild);
+  }
+
+  // Detect existing title string or fallback to standard default
+  const dynamicTitle = globalUser.username;
+  console.log(globalUser.username);
+
+  // Build the complete glassmorphic header node assembly
+  globalHeader.innerHTML = `
+    <div class="header-left">
+      <img
+        src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f464.svg"
+        alt="User Profile"
+        class="logo"
+        id="globalHeaderAvatar"
+        style="opacity: 0; transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);"
+      />
+      <h1 id="welcome">${dynamicTitle}</h1>
+    </div>
+    <div class="header-right">
+      <button
+        id="hamburgerBtn"
+        class="hamburger"
+        aria-label="Open Navigation"
+      >
+        &#9776;
+      </button>
+    </div>
+  `;
+
+  // ==========================================================================
+  // 2. GLOBAL FOOTER INJECTION
+  // ==========================================================================
+  let globalFooter = document.querySelector("footer");
+
+  if (!globalFooter) {
+    globalFooter = document.createElement("footer");
+    document.body.appendChild(globalFooter);
+  }
+
+  globalFooter.innerHTML = `
+    <div class="footer-content-wrapper">
+      <p class="footer-copyright">© 2026 Attendance App. Created by <strong>Elikem</strong>.</p>
+      <p class="footer-communication">
+        <a href="mailto:elikemejay@gmail.com" class="footer-link">📧 Email</a> 
+        <span class="footer-pipe">|</span> 
+        <a href="tel:0593320375" class="footer-link">📞 Call</a>
+      </p>
+      <div class="social-links">
+        <a href="https://www.linkedin.com/in/james-ganyo-aa0593360" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://wa.me/233503841074" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="https://github.com/Jganyo-dotcom/" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  `;
+
+  // ==========================================================================
+  // 3. IMMEDIATE AVATAR SYNCHRONIZATION ENGINE (Prevents Layout Flashing)
   // ==========================================================================
   const globalHeaderAvatar =
     document.getElementById("globalHeaderAvatar") ||
@@ -28,12 +97,19 @@ document.addEventListener("DOMContentLoaded", () => {
         err,
       );
     } finally {
-      globalHeaderAvatar.style.opacity = "1";
+      // Graceful asset initialization fade-in
+      if (globalHeaderAvatar.complete) {
+        globalHeaderAvatar.style.opacity = "1";
+      } else {
+        globalHeaderAvatar.addEventListener("load", () => {
+          globalHeaderAvatar.style.opacity = "1";
+        });
+      }
     }
   }
 
   // ==========================================================================
-  // 1. DYNAMIC DRAWER GENERATION ENGINE (Nested Accordion Dropdown Matrix)
+  // 4. DYNAMIC DRAWER GENERATION ENGINE (Nested Accordion Dropdown Matrix)
   // ==========================================================================
   const sidebar = document.createElement("div");
   sidebar.id = "sideMenu";
@@ -88,20 +164,18 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
   `;
 
-  document.body.prepend(sidebar);
+  // Insert sidebar right behind the header element
+  document.body.insertBefore(sidebar, globalHeader.nextSibling);
 
   // ==========================================================================
-  // 2. CORE TARGET NODE HOOK LAYOUT REFERENCES
+  // 5. CORE TARGET NODE HOOK LAYOUT REFERENCES
   // ==========================================================================
   const hamburgerBtn = document.getElementById("hamburgerBtn");
   const closeMenuBtn = document.getElementById("closeMenuBtn");
   const changePasswordBtn = document.getElementById("changePasswordBtn");
   const modal = document.getElementById("passwordModal");
   const closeModalBtn = document.getElementById("closeModalBtn");
-
-  const globalToken = localStorage.getItem("token");
-  const globalUserStr = localStorage.getItem("user");
-  const globalUser = globalUserStr ? JSON.parse(globalUserStr) : null;
+  const blurOverlay = document.querySelector(".menu-blur-overlay");
 
   const isLocalDev =
     window.location.hostname === "localhost" ||
@@ -109,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.protocol === "file:";
 
   // ==========================================================================
-  // 3. AUTOMATED SECURITY ENFORCEMENT ENGINE
+  // 6. AUTOMATED SECURITY ENFORCEMENT ENGINE
   // ==========================================================================
   if (globalToken && globalUser && globalUser.hasChangedPassword === false) {
     const currentFilename = window.location.pathname.split("/").pop();
@@ -153,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================================================
-  // 4. INTERFACE ACTIONS & NESTED ACCORDION CONTROLLERS
+  // 7. INTERFACE ACTIONS & NESTED ACCORDION CONTROLLERS
   // ==========================================================================
 
   // Accordion Logic: Expand/Collapse Menu Groups
@@ -163,7 +237,6 @@ document.addEventListener("DOMContentLoaded", () => {
       e.stopPropagation();
       const parentGroup = trigger.parentElement;
 
-      // Optional: Close other groups when opening a new one (Solo Accordion Style)
       sidebar.querySelectorAll(".menu-group").forEach((group) => {
         if (group !== parentGroup) group.classList.remove("open");
       });
@@ -172,6 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Toggle Sidebar Visibility
   if (
     hamburgerBtn &&
     (!globalUser || globalUser.hasChangedPassword !== false)
@@ -179,6 +253,8 @@ document.addEventListener("DOMContentLoaded", () => {
     hamburgerBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       sidebar.classList.toggle("active");
+      if (blurOverlay) blurOverlay.classList.toggle("active");
+
       hamburgerBtn.innerHTML = sidebar.classList.contains("active")
         ? "&times;"
         : "&#9776;";
@@ -187,8 +263,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const closeDropdownMenu = () => {
     sidebar.classList.remove("active");
+    if (blurOverlay) blurOverlay.classList.remove("active");
     if (hamburgerBtn) hamburgerBtn.innerHTML = "&#9776;";
-    // Collapse any left open accordion submenus when master window goes away
     sidebar
       .querySelectorAll(".menu-group")
       .forEach((group) => group.classList.remove("open"));
@@ -227,7 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================================================
-  // 5. SITE LOCATION NAVIGATION ROUTING MAPS
+  // 8. SITE LOCATION NAVIGATION ROUTING MAPS
   // ==========================================================================
   const routeMappings = {
     peoplePage: "/people",
@@ -260,7 +336,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ==========================================================================
-  // 6. AUTH & SENSITIVE USER STRUCTURAL TRIGGERS
+  // 9. AUTH & SENSITIVE USER STRUCTURAL TRIGGERS
   // ==========================================================================
   const signOut = document.getElementById("signOutBtn");
   if (signOut) {
@@ -287,14 +363,16 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!confirmed) return;
 
       try {
-        const baseApi = "https://attandance-app-1.onrender.com/";
-        const res = await fetch(`${baseApi}api/admin/${globalUser.id}/delete`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${sessionStorage.getItem("token") || localStorage.getItem("token")}`,
+        const res = await fetch(
+          `${API_BASE_URL}api//${globalUser.id}/delete`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${sessionStorage.getItem("token") || localStorage.getItem("token")}`,
+            },
           },
-        });
+        );
 
         if (res.ok) {
           sessionStorage.removeItem("token");
@@ -316,7 +394,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================================================
-  // 7. CIRCULAR LOGO SECURITY GUARD & PROFILE PIC LIGHTBOX CONTROLLER
+  // 10. PROFILE PIC LIGHTBOX CONTROLLER
   // ==========================================================================
   const profileLogo = document.querySelector(".logo");
 

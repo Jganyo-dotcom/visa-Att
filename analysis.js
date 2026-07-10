@@ -1,5 +1,4 @@
-//const baseApi = "http://127.0.0.1:4444/";
-const baseApi = "https://attandance-app-1.onrender.com/";
+
 
 // const hamburgerBtn = document.getElementById("hamburgerBtn");
 // const sideMenu = document.getElementById("sideMenu");
@@ -12,9 +11,7 @@ if (!token) {
 }
 
 const user = JSON.parse(localStorage.getItem("user"));
-if (user.avatarUrl && user.avatarUrl !== "") {
-  document.querySelector(".logo").src = user.avatarUrl;
-}
+
 
 // const modal = document.getElementById("changePasswordModal");
 // const openBtnDesktop = document.getElementById("changePasswordBtn");
@@ -70,7 +67,7 @@ document.getElementById("loadReportBtn").addEventListener("click", async () => {
 
   try {
     // Call backend endpoint with selected date
-    const res = await fetch(baseApi + `api/end-of-day-report?date=${date}`, {
+    const res = await fetch(API_BASE_URL + `api/end-of-day-report?date=${date}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -135,7 +132,7 @@ document.getElementById("loadReportBtn").addEventListener("click", async () => {
   }
 
   try {
-    const res = await fetch(baseApi + `api/gender-report?date=${date}`, {
+    const res = await fetch(API_BASE_URL + `api/gender-report?date=${date}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -143,7 +140,7 @@ document.getElementById("loadReportBtn").addEventListener("click", async () => {
       },
     });
     const data = await res.json();
-    console.log(data);
+  
 
     if (data.message) {
       alert(data.message);

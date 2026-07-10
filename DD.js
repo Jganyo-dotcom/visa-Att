@@ -1,6 +1,6 @@
-const baseApi = "https://attandance-app-1.onrender.com/";
 
-//const baseApi = "http://127.0.0.1:4444/";
+
+
 const token = localStorage.getItem("token");
 
 if (!token) {
@@ -8,10 +8,7 @@ if (!token) {
   window.location.href = "auth.html";
 }
 
-const user = JSON.parse(localStorage.getItem("user"));
-if (user.avatarUrl && user.avatarUrl !== "") {
-  document.querySelector(".logo").src = user.avatarUrl;
-}
+
 
 document.getElementById("loadBtn").addEventListener("click", async () => {
   const date = document.getElementById("reportDate").value;
@@ -28,7 +25,7 @@ document.getElementById("loadBtn").addEventListener("click", async () => {
   wrapper.innerHTML = "";
 
   try {
-    const res = await fetch(baseApi + `api/stayed-report/?date=${date}`, {
+    const res = await fetch(API_BASE_URL + `api/stayed-report/?date=${date}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,

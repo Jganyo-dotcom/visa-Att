@@ -1,6 +1,5 @@
 // Fetch pending accounts
-//const baseApi = "http://127.0.0.1:4444/";
-const baseApi = "https://attandance-app-1.onrender.com/";
+
 console.log("loaded");
 
 const token = localStorage.getItem("token");
@@ -11,9 +10,6 @@ if (!token) {
   window.location.href = "auth.html";
 }
 
-if (user.avatarUrl && user.avatarUrl !== "") {
-  document.querySelector(".logo").src = user.avatarUrl;
-}
 
 // const hamburgerBtn = document.getElementById("hamburgerBtn");
 // const sideMenu = document.getElementById("sideMenu");
@@ -203,7 +199,7 @@ async function loadAbsentPeople(page = 1, searchTerm = "") {
   console.log("hi");
   try {
     const response = await fetch(
-      baseApi +
+      API_BASE_URL +
         `api/Absents?page=${page}&limit=${limit}&search=${encodeURIComponent(searchTerm)}`,
       {
         method: "GET",

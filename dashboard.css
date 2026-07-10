@@ -360,44 +360,6 @@ section h2 {
   background-color: #45a049;
 }
 
-footer {
-  background: #343a40;
-  color: #f8f9fa;
-  text-align: center;
-  padding: 20px;
-  font-size: 14px;
-
-  bottom: 0;
-  width: 100%;
-}
-footer strong {
-  color: #ffc107;
-}
-
-footer a {
-  color: #ffc107;
-  text-decoration: none;
-  margin: 0 8px;
-  font-weight: bold;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
-
-footer .social-links {
-  margin-top: 10px;
-}
-
-footer .social-links a {
-  margin: 0 10px;
-  color: #17a2b8;
-  transition: color 0.3s ease;
-}
-
-footer .social-links a:hover {
-  color: #0dcaf0;
-}
 
 button.delete {
   background-color: #dc3545; /* red */
@@ -416,13 +378,7 @@ button.delete:hover {
 }
 /* Default: show desktop menu, hide hamburger + mobile menu */
 /* Hamburger button */
-.hamburger {
-  font-size: 24px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  z-index: 1100;
-}
+
 
 /* Side menu base */
 .side-menu {

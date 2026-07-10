@@ -613,48 +613,7 @@ button {
   line-height: 1.5;
 }
 
-/* --- Structural Footer Layout --- */
-footer {
-  background: rgba(4, 7, 14, 0.85);
-  backdrop-filter: blur(20px);
-  text-align: center;
-  padding: 2.5rem 1rem;
-  border-top: 1px solid var(--glass-stroke);
-  width: 100%;
-  margin-top: auto;
-}
 
-footer p {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  margin-bottom: 0.5rem;
-}
-footer strong {
-  color: #ffffff;
-}
-
-.social-links {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 1rem;
-  flex-wrap: wrap;
-}
-.social-links a {
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.01);
-  padding: 6px 14px;
-  border-radius: var(--radius-full);
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  text-decoration: none;
-  font-weight: 600;
-  transition: var(--transition-fast);
-}
-.social-links a:hover {
-  border-color: var(--primary);
-  color: #ffffff;
-}
 
 /* --- Elegant Global Selections --- */
 ::selection {

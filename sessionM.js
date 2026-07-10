@@ -1,5 +1,4 @@
-//const baseApi = "http://127.0.0.1:4444";
-const baseApi = "https://attandance-app-1.onrender.com";
+
 const token = localStorage.getItem("token");
 
 const user = JSON.parse(localStorage.getItem("user"));
@@ -94,7 +93,7 @@ async function syncCurrentSessionState() {
   showLoader("Initializing local access points...");
 
   try {
-    const response = await fetch(`${baseApi}/api/admin/check-session-status`, {
+    const response = await fetch(`${API_BASE_URL}api/admin/check-session-status`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -102,7 +101,6 @@ async function syncCurrentSessionState() {
       },
     });
     const data = await response.json();
-    console.log(data);
     if (!response.ok) throw new Error(data.message || "Failed");
     if (data.isOpened) {
       isSessionActive = true;
@@ -194,7 +192,7 @@ async function CreateSession() {
     showLoader("Opening Session...");
     const sessionNameInput = document.getElementById("sessionName");
     const title = sessionNameInput.value;
-    const res = await fetch(baseApi + "/api/create-session", {
+    const res = await fetch(API_BASE_URL + "api/create-session", {
       method: "POST", // backend expects GET
       headers: {
         "Content-Type": "application/json",
@@ -264,7 +262,7 @@ async function CloseSession() {
     // ✅ Show loader
     showLoader("Compiling attendance reports and finalizing records...");
 
-    const res = await fetch(baseApi + `/api/close-session/${sessionId}`, {
+    const res = await fetch(API_BASE_URL + `api/close-session/${sessionId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -357,7 +355,7 @@ async function generateAccessCode() {
   document.getElementById("loaderText").innerText = "Generating new code...";
 
   try {
-    const response = await fetch(`${baseApi}/api/admin/generate-code`, {
+    const response = await fetch(`${API_BASE_URL}api/admin/generate-code`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -391,7 +389,7 @@ async function displayAccessCode() {
     "Finding existing code ......";
 
   try {
-    const response = await fetch(`${baseApi}/api/admin/get-existing-code`, {
+    const response = await fetch(`${API_BASE_URL}api/admin/get-existing-code`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

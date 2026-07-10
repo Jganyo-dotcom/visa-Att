@@ -161,28 +161,6 @@ main h2 {
   background: #2c3e50;
 }
 
-/* Page Footer Elements */
-footer {
-  background: #2c3e50;
-  color: #fff;
-  text-align: center;
-  padding: 20px;
-  margin-top: auto;
-}
-
-footer a {
-  color: #1abc9c;
-  text-decoration: none;
-  margin: 0 5px;
-}
-
-footer a:hover {
-  text-decoration: underline;
-}
-
-.social-links {
-  margin-top: 10px;
-}
 
 /* Form layouts inside interactive popups */
 .form-group {

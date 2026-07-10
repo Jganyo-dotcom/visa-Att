@@ -1,12 +1,9 @@
-// Global Endpoint Configuration
-const API_BASE_URL = "https://attandance-app-1.onrender.com/api";
-//const API_BASE_URL = "http://127.0.0.1:4444/api";
+// API_BASE_URI= "https://attandance-app-1.onrender.com/api"
+API_BASE_URI= "http://127.0.0.1:4444/api"
 
 const token = localStorage.getItem("token");
 const user = JSON.parse(localStorage.getItem("user"));
-if (user.avatarUrl && user.avatarUrl !== "") {
-  document.querySelector(".logo").src = user.avatarUrl;
-}
+
 
 
 // System State Manager Toggle Utility for Loader Spinner
@@ -31,7 +28,7 @@ async function fetchAndRenderAdminDashboard(page = 1, search = "") {
   try {
 
     const response = await fetch(
-      `${API_BASE_URL}/admin/get-pending-approval?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
+      `${API_BASE_URI}/admin/get-pending-approval?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
       {
         method: "GET",
         headers: {
@@ -163,7 +160,7 @@ function renderAdminCards(profiles) {
 async function markPresent(id, btn) {
   const session = localStorage.getItem("sessionId");
   try {
-    const res = await fetch(API_BASE_URL + `/mark-present/${id}/${session}`, {
+    const res = await fetch(API_BASE_URI + `/mark-present/${id}/${session}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -293,7 +290,7 @@ async function markPresent(id, btn) {
 async function undoPresent(id, btn) {
   const session = localStorage.getItem("sessionId");
   try {
-    const res = await fetch(API_BASE_URL + `/mark-absent/${id}/${session}`, {
+    const res = await fetch(API_BASE_URI + `/mark-absent/${id}/${session}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

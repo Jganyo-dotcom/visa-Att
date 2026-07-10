@@ -1,15 +1,11 @@
-//const baseApi = "http://127.0.0.1:4444/";
-const baseApi = "https://attandance-app-1.onrender.com/";
+
 const token = localStorage.getItem("token");
 if (!token) {
   alert("Not authorized!");
   window.location.href = "auth.html";
 }
 
-const user = JSON.parse(localStorage.getItem("user"));
-if (user.avatarUrl && user.avatarUrl !== "") {
-  document.querySelector(".logo").src = user.avatarUrl;
-}
+
 
 // Attendance list
 document.addEventListener("DOMContentLoaded", () => {
@@ -20,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const limit = 20;
       const res = await fetch(
-        baseApi +
+        API_BASE_URL +
           `api/get-all?page=${page}&limit=${limit}&search=${encodeURIComponent(searchTerm)}`,
         {
           method: "GET",
@@ -124,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function markPresent(id, btn) {
     const session = localStorage.getItem("sessionId");
     try {
-      const res = await fetch(baseApi + `api/mark-present/${id}/${session}`, {
+      const res = await fetch(API_BASE_URL + `api/mark-present/${id}/${session}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -349,7 +345,7 @@ document.addEventListener("DOMContentLoaded", () => {
       stayedBtn.onclick = async () => {
         const session = localStorage.getItem("sessionId");
         try {
-          const res = await fetch(baseApi + `api/mark-stayed/${personId}`, {
+          const res = await fetch(API_BASE_URL + `api/mark-stayed/${personId}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -378,7 +374,7 @@ document.addEventListener("DOMContentLoaded", () => {
       undoStayedBtn.onclick = async () => {
         const session = localStorage.getItem("sessionId");
         try {
-          const res = await fetch(baseApi + `api/mark-stayed/${personId}`, {
+          const res = await fetch(API_BASE_URL + `api/mark-stayed/${personId}`, {
             method: "DELETE",
             headers: {
               "Content-Type": "application/json",
@@ -419,7 +415,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function undoPresent(id, btn) {
     const session = localStorage.getItem("sessionId");
     try {
-      const res = await fetch(baseApi + `api/mark-absent/${id}/${session}`, {
+      const res = await fetch(API_BASE_URL + `api/mark-absent/${id}/${session}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -490,7 +486,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function UndoStayed(personId, btn) {
     const session = localStorage.getItem("sessionId");
     try {
-      const res = await fetch(baseApi + `api/mark-stayed/${personId}`, {
+      const res = await fetch(API_BASE_URL + `api/mark-stayed/${personId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

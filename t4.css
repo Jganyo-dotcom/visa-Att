@@ -234,30 +234,6 @@ button {
   }
 }
 
-/* --- Footer --- */
-footer {
-  text-align: center;
-  padding: 3rem 1rem;
-  color:white;
-  font-size: 0.9rem;
-  margin-top: auto;
-}
-
-.social-links {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
-.social-links a {
-  color: whitesmoke;
-  text-decoration: none;
-  transition: 0.2s;
-}
-.social-links a:hover {
-  color: white;
-}
-
 /* --- Modal --- */
 .slide-modal {
   position: fixed;
@@ -370,10 +346,5 @@ body {
   margin: 0 auto;
 }
 
-footer {
-  text-align: center;
-  padding: 3rem 1rem;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  margin-top: auto; /* pushes footer to bottom */
-}
+/* --- Beautiful Ultra-Clean Footer Context --- */
+

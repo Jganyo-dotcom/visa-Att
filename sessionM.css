@@ -22,7 +22,7 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background-color: black;
+  background-color:whitesmoke;
   color: var(--text-primary);
   min-height: 100vh;
   display: flex;
@@ -71,24 +71,6 @@ header {
 .header-right {
   display: flex;
   align-items: center;
-}
-
-.hamburger {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(0, 242, 254, 0.3);
-  font-size: 1.5rem;
-  color: var(--primary-glow);
-  padding: 10px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  line-height: 1;
-}
-
-.hamburger:hover {
-  background: rgba(0, 242, 254, 0.1);
-  color: #ffffff;
-  border-color: var(--primary-glow);
 }
 
 /* ==========================================================================
@@ -340,45 +322,6 @@ main {
 /* ==========================================================================
    📱 FOOTER & MEDIA ADAPTATIONS
    ========================================================================== */
-footer {
-  background: rgba(6, 9, 19, 0.8);
-  border-top: 1px solid var(--border-glass-default);
-  padding: 24px 16px;
-  text-align: center;
-}
-
-.footer-content p {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-}
-
-.footer-content strong {
-  color: var(--primary-glow);
-}
-
-.contact-link {
-  color: var(--text-muted);
-  text-decoration: none;
-  margin: 0 6px;
-}
-
-.contact-link:hover {
-  color: var(--primary-glow);
-}
-
-.social-links {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 12px;
-}
-
-.social-links a {
-  color: var(--primary-glow);
-  font-size: 0.82rem;
-  text-decoration: none;
-  font-weight: 500;
-}
 
 @media (min-width: 480px) {
   .glass-card {

@@ -32,19 +32,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-html,
-body {
-  min-height: 100vh;
-  background-color: var(--bg-main);
-  /* Premium, high-quality dark abstract wallpaper with a subtle dark mesh overlay */
-  background-image:
-    linear-gradient(rgba(6, 9, 19, 0.65), rgba(6, 9, 19, 0.85)),
-    url("https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1920&q=80");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
+
+
 
 body {
   color: var(--text-main);
@@ -63,7 +52,7 @@ body::after {
   width: 400px;
   height: 400px;
   border-radius: 50%;
-  background: var(--primary);
+  background: whitesmoke;
   filter: blur(140px);
   opacity: 0.25;
   z-index: -1;
@@ -72,7 +61,7 @@ body::after {
 }
 
 body::after {
-  background: var(--accent);
+  background: whitesmoke;
   right: 10%;
   top: 20%;
   animation-delay: -8s;
@@ -425,65 +414,7 @@ button:active {
   letter-spacing: 0.05em;
 }
 
-/* --- Footer ---
-footer {
-  background: rgba(6, 9, 19, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  text-align: center;
-  padding: 2.5rem 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  width: 100%;
-  margin-top: auto;
-}
 
-footer p {
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  margin-bottom: 0.6rem;
-}
-
-footer strong {
-  color: #ffffff;
-  text-shadow: 0 0 12px rgba(0, 242, 254, 0.4);
-}
-
-footer a {
-  color: var(--text-muted);
-  text-decoration: none;
-  font-weight: 600;
-  transition: var(--transition);
-}
-
-footer a:hover {
-  color: var(--primary);
-  text-shadow: 0 0 10px rgba(0, 242, 254, 0.6);
-}
-
-.social-links {
-  margin-top: 1.25rem;
-  display: flex;
-  justify-content: center;
-  gap: 0.75rem;
-}
-
-.social-links a {
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 8px 16px;
-  border-radius: 30px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.social-links a:hover {
-  background: rgba(0, 242, 254, 0.1);
-  border-color: var(--primary);
-  color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
-} */
 
 /* --- Interactive Overlay Modals --- */
 .slide-modal {

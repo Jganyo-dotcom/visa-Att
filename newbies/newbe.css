@@ -7,15 +7,7 @@
   padding: 0;
 }
 
-body {
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background-color: #f8fafc;
-  color: #0f172a;
-  line-height: 1.4;
-  padding-bottom: 40px;
-  -webkit-text-size-adjust: 100%;
-}
+
 
 /* ==========================================================================
    2. HEADER WORKSPACE (MOBILE-FIRST)
@@ -58,21 +50,7 @@ header h1 {
   text-overflow: ellipsis;
 }
 
-.hamburger {
-  background: #f1f5f9;
-  border: none;
-  font-size: 18px;
-  color: #334155;
-  cursor: pointer;
-  width: 40px; /* Perfect 44px equivalent touch target spacing */
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  flex-shrink: 0;
-}
-
+/* 
 /* ==========================================================================
    3. MOBILE-OPTIMIZED CONTAINER ARCHITECTURE
    ========================================================================== */
@@ -303,36 +281,6 @@ th {
 /* ==========================================================================
    8. COMPACT FOOTER MANAGEMENT
    ========================================================================== */
-footer {
-  background-color: #ffffff;
-  padding: 20px 16px;
-  text-align: center;
-  border-top: 1px solid #e2e8f0;
-  margin-top: 24px;
-  font-size: 12px;
-  color: #64748b;
-}
-
-footer p {
-  margin-bottom: 6px;
-}
-
-.social-links {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 10px;
-  flex-wrap: wrap;
-}
-
-.social-links a {
-  background-color: #f1f5f9;
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 11px;
-  color: #475569;
-  text-decoration: none;
-}
 
 .hidden {
   display: none !important;

@@ -1,6 +1,4 @@
-//const baseApi = "http://127.0.0.1:4444/";
 
-const baseApi = "https://attandance-app-1.onrender.com/";
 
 document.addEventListener("DOMContentLoaded", () => {
   const loader = document.getElementById("ios-loader");
@@ -46,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ).value;
 
     // Base parameter URL initialization
-    let endpointUrl = `${baseApi}api/admin/newbies?type=${activeSearchType}&value=`;
+    let endpointUrl = `${API_BASE_URL}api/admin/newbies?type=${activeSearchType}&value=`;
 
     if (activeSearchType === "full") {
       const fullDate = document.getElementById("queryDate").value; // Outputs: "YYYY-MM-DD"

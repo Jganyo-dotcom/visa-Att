@@ -1,186 +1,169 @@
-
-header h1 {
-  font-size: 1.5rem;
+/* ==========================================================================
+   1. CORE STRUCTURE & SCORING LAYOUT
+   ========================================================================== */
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, ui-sans-serif, system-ui, sans-serif;
+  background-color: #f3f4f6; /* Premium soft off-white background */
+  margin: 0;
+  padding: 0;
+  color: #1f2937; /* Deep charcoal for high-contrast reading */
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Navigation Element Anchor Baselines */
-.desktop-menu {
-  display: flex;
-  gap: 10px;
-}
-
-/* Show hamburger option on small screens */
-@media (max-width: 768px) {
-  .desktop-menu {
-    display: none;
-  }
-}
-
-/* Base Buttons */
-.btn-danger,
-.btn-secondary {
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s ease;
-}
-
-.btn-danger {
-  background-color: #e74c3c;
-  color: #fff;
-}
-.btn-danger:hover {
-  background-color: #c0392b;
-}
-
-.btn-secondary {
-  background-color: #3498db;
-  color: #fff;
-}
-.btn-secondary:hover {
-  background-color: #2980b9;
-}
-
-.btn-primary {
-  background: #3498db;
-  color: #fff;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s ease;
-}
-.btn-primary:hover {
-  background: #2980b9;
-}
-
-/* Main content */
 main {
-  flex: 1 0 auto; /* fills space between header and footer */
-  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 24px;
+  box-sizing: border-box;
+  min-height: 100vh;
 }
 
 section {
-  background: #fff;
-  margin-bottom: 25px;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  background: #ffffff; /* Bright white main panel card */
+  border-radius: 20px;
+  border: 1px solid #e5e7eb;
+  padding: 32px;
+  width: 100%;
+  max-width: 600px; /* Adapts cleanly inside administrative screen workspaces */
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.03),
+    0 10px 15px -3px rgba(0, 0, 0, 0.04),
+    0 20px 25px -5px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
 }
 
-section h2 {
-  margin-bottom: 15px;
-  font-size: 1.2rem;
-  color: #2c3e50;
+/* ==========================================================================
+   2. TYPOGRAPHY & HEADER MATRIX
+   ========================================================================== */
+h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.02em;
+  margin-top: 0;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Custom Data Lists */
+/* ==========================================================================
+   3. SEARCH INTERFACE FORMS
+   ========================================================================== */
+input[type="text"] {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  font-size: 15px;
+  background-color: #f9fafb; /* Soft light internal field fill */
+  color: #1f2937;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    background-color 0.2s;
+  box-sizing: border-box;
+  margin-bottom: 24px;
+}
+
+input[type="text"]::placeholder {
+  color: #9ca3af;
+}
+
+input[type="text"]:focus {
+  background-color: #ffffff;
+  border-color: #0284c7; /* Elegant Slate Blue emphasis border */
+  box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.12); /* Clean layout glow ring */
+  outline: none;
+}
+
+/* ==========================================================================
+   4. DATA ROW RENDER MATRIX (ABSENT LIST)
+   ========================================================================== */
 ul {
   list-style: none;
+  padding: 0;
+  margin: 0 0 28px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Separates the line elements completely into isolated lists */
 }
 
+/* Base style for dynamically injected items (Make sure your JS outputs <li> tags) */
 ul li {
-  background: #ecf0f1;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 4px;
-}
-
-ul li button.delete {
-  background: #e74c3c;
-  border: none;
-  color: #fff;
-  padding: 5px 10px;
-  margin-left: 10px;
-  border-radius: 3px;
-  cursor: pointer;
-}
-ul li button.delete:hover {
-  background: #c0392b;
-}
-
-/* Local Standard Modal Box Structures */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
+  padding: 14px 18px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #374151;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
 }
 
-.modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  animation: localFadeIn 0.3s ease;
+ul li:hover {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
 }
 
-.close-btn {
-  float: right;
-  font-size: 24px;
+/* ==========================================================================
+   5. PAGINATION INTERACTION CONTROLS
+   ========================================================================== */
+#paginationControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 24px;
+  margin-top: 12px;
+}
+
+#pageInfo {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6b7280;
+  letter-spacing: 0.3px;
+}
+
+#paginationControls button {
+  background-color: #ffffff;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 0.875rem;
+  font-weight: 600;
   cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    transform 0.1s;
 }
 
-/* Localized Form styling fields */
-.form-group {
-  margin-bottom: 15px;
-}
-.form-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: bold;
-  color: #2c3e50;
-}
-.form-group input,
-.form-group select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-family: inherit;
+#paginationControls button:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+  color: #111827;
 }
 
-/* Shared Footer */
-footer {
-  background: #2c3e50;
-  color: #fff;
-  text-align: center;
-  padding: 20px;
-  margin-top: auto; /* clean footer positioning placement */
+#paginationControls button:active {
+  transform: scale(0.97);
 }
 
-footer a {
-  color: #1abc9c;
-  text-decoration: none;
-  margin: 0 5px;
-}
-footer a:hover {
-  text-decoration: underline;
-}
-
-.social-links {
-  margin-top: 10px;
-}
-
-/* Local Animation Keyframe */
-@keyframes localFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Safety state formatting rules for deactivated navigation steps */
+#paginationControls button:disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  border-color: #e5e7eb;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }

@@ -261,16 +261,6 @@
 </head>
 <body>
 
-  <header>
-    <div class="header-left">
-      <img src="../logo.png"Company Logo" class="logo" />
-      <h1 id="welcome">Admin Dashboard</h1>
-    </div>
-    <div class="header-right">
-      <button id="hamburgerBtn" class="hamburger" aria-label="Open Navigation">&#9776;</button>
-    </div>
-  </header>
-
   <div class="main-content">
     <div class="qr-container">
       <div id="qrLoader" class="loader-overlay">
@@ -317,12 +307,9 @@
   </div>
 <script src="/global-sidebar.js"></script>
   <script>
-    const baseApi = "https://attandance-app-1.onrender.com/";
     const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
-if (user.avatarUrl && user.avatarUrl !== "") {
-  document.querySelector(".logo").src = user.avatarUrl;
-}
+
 
 
     let qrBase64String = "";
@@ -340,7 +327,7 @@ if (user.avatarUrl && user.avatarUrl !== "") {
       qrLoader.style.display = "flex";
 
       try {
-        const response = await fetch(`${baseApi}api/admin/generate-qr`, {
+        const response = await fetch(`${API_BASE_URL}api/admin/generate-qr`, {
           method: "POST",
           headers: { 
             "Content-Type": "application/json",

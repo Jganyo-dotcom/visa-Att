@@ -9,16 +9,12 @@ if (!token) {
   window.location.href = "auth.html";
 }
 
-if (user.avatarUrl && user.avatarUrl !== "") {
-  document.querySelector(".logo").src = user.avatarUrl;
-}
-
 // When loading attendance, decide whether to show Level column
 async function loadAttendance(page = 1, searchTerm = "") {
   try {
     const limit = 60;
     const res = await fetch(
-      baseApi +
+      API_BASE_URL +
         `api/get-all?page=${page}&limit=${limit}&search=${encodeURIComponent(searchTerm)}`,
       {
         method: "GET",
@@ -152,7 +148,7 @@ document.getElementById("updateForm").addEventListener("submit", async (e) => {
   const id = document.getElementById("updateId").value;
 
   try {
-    const res = await fetch(baseApi + `api/admin/update/${id}`, {
+    const res = await fetch(API_BASE_URL + `api/admin/update/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -207,7 +203,7 @@ async function deleteUser(id, name) {
     const confirmed = confirm(`Are you sure you want to delete ${name} ?`);
     if (!confirmed) return;
 
-    const res = await fetch(baseApi + `api/admin/delete/${id}`, {
+    const res = await fetch(API_BASE_URL + `api/admin/delete/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -520,7 +516,7 @@ async function checkAttendance(personId) {
   try {
     const token = localStorage.getItem("token");
     const res = await fetch(
-      `${baseApi}api/personal-report/${personId}?date=${date}`,
+      `${API_BASE_URL}api/personal-report/${personId}?date=${date}`,
       {
         headers: { Authorization: "Bearer " + token },
       },
@@ -575,7 +571,7 @@ async function checkAttendanceHistory(personId) {
   try {
     const token = localStorage.getItem("token");
     const res = await fetch(
-      `${baseApi}api/personal-report-history/${personId}?date=${date}&range=downward`,
+      `${API_BASE_URL}api/personal-report-history/${personId}?date=${date}&range=downward`,
       {
         headers: { Authorization: "Bearer " + token },
       },
@@ -685,7 +681,7 @@ document.getElementById("syncForm").addEventListener("submit", async (e) => {
 
   try {
     const res = await fetch(
-      `${baseApi}api/admin/update/${id}/profile/dob?dob=${dob}&email=${email}`,
+      `${API_BASE_URL}api/admin/update/${id}/profile/dob?dob=${dob}&email=${email}`,
       {
         method: "PATCH",
         headers: {
