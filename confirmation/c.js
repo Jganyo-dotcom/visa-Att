@@ -158,6 +158,10 @@ function renderAdminCards(profiles) {
  */
 async function markPresent(id, btn) {
   const session = localStorage.getItem("sessionId");
+  if(!session || session === null){
+    alert("No session is available now contact admin if any issue")
+    return
+  }
   try {
     const res = await fetch(API_BASE_URL + `/mark-present/${id}/${session}`, {
       method: "GET",

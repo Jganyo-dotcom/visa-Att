@@ -106,11 +106,13 @@ async function syncCurrentSessionState() {
       isSessionActive = true;
       const title = data.title;
       sessionId = data.id;
+      localStorage.setItem("sessionId", sessionId);
       renderUIState(true, title);
       alert(`🎉 Success: Session ${title} is now open and taking logs.`);
     } else {
       isSessionActive = false;
       renderUIState(false, "");
+      localStorage.removeItem("sessionId")
     }
   } catch (err) {
     console.error(err);
