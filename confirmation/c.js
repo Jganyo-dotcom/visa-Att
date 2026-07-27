@@ -159,7 +159,7 @@ function renderAdminCards(profiles) {
 async function markPresent(id, btn) {
   const session = localStorage.getItem("sessionId");
   try {
-    const res = await fetch(API_BASE_URI + `/mark-present/${id}/${session}`, {
+    const res = await fetch(API_BASE_URL + `/mark-present/${id}/${session}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
