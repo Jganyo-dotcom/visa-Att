@@ -8,13 +8,17 @@
   --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-/* Lock Viewport & Set Background */
-/* Lock Viewport for Desktop, Allow for Mobile */
+/* Reset & Base Body Settings */
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
-  height: 100%;
-  width: 100%;
   margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
   font-family: "Inter", sans-serif;
   background-color: var(--primary-dark);
   color: var(--text-main);
@@ -24,67 +28,104 @@ body {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+  overflow-x: hidden;
 }
 
-/* Desktop: No Scroll | Mobile: Auto Scroll */
-body {
-  overflow: hidden; /* Default lock */
+/* Header Styling */
+.main-header {
+  width: 100%;
+  padding: 20px 5%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background: linear-gradient(to bottom, rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.4));
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
 }
 
+.brand {
+  text-align: center;
+}
+
+.brand h1 {
+  font-size: 1.8rem;
+  letter-spacing: 4px;
+  font-weight: 900;
+  margin: 0;
+  color: #fff;
+  text-transform: uppercase;
+  text-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+}
+
+.brand .accent {
+  color: var(--accent-neon);
+  font-weight: 300;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.status-indicator p {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--accent-neon);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent-neon);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.5;
+  }
+}
+
+/* Container & Grid Setup */
 .dashboard-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  padding: 130px 20px 50px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 100%;
-  padding: 20px;
-  overflow-y: auto; /* Internal scroll if cards overflow */
-  box-sizing: border-box;
-}
-
-/* Responsive Fix for Phones */
-@media (max-width: 768px) {
-  body {
-    overflow: auto; /* Allow the page to scroll on phones */
-  }
-
-  .dashboard-wrapper {
-    height: auto; /* Let the container grow with the cards */
-    align-items: flex-start; /* Start cards from top instead of centering */
-    padding-top: 40px;
-    padding-bottom: 40px;
-  }
-
-  .card-grid {
-    gap: 20px; /* Tighter gap for small screens */
-  }
-}
-
-/* Perfect Centering */
-.dashboard-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-  padding: 20px;
 }
 
 .card-grid {
   display: flex;
-  gap: 30px;
+  gap: 24px;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  max-width: 1200px;
+  align-items: stretch;
+  max-width: 1300px;
+  width: 100%;
 }
 
 /* Glass Card Styling */
 .glass-card {
   position: relative;
-  width: 300px;
-  height: 400px;
-  border-radius: 24px;
+  width: 280px;
+  height: 420px;
+  border-radius: 20px;
   overflow: hidden;
   text-decoration: none;
   background: var(--glass-bg);
@@ -96,8 +137,8 @@ body {
 }
 
 .glass-card:hover {
-  transform: translateY(-12px);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
   border-color: var(--accent-neon);
 }
 
@@ -106,77 +147,61 @@ body {
   inset: 0;
   background-size: cover;
   background-position: center;
-  z-index: 0; /* Background stays back */
-  filter: brightness(0.6);
+  z-index: 0;
+  filter: brightness(0.5);
   transition: transform 0.6s ease;
 }
 
 .glass-card:hover .card-bg {
-  transform: scale(1.1);
-  filter: brightness(0.4);
+  transform: scale(1.08);
+  filter: brightness(0.35);
 }
 
 .card-overlay {
   position: relative;
   z-index: 2;
-  padding: 1.5rem; /* Slightly reduced to give more vertical room */
+  padding: 1.5rem;
   height: 100%;
   display: flex;
   flex-direction: column;
-  /* This is the key: it pushes the text up and button down */
   justify-content: flex-end;
   align-items: flex-start;
   background: linear-gradient(
     to top,
-    rgba(2, 6, 23, 0.95) 20%,
+    rgba(2, 6, 23, 0.95) 30%,
     transparent 100%
   );
-  box-sizing: border-box; /* Ensures padding doesn't add to height */
 }
 
 .card-text {
-  margin-bottom: 15px; /* Reduced margin to keep the button visible */
+  margin-bottom: 20px;
   width: 100%;
 }
 
 .card-text h2 {
-  font-size: 1.4rem;
-  margin: 0 0 5px 0;
+  font-size: 1.3rem;
+  margin: 0 0 8px 0;
   font-weight: 700;
   color: #fff;
 }
 
 .card-text p {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.75);
   margin: 0;
-  line-height: 1.3;
+  line-height: 1.4;
 }
 
+/* Button & Shimmer Effects */
 .btn-shine {
-  margin-top: auto; /* Ensures the button stays at the bottom of the content area */
-  flex-shrink: 0; /* Prevents the button from being squashed */
+  margin-top: auto;
   display: inline-block;
+  width: fit-content;
   padding: 10px 20px;
   border: 1px solid var(--accent-neon);
   border-radius: 10px;
   color: var(--accent-neon);
   font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  background: rgba(0, 242, 255, 0.05);
-  cursor: pointer;
-}
-
-/* Fixed Shimmer Button */
-.btn-shine {
-  display: inline-block;
-  width: fit-content;
-  padding: 12px 24px;
-  border: 1px solid var(--accent-neon);
-  border-radius: 12px;
-  color: var(--accent-neon);
-  font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -201,7 +226,7 @@ body {
   background: linear-gradient(
     45deg,
     transparent,
-    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.4),
     transparent
   );
   transform: rotate(45deg);
@@ -209,140 +234,25 @@ body {
 }
 
 @keyframes shine {
-  0% {
-    left: -150%;
-  }
-  100% {
-    left: 150%;
-  }
+  0% { left: -150%; }
+  100% { left: 150%; }
 }
 
-/* Header Styling */
-.main-header {
-  width: 100%;
-  padding: 30px 5%;
-  position: fixed; /* Keeps it at the top */
-  top: 0;
-  left: 0;
-  z-index: 100;
-  background: linear-gradient(to bottom, rgba(2, 6, 23, 0.8), transparent);
-  backdrop-filter: blur(8px);
-  display: flex;
-  justify-content: center; /* Centers the brand name */
-}
-
-.brand {
-  text-align: center;
-}
-
-.brand h1 {
-  font-size: 2rem;
-  letter-spacing: 4px;
-  font-weight: 900;
-  margin: 0;
-  color: #fff;
-  text-transform: uppercase;
-  text-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
-}
-
-.brand .accent {
-  color: var(--accent-neon);
-  font-weight: 300; /* Contrast between thick and thin text */
-}
-
-.status-indicator {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 5px;
-}
-
-.status-indicator p {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-/* Pulsing Online Dot */
-.dot {
-  width: 6px;
-  height: 6px;
-  background-color: var(--accent-neon);
-  border-radius: 50%;
-  box-shadow: 0 0 10px var(--accent-neon);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.5);
-    opacity: 0.5;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* ADJUSTMENT FOR WRAPPER */
-.dashboard-wrapper {
-  padding-top: 120px; /* This prevents the header from covering the cards */
-  /* Keep your existing centering and scroll logic here */
-}
-
-@media (max-width: 768px) {
-  .brand h1 {
-    font-size: 1.4rem;
-    letter-spacing: 2px;
-  }
-  .dashboard-wrapper {
-    padding-top: 100px;
-  }
-}
-
-/* Default desktop spacing */
-.dashboard-wrapper {
-  padding-top: 140px; /* keeps cards below fixed header */
-}
-
-/* Tablet screens */
-@media (max-width: 1024px) {
-  .dashboard-wrapper {
-    padding-top: 120px; /* slightly less space */
-  }
-}
-
-/* Mobile screens */
+/* Responsive Media Queries */
 @media (max-width: 768px) {
   .dashboard-wrapper {
-    padding-top: 160px; /* extra space so blur never overlaps */
-    align-items: flex-start; /* cards start at top */
+    padding-top: 130px;
+    align-items: flex-start;
   }
 
   .brand h1 {
     font-size: 1.4rem;
     letter-spacing: 2px;
-  }
-
-  .card-grid {
-    gap: 20px; /* tighter spacing for small screens */
-  }
-}
-
-/* Very small phones */
-@media (max-width: 480px) {
-  .dashboard-wrapper {
-    padding-top: 180px; /* maximum safe spacing */
   }
 
   .glass-card {
-    width: 90%; /* cards stretch nicely on narrow screens */
-    height: auto; /* allow height to adjust */
+    width: 100%;
+    max-width: 360px;
+    height: 380px;
   }
 }
